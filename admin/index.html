@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제이원로보틱스 관리자 콘솔</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="login-screen">
+            <div class="login-form">
+                <h1>관리자 로그인</h1>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">아이디</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">비밀번호</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">역할 (데모용)</label>
+                        <select id="role" name="role">
+                            <option value="admin">관리자 (모든 권한)</option>
+                            <option value="editor">편집자 (편집 권한)</option>
+                            <option value="viewer">조회자 (조회만 가능)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">로그인</button>
+                </form>
+                <p class="demo-note">데모: 아무 아이디/비밀번호로 로그인 가능</p>
+                <div class="demo-credentials">
+                    <h3>데모 계정 (역할별)</h3>
+                    <div class="credential-item">
+                        <strong>관리자:</strong> admin / admin123 (모든 권한)
+                    </div>
+                    <div class="credential-item">
+                        <strong>편집자:</strong> editor / edit123 (편집 권한)
+                    </div>
+                    <div class="credential-item">
+                        <strong>조회자:</strong> viewer / view123 (조회만 가능)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" class="admin-dashboard" style="display: none;">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-content">
+                    <h1>제이원로보틱스 관리자</h1>
+                    <div class="user-info">
+                        <span id="currentUser">관리자</span>
+                        <button id="logoutBtn" class="btn btn-secondary">로그아웃</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Navigation -->
+            <nav class="admin-nav">
+                <ul class="nav-list">
+                    <li><a href="#dashboard" class="nav-link active" data-section="dashboard">대시보드</a></li>
+                    <li><a href="#leads" class="nav-link" data-section="leads">리드 관리</a></li>
+                    <li><a href="#tickets" class="nav-link" data-section="tickets">티켓 관리</a></li>
+                    <li><a href="#products" class="nav-link" data-section="products">제품 관리</a></li>
+                    <li><a href="#solutions" class="nav-link" data-section="solutions">솔루션 관리</a></li>
+                    <li><a href="#cases" class="nav-link" data-section="cases">사례 관리</a></li>
+                    <li><a href="#resources" class="nav-link" data-section="resources">자료실 관리</a></li>
+                    <li><a href="#media" class="nav-link" data-section="media">미디어 관리</a></li>
+                    <li><a href="#faq" class="nav-link" data-section="faq">FAQ 관리</a></li>
+                    <li><a href="#users" class="nav-link" data-section="users">사용자 관리</a></li>
+                    <li><a href="#settings" class="nav-link" data-section="settings">설정</a></li>
+                    <li><a href="#audit" class="nav-link" data-section="audit">감사로그</a></li>
+                    <li><a href="#backup" class="nav-link" data-section="backup">백업/복원</a></li>
+                    <li><a href="#system" class="nav-link" data-section="system">시스템 모니터링</a></li>
+                </ul>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="admin-main">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <h2>대시보드</h2>
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <h3>최근 7일 신규 리드</h3>
+                            <div class="stat-value" id="recentLeads">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>처리 중 문의</h3>
+                            <div class="stat-value" id="pendingInquiries">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>완료된 티켓</h3>
+                            <div class="stat-value" id="completedTickets">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>공개 중 사례</h3>
+                            <div class="stat-value" id="publishedCases">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>자료실 다운로드</h3>
+                            <div class="stat-value" id="resourceDownloads">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>전환율</h3>
+                            <div class="stat-value" id="conversionRate">0%</div>
+                        </div>
+                    </div>
+                    <div class="recent-activity">
+                        <h3>최근 활동</h3>
+                        <div id="activityList" class="activity-list"></div>
+                    </div>
+                    
+                    <!-- 역할별 차별화된 통계 -->
+                    <div id="roleSpecificStats"></div>
+                    
+                    <!-- 시스템 상태 -->
+                    <div id="systemStatus"></div>
+                </section>
+
+                <!-- Leads Section -->
+                <section id="leads" class="content-section">
+                    <div class="section-header">
+                        <h2>리드 관리</h2>
+                        <button class="btn btn-primary" data-permission="leads:export" onclick="exportData('leads')">데이터 내보내기</button>
+                        <button class="btn btn-secondary" data-permission="leads:import" onclick="importData('leads')">데이터 가져오기</button>
+                    </div>
+                    <div class="filters">
+                        <input type="text" id="leadSearch" placeholder="검색..." class="search-input">
+                        <select id="leadStatusFilter" class="filter-select">
+                            <option value="">모든 상태</option>
+                            <option value="new">신규</option>
+                            <option value="qualified">검토중</option>
+                            <option value="closed">완료</option>
+                        </select>
+                    </div>
+                    <div id="leadsList" class="data-list"></div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage('leads')">이전</button>
+                        <span id="leadsPageInfo">1 / 1</span>
+                        <button class="btn btn-secondary" onclick="nextPage('leads')">다음</button>
+                    </div>
+                </section>
+
+                <!-- Products Section -->
+                <section id="products" class="content-section">
+                    <div class="section-header">
+                        <h2>제품 관리</h2>
+                        <button class="btn btn-primary" data-permission="products:create" onclick="editProduct()">제품 추가</button>
+                        <button class="btn btn-secondary" data-permission="products:export" onclick="exportData('products')">데이터 내보내기</button>
+                        <button class="btn btn-secondary" data-permission="products:import" onclick="importData('products')">데이터 가져오기</button>
+                    </div>
+                    <div id="productsList" class="data-list"></div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage('products')">이전</button>
+                        <span id="productsPageInfo">1 / 1</span>
+                        <button class="btn btn-secondary" onclick="nextPage('products')">다음</button>
+                    </div>
+                </section>
+
+                <!-- Solutions Section -->
+                <section id="solutions" class="content-section">
+                    <div class="section-header">
+                        <h2>솔루션 관리</h2>
+                        <button class="btn btn-primary" data-permission="solutions:create" onclick="editSolution()">솔루션 추가</button>
+                        <button class="btn btn-secondary" data-permission="solutions:export" onclick="exportData('solutions')">데이터 내보내기</button>
+                        <button class="btn btn-secondary" data-permission="solutions:import" onclick="importData('solutions')">데이터 가져오기</button>
+                    </div>
+                    <div id="solutionsList" class="data-list"></div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage('solutions')">이전</button>
+                        <span id="solutionsPageInfo">1 / 1</span>
+                        <button class="btn btn-secondary" onclick="nextPage('solutions')">다음</button>
+                    </div>
+                </section>
+
+                <!-- Cases Section -->
+                <section id="cases" class="content-section">
+                    <div class="section-header">
+                        <h2>사례 관리</h2>
+                        <button class="btn btn-primary" data-permission="cases:create" onclick="editCase()">사례 추가</button>
+                        <button class="btn btn-secondary" data-permission="cases:export" onclick="exportData('cases')">데이터 내보내기</button>
+                        <button class="btn btn-secondary" data-permission="cases:import" onclick="importData('cases')">데이터 가져오기</button>
+                    </div>
+                    <div id="casesList" class="data-list"></div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage('cases')">이전</button>
+                        <span id="casesPageInfo">1 / 1</span>
+                        <button class="btn btn-secondary" onclick="nextPage('cases')">다음</button>
+                    </div>
+                </section>
+
+                <!-- Resources Section -->
+                <section id="resources" class="content-section">
+                    <div class="section-header">
+                        <h2>자료실 관리</h2>
+                        <button class="btn btn-primary" data-permission="resources:create" onclick="editResource()">자료 추가</button>
+                        <button class="btn btn-secondary" data-permission="resources:export" onclick="exportData('resources')">데이터 내보내기</button>
+                        <button class="btn btn-secondary" data-permission="resources:import" onclick="importData('resources')">데이터 가져오기</button>
+                    </div>
+                    <div id="resourcesList" class="data-list"></div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage('resources')">이전</button>
+                        <span id="resourcesPageInfo">1 / 1</span>
+                        <button class="btn btn-secondary" onclick="nextPage('resources')">다음</button>
+                    </div>
+                </section>
+
+                <!-- Media Section -->
+                <section id="media" class="content-section">
+                    <div class="section-header">
+                        <h2>미디어 관리</h2>
+                        <button class="btn btn-primary" data-permission="media:create" onclick="editMedia()">미디어 추가</button>
+                        <button class="btn btn-secondary" data-permission="media:export" onclick="exportData('media')">데이터 내보내기</button>
+                        <button class="btn btn-secondary" data-permission="media:import" onclick="importData('media')">데이터 가져오기</button>
+                    </div>
+                    <div id="mediaList" class="data-list"></div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage('media')">이전</button>
+                        <span id="mediaPageInfo">1 / 1</span>
+                        <button class="btn btn-secondary" onclick="nextPage('media')">다음</button>
+                    </div>
+                </section>
+
+                <!-- FAQ Section -->
+                <section id="faq" class="content-section">
+                    <div class="section-header">
+                        <h2>FAQ 관리</h2>
+                        <button class="btn btn-primary" data-permission="faq:create" onclick="editFAQ()">FAQ 추가</button>
+                        <button class="btn btn-secondary" data-permission="faq:export" onclick="exportData('faqs')">데이터 내보내기</button>
+                        <button class="btn btn-secondary" data-permission="faq:import" onclick="importData('faqs')">데이터 가져오기</button>
+                    </div>
+                    <div id="faqList" class="data-list"></div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage('faq')">이전</button>
+                        <span id="faqPageInfo">1 / 1</span>
+                        <button class="btn btn-secondary" onclick="nextPage('faq')">다음</button>
+                    </div>
+                </section>
+
+                <!-- Users Section -->
+                <section id="users" class="content-section">
+                    <div class="section-header">
+                        <h2>사용자 관리</h2>
+                        <button class="btn btn-primary" onclick="editUser()">사용자 추가</button>
+                    </div>
+                    <div id="usersList" class="data-list"></div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage('users')">이전</button>
+                        <span id="usersPageInfo">1 / 1</span>
+                        <button class="btn btn-secondary" onclick="nextPage('users')">다음</button>
+                    </div>
+                </section>
+
+                <!-- Hero Management Section -->
+                <section id="hero" class="content-section">
+                    <h2>히어로 관리</h2>
+                    <form id="heroForm" class="settings-form">
+                        <div class="form-group">
+                            <label for="heroH1">H1 제목</label>
+                            <input type="text" id="heroH1" name="heroH1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="heroH2">H2 부제목</label>
+                            <input type="text" id="heroH2" name="heroH2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="heroCta1">CTA1 라벨</label>
+                            <input type="text" id="heroCta1" name="heroCta1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="heroCta2">CTA2 라벨</label>
+                            <input type="text" id="heroCta2" name="heroCta2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="heroVideoDesktop">데스크탑 비디오 URL</label>
+                            <input type="url" id="heroVideoDesktop" name="heroVideoDesktop">
+                        </div>
+                        <div class="form-group">
+                            <label for="heroVideoMobile">모바일 비디오 URL</label>
+                            <input type="url" id="heroVideoMobile" name="heroVideoMobile">
+                        </div>
+                        <div class="form-group">
+                            <label for="heroPoster">포스터 이미지 URL</label>
+                            <input type="url" id="heroPoster" name="heroPoster">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="heroScrollIndicator" name="heroScrollIndicator">
+                                스크롤 인디케이터 표시
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">히어로 설정 저장</button>
+                    </form>
+                </section>
+
+                <!-- Tickets Section -->
+                <section id="tickets" class="content-section">
+                    <div class="section-header">
+                        <h2>티켓 관리</h2>
+                        <button class="btn btn-primary" onclick="editTicket()">티켓 추가</button>
+                    </div>
+                    <div class="filters">
+                        <input type="text" id="ticketSearch" placeholder="검색..." class="search-input">
+                        <select id="ticketStatusFilter" class="filter-select">
+                            <option value="">모든 상태</option>
+                            <option value="open">열림</option>
+                            <option value="in_progress">진행중</option>
+                            <option value="resolved">해결됨</option>
+                        </select>
+                        <select id="ticketPriorityFilter" class="filter-select">
+                            <option value="">모든 우선순위</option>
+                            <option value="low">낮음</option>
+                            <option value="med">보통</option>
+                            <option value="high">높음</option>
+                        </select>
+                    </div>
+                    <div id="ticketsList" class="data-list"></div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage('tickets')">이전</button>
+                        <span id="ticketsPageInfo">1 / 1</span>
+                        <button class="btn btn-secondary" onclick="nextPage('tickets')">다음</button>
+                    </div>
+                </section>
+
+                <!-- Audit Log Section -->
+                <section id="audit" class="content-section">
+                    <h2>감사로그</h2>
+                    <div class="filters">
+                        <input type="text" id="auditSearch" placeholder="검색..." class="search-input">
+                        <select id="auditActionFilter" class="filter-select">
+                            <option value="">모든 작업</option>
+                            <option value="create">생성</option>
+                            <option value="update">수정</option>
+                            <option value="delete">삭제</option>
+                        </select>
+                    </div>
+                    <div id="auditList" class="data-list"></div>
+                    <div class="pagination">
+                        <button class="btn btn-secondary" onclick="previousPage('audit')">이전</button>
+                        <span id="auditPageInfo">1 / 1</span>
+                        <button class="btn btn-secondary" onclick="nextPage('audit')">다음</button>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="content-section">
+                    <h2>사이트 설정</h2>
+                    <form id="settingsForm" class="settings-form">
+                        <div class="form-group">
+                            <label for="siteTitle">사이트 제목</label>
+                            <input type="text" id="siteTitle" name="siteTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="metaDescription">메타 설명</label>
+                            <textarea id="metaDescription" name="metaDescription" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="metaKeywords">메타 키워드 (쉼표로 구분)</label>
+                            <input type="text" id="metaKeywords" name="metaKeywords">
+                        </div>
+                        <div class="form-group">
+                            <label for="ogImage">OG 이미지 URL</label>
+                            <input type="url" id="ogImage" name="ogImage">
+                        </div>
+                        <div class="form-group">
+                            <label for="heroLoop">히어로 비디오 루프 선택</label>
+                            <select id="heroLoop" name="heroLoop">
+                                <option value="A">루프 A (기본)</option>
+                                <option value="B">루프 B (대안)</option>
+                                <option value="C">루프 C (프리미엄)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="languageMode">언어 모드</label>
+                            <select id="languageMode" name="languageMode">
+                                <option value="ko">한국어</option>
+                                <option value="en">영어</option>
+                                <option value="dual">이중 언어</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">설정 저장</button>
+                    </form>
+                </section>
+
+                <!-- Backup/Restore Section -->
+                <section id="backup" class="content-section">
+                    <h2>백업 및 복원</h2>
+                    <div class="backup-controls">
+                        <div class="backup-actions">
+                            <button class="btn btn-primary" onclick="exportData()">데이터 내보내기</button>
+                            <button class="btn btn-secondary" onclick="importData()">데이터 가져오기</button>
+                            <button class="btn btn-warning" onclick="clearAllData()">모든 데이터 삭제</button>
+                        </div>
+                        <div class="backup-info">
+                            <h3>백업 정보</h3>
+                            <p><strong>마지막 백업:</strong> <span id="lastBackup">없음</span></p>
+                            <p><strong>데이터 크기:</strong> <span id="dataSize">0 KB</span></p>
+                            <p><strong>총 레코드 수:</strong> <span id="totalRecords">0</span></p>
+                        </div>
+                    </div>
+                    <div class="backup-history">
+                        <h3>백업 히스토리</h3>
+                        <div id="backupHistory" class="backup-list"></div>
+                    </div>
+                </section>
+
+                <!-- System Monitoring Section -->
+                <section id="system" class="content-section">
+                    <h2>시스템 모니터링</h2>
+                    <div class="system-stats">
+                        <div class="stat-card">
+                            <h3>세션 정보</h3>
+                            <div class="stat-value" id="activeSessions">0</div>
+                            <div class="stat-label">활성 세션</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>메모리 사용량</h3>
+                            <div class="stat-value" id="memoryUsage">0 MB</div>
+                            <div class="stat-label">로컬스토리지</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>오류 발생</h3>
+                            <div class="stat-value" id="errorCount">0</div>
+                            <div class="stat-label">최근 24시간</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>시스템 상태</h3>
+                            <div class="stat-value" id="systemStatus">정상</div>
+                            <div class="stat-label">운영 상태</div>
+                        </div>
+                    </div>
+                    <div class="system-logs">
+                        <h3>시스템 로그</h3>
+                        <div class="log-filters">
+                            <select id="logLevel" class="filter-select">
+                                <option value="all">모든 레벨</option>
+                                <option value="info">정보</option>
+                                <option value="warning">경고</option>
+                                <option value="error">오류</option>
+                            </select>
+                            <button class="btn btn-secondary" onclick="clearLogs()">로그 지우기</button>
+                        </div>
+                        <div id="systemLogs" class="log-container"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Templates -->
+    <div id="modalContainer" class="modal-container"></div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

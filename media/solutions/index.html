@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>솔루션 & 적용분야 - 제이원로보틱스</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        /* Solutions Page Styles - Board Format */
+        .media-hero {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+            color: #ffffff;
+        }
+
+        .media-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+        }
+
+        .media-hero .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .media-subnav {
+            background: var(--surface-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .subnav-list {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .subnav-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .subnav-list a:hover {
+            color: var(--primary-color);
+            background: var(--card-bg);
+            border-color: var(--primary-color);
+        }
+
+        .subnav-list a.active {
+            color: white;
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .media-section {
+            padding: 4rem 0;
+            background: #ffffff;
+        }
+
+        .media-filters {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            background: var(--card-bg);
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .solutions-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .solution-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .solution-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .solution-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .solution-content {
+            padding: 1.5rem;
+        }
+
+        .solution-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .solution-description {
+            color: #718096;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .solution-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .solution-category {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .solution-date {
+            color: #a0aec0;
+            font-size: 0.75rem;
+        }
+
+        .solution-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .solution-feature {
+            background: #f7fafc;
+            color: #4a5568;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #f59e0b;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #718096;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+        }
+
+        .empty-state p {
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .solutions-board {
+                grid-template-columns: 1fr;
+            }
+            
+            .subnav-list {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .media-filters {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="header-content">
+            <a href="../../index.html" class="logo" aria-label="제이원로보틱스 홈으로 이동">
+                <div class="logo-text">
+                    <span class="logo-ko">(주)제이원 로보틱스</span>
+                    <span class="logo-en">J-ONE Robotics Co., Ltd.</span>
+                </div>
+            </a>
+            <nav class="nav" role="navigation">
+                <ul class="nav-list">
+                    <li><a href="../../index.html">홈</a></li>
+                    <li><a href="../../products/index.html">제품소개</a></li>
+                    <li><a href="../index.html">홍보센터</a></li>
+                    <li><a href="../../about/index.html">회사소개</a></li>
+                    <li><a href="../../contact/index.html">문의</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="메뉴 열기">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+        <div class="menu-content">
+                <button class="menu-close" id="menuClose" aria-label="메뉴 닫기">✕</button>
+                <ul>
+                    <li><a href="../../about/index.html">회사소개</a></li>
+                    <li><a href="../../products/index.html">제품소개</a></li>
+                    <li><a href="../../media/index.html">홍보센터</a></li>
+                    <li><a href="../../contact/index.html">문의</a></li>
+                </ul>
+            </div>
+        </div>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+            <li><a href="../../index.html">홈</a></li>
+            <li><a href="../index.html">홍보센터</a></li>
+            <li>솔루션 & 적용분야</li>
+        </ol>
+    </nav>
+
+    <!-- Sub Navigation -->
+    <nav class="media-subnav">
+        <div class="container">
+            <ul class="subnav-list">
+                <li><a href="../videos/index.html">동영상</a></li>
+                <li><a href="index.html" class="active">솔루션 & 적용분야</a></li>
+                <li><a href="../cases/index.html">사례</a></li>
+                <li><a href="../resources/index.html">자료실</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="media-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>솔루션 & 적용분야</h1>
+                <p>제이원로보틱스의 혁신적인 용접 자동화 솔루션을 확인하세요</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="media-section">
+        <div class="container">
+            <!-- Solutions Filters -->
+            <div class="media-filters">
+                <button class="filter-btn active" data-filter="all">전체</button>
+                <button class="filter-btn" data-filter="자동차">자동차</button>
+                <button class="filter-btn" data-filter="조선">조선</button>
+                <button class="filter-btn" data-filter="건설">건설</button>
+                <button class="filter-btn" data-filter="기타">기타</button>
+            </div>
+
+            <!-- Solutions Board -->
+            <div class="solutions-board" id="solutionsBoard">
+                <!-- 동적으로 로드됨 -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <h3>솔루션이 없습니다</h3>
+                <p>아직 등록된 솔루션이 없습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>제이원로보틱스</h3>
+                    <p>혁신적인 용접 자동화 솔루션으로 제조업의 미래를 만들어갑니다.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>홍보센터</h3>
+                    <ul>
+                        <li><a href="../videos/index.html">동영상</a></li>
+                        <li><a href="index.html">솔루션</a></li>
+                        <li><a href="../cases/index.html">사례</a></li>
+                        <li><a href="../resources/index.html">자료실</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>사이트</h3>
+                    <ul>
+                        <li><a href="../../products/index.html">제품소개</a></li>
+                        <li><a href="../../about/index.html">회사소개</a></li>
+                        <li><a href="../../contact/index.html">문의</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>연락처</h3>
+                    <p>📞 02-1234-5678</p>
+                    <p>✉️ info@jwonrobotics.com</p>
+                    <p>📍 서울시 강남구 테헤란로 123</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 제이원로보틱스. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../script.js"></script>
+    <script src="../../admin-key.js"></script>
+    <script src="../../logo-loader.js"></script>
+    <script src="../../content-manager.js"></script>
+    <script src="../../navigation-loader.js"></script>
+    <script src="../../post-manager.js"></script>
+    <script>
+        // 솔루션 로드 및 표시
+        function loadSolutions() {
+            const solutionsBoard = document.getElementById('solutionsBoard');
+            const emptyState = document.getElementById('emptyState');
+            const solutions = window.postManager.getPosts('solutions');
+            
+            if (solutions.length === 0) {
+                solutionsBoard.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            solutionsBoard.style.display = 'grid';
+            emptyState.style.display = 'none';
+            
+            solutionsBoard.innerHTML = solutions.map(solution => `
+                <div class="solution-card" data-category="${solution.category}" onclick="viewSolution('${solution.id}')" style="cursor: pointer;">
+                    ${solution.featured ? '<div class="featured-badge">추천</div>' : ''}
+                    <div class="solution-thumbnail">
+                        <img src="${solution.thumbnail}" alt="${solution.title}">
+                    </div>
+                    <div class="solution-content">
+                        <h3 class="solution-title">${solution.title}</h3>
+                        <p class="solution-description">${solution.description}</p>
+                        <div class="solution-meta">
+                            <span class="solution-category">${solution.category}</span>
+                            <span class="solution-date">${solution.date}</span>
+                        </div>
+                        ${solution.features ? `
+                            <div class="solution-features">
+                                ${solution.features.map(feature => `<span class="solution-feature">${feature}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 필터 기능
+        function setupFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // 활성 버튼 변경
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 카드 필터링
+                    const cards = document.querySelectorAll('.solution-card');
+                    cards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSolutions();
+            setupFilters();
+        });
+
+        // 솔루션 상세 보기
+        function viewSolution(solutionId) {
+            const solution = window.postManager.getPosts('solutions').find(s => s.id === solutionId);
+            if (solution) {
+                showSolutionModal(solution);
+            }
+        }
+
+        // 솔루션 모달 표시
+        function showSolutionModal(solution) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 700px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2 style="margin: 0; color: #1a202c;">${solution.title}</h2>
+                        <button onclick="this.closest('.modal').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                    </div>
+                    <img src="${solution.thumbnail}" alt="${solution.title}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <p style="color: #4a5568; line-height: 1.6; margin-bottom: 1rem;">${solution.description}</p>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <span style="background: #e2e8f0; color: #4a5568; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">${solution.category}</span>
+                        <span style="color: #a0aec0; font-size: 0.75rem;">${solution.date}</span>
+                    </div>
+                    ${solution.features ? `
+                        <div style="margin-bottom: 1rem;">
+                            <h4 style="color: #1a202c; margin-bottom: 0.5rem;">주요 특징</h4>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                ${solution.features.map(feature => `<span style="background: #f7fafc; color: #4a5568; padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.75rem; border: 1px solid #e2e8f0;">${feature}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button onclick="this.closest('.modal').remove()" style="background: #3b82f6; color: white; border: none; padding: 0.8rem 2rem; border-radius: 8px; cursor: pointer; font-weight: 600;">닫기</button>
+                    </div>
+                </div>
+            `;
+            
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+        }
+
+        // 게시물 업데이트 감지
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'jwonPosts') {
+                loadSolutions();
+            }
+        });
+    </script>
+</body>
+</html>
