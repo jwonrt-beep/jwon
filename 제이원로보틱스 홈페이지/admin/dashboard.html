@@ -1,0 +1,2759 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 대시보드 - 제이원로보틱스</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1a202c;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 사이드바 */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-subtitle {
+            color: #718096;
+            font-size: 0.875rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: #f7fafc;
+            color: #2d3748;
+            transform: translateX(4px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .nav-link.active .nav-icon {
+            opacity: 1;
+        }
+
+        /* 메인 콘텐츠 */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .page-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #718096;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.7;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            color: #48bb78;
+            font-weight: 600;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .card-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.7;
+        }
+
+        .card-description {
+            color: #718096;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            color: #4a5568;
+            position: relative;
+            padding-left: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        .btn-admin {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 101, 101, 0.4);
+        }
+
+        /* 모달 스타일 개선 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translate(-50%, -45%);
+            }
+            to { 
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 0;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lead-detail-modal .modal-content {
+            max-width: 700px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #1a202c;
+            background: #f7fafc;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.875rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .form-checkbox {
+            margin-right: 0.5rem;
+            transform: scale(1.2);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+        }
+
+        .btn-cancel {
+            background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(113, 128, 150, 0.4);
+        }
+
+        .file-input {
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(247, 250, 252, 0.5);
+        }
+
+        .file-input:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .file-input input {
+            display: none;
+        }
+
+        .preview-image {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 12px;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(247, 250, 252, 0.8);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .menu-item input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+
+        .remove-btn {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .remove-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(245, 101, 101, 0.4);
+        }
+
+        .spec-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+
+        .spec-row input {
+            flex: 1;
+        }
+
+        .spec-row button {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .spec-row button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(245, 101, 101, 0.4);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 250px;
+            }
+            
+            .main-content {
+                margin-left: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dashboard-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .stat-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* 스크롤바 스타일링 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        }
+
+        /* 콘텐츠 섹션 */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* 테이블 스타일 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table th {
+            background: #f8fafc;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #2d3748;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .data-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- 사이드바 -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">관리자 대시보드</h1>
+                <p class="sidebar-subtitle">제이원로보틱스</p>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" onclick="showSection('overview')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                        </svg>
+                        대시보드
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('logo')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        로고 관리
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('content')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                        </svg>
+                        콘텐츠 관리
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('posts')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                        게시물 관리
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('products')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        제품 관리
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('leads')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        리드 관리
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('navigation')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                        </svg>
+                        네비게이션
+                    </a>
+                </li>
+            </ul>
+            <button class="logout-btn" onclick="logout()">로그아웃</button>
+        </nav>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main-content">
+            <!-- 대시보드 개요 -->
+            <div id="overview" class="content-section active">
+                <div class="page-header">
+                    <h1 class="page-title">대시보드 개요</h1>
+                    <p class="page-subtitle">제이원로보틱스 관리자 패널에 오신 것을 환영합니다</p>
+                </div>
+
+                <!-- 통계 카드 -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">총 제품 수</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalProducts">0</div>
+                        <div class="stat-change">+12% 이번 달</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">총 게시물 수</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalPosts">0</div>
+                        <div class="stat-change">+8% 이번 주</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">추천 제품</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="featuredProducts">0</div>
+                        <div class="stat-change">활성 상태</div>
+                    </div>
+                </div>
+
+                <!-- 빠른 액션 -->
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">빠른 액션</h3>
+                            <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                            </svg>
+                        </div>
+                        <p class="card-description">자주 사용하는 관리 기능에 빠르게 접근하세요.</p>
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <button class="btn-admin btn-primary" onclick="showSection('products'); openProductModal();">
+                                새 제품 추가
+                            </button>
+                            <button class="btn-admin btn-secondary" onclick="showSection('posts'); openPostModal();">
+                                새 게시물 추가
+                            </button>
+                            <button class="btn-admin btn-success" onclick="showSection('logo'); openLogoModal();">
+                                로고 변경
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">최근 활동</h3>
+                            <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        <p class="card-description">최근 관리 활동 내역을 확인하세요.</p>
+                        <ul class="feature-list">
+                            <li>제품 3개가 추가되었습니다</li>
+                            <li>게시물 5개가 업데이트되었습니다</li>
+                            <li>로고가 변경되었습니다</li>
+                            <li>네비게이션이 수정되었습니다</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 로고 관리 -->
+            <div id="logo" class="content-section">
+                <div class="page-header">
+                    <h1 class="page-title">로고 관리</h1>
+                    <p class="page-subtitle">사이트 로고를 업로드하고 관리하세요</p>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">로고 업로드</h3>
+                            <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <p class="card-description">새로운 로고 이미지를 업로드하여 사이트 전체에 적용하세요.</p>
+                        <button class="btn-admin btn-primary" onclick="openLogoModal()">로고 업로드</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 콘텐츠 관리 -->
+            <div id="content" class="content-section">
+                <div class="page-header">
+                    <h1 class="page-title">콘텐츠 관리</h1>
+                    <p class="page-subtitle">페이지 제목, 부제목, 배지 텍스트를 관리하세요</p>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">페이지 콘텐츠</h3>
+                            <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                            </svg>
+                        </div>
+                        <p class="card-description">각 페이지의 제목, 부제목, 배지 텍스트를 수정할 수 있습니다.</p>
+                        <button class="btn-admin btn-primary" onclick="openContentModal()">콘텐츠 편집</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 게시물 관리 -->
+            <div id="posts" class="content-section">
+                <div class="page-header">
+                    <h1 class="page-title">게시물 관리</h1>
+                    <p class="page-subtitle">홍보센터의 모든 게시물을 관리하세요</p>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">게시물 관리</h3>
+                            <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
+                        </div>
+                        <p class="card-description">동영상, 솔루션, 사례, 자료실 게시물을 추가, 수정, 삭제할 수 있습니다.</p>
+                        <button class="btn-admin btn-primary" onclick="openPostModal()">게시물 관리</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 제품 관리 -->
+            <div id="products" class="content-section">
+                <div class="page-header">
+                    <h1 class="page-title">제품 관리</h1>
+                    <p class="page-subtitle">제품소개 페이지의 모든 제품을 관리하세요</p>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">제품 관리</h3>
+                            <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <p class="card-description">제품 정보, 사양, 특징, 가격을 관리할 수 있습니다.</p>
+                        <button class="btn-admin btn-primary" onclick="openProductModal()">제품 관리</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 리드 관리 -->
+            <div id="leads" class="content-section">
+                <div class="page-header">
+                    <h1 class="page-title">리드 관리</h1>
+                    <p class="page-subtitle">상담·견적 요청, 자료 다운로드, 기술상담 신청 내역을 확인하세요</p>
+                </div>
+                
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">상담·견적 요청</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalQuotes">0</div>
+                        <div class="stat-change">전체 견적 요청 수</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">자료 다운로드</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalResources">0</div>
+                        <div class="stat-change">전체 다운로드 요청 수</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">기술상담 신청</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalTechCalls">0</div>
+                        <div class="stat-change">전체 기술상담 신청 수</div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 2rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #1a202c;">최근 문의 내역</h3>
+                        <button onclick="exportLeadsToExcel()" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                            </svg>
+                            엑셀 다운로드
+                        </button>
+                    </div>
+
+                    <!-- 검색 및 필터 -->
+                    <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="position: relative;">
+                            <input type="text" id="leadSearch" placeholder="회사명, 담당자, 이메일로 검색..." onkeyup="searchLeads()" style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.95rem; transition: all 0.3s ease;">
+                            <svg style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: #a0aec0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-admin btn-secondary" onclick="filterLeads('all')" id="filterAll" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">전체</button>
+                            <button class="btn-admin btn-secondary" onclick="filterLeads('quote')" id="filterQuote">견적요청</button>
+                            <button class="btn-admin btn-secondary" onclick="filterLeads('resource')" id="filterResource">자료</button>
+                            <button class="btn-admin btn-secondary" onclick="filterLeads('tech-call')" id="filterTechCall">기술상담</button>
+                        </div>
+                    </div>
+
+                    <!-- 상태 필터 -->
+                    <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; padding: 1rem; background: #f7fafc; border-radius: 12px;">
+                        <span style="font-weight: 600; color: #4a5568; font-size: 0.875rem; align-self: center;">처리 상태:</span>
+                        <button class="btn-admin btn-secondary" onclick="filterByStatus('all')" id="statusAll" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 0.875rem; padding: 0.5rem 1rem;">전체</button>
+                        <button class="btn-admin btn-secondary" onclick="filterByStatus('pending')" id="statusPending" style="font-size: 0.875rem; padding: 0.5rem 1rem;">🆕 신규</button>
+                        <button class="btn-admin btn-secondary" onclick="filterByStatus('inprogress')" id="statusInprogress" style="font-size: 0.875rem; padding: 0.5rem 1rem;">⏳ 진행중</button>
+                        <button class="btn-admin btn-secondary" onclick="filterByStatus('completed')" id="statusCompleted" style="font-size: 0.875rem; padding: 0.5rem 1rem;">✅ 완료</button>
+                    </div>
+
+                    <div id="leadsTable" style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f7fafc; border-bottom: 2px solid #e2e8f0;">
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">일시</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">상태</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">유형</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">회사명</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">담당자</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">연락처</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">이메일</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">상세</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leadsTableBody">
+                                <tr>
+                                    <td colspan="8" style="padding: 2rem; text-align: center; color: #718096;">
+                                        문의 내역이 없습니다.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 네비게이션 관리 -->
+            <div id="navigation" class="content-section">
+                <div class="page-header">
+                    <h1 class="page-title">네비게이션 관리</h1>
+                    <p class="page-subtitle">메뉴 구조와 링크를 관리하세요</p>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">메뉴 관리</h3>
+                            <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                            </svg>
+                        </div>
+                        <p class="card-description">메인 네비게이션 메뉴 항목을 추가, 수정, 삭제할 수 있습니다.</p>
+                        <button class="btn-admin btn-primary" onclick="openNavigationModal()">네비게이션 관리</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 로고 업로드 모달 -->
+    <div id="logoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">로고 업로드</h3>
+                <button class="close-btn" onclick="closeModal('logoModal')">&times;</button>
+            </div>
+            <form id="logoForm">
+                <div class="form-group">
+                    <label class="form-label">로고 이미지</label>
+                    <div class="file-input" onclick="document.getElementById('logoFile').click()">
+                        <input type="file" id="logoFile" accept="image/*" onchange="previewLogo(this)">
+                        <div>
+                            <p>클릭하여 로고 이미지를 선택하세요</p>
+                        </div>
+                    </div>
+                    <div id="logoPreview" style="display: none; margin-top: 1rem;">
+                        <img id="logoPreviewImg" src="" alt="로고 미리보기" class="preview-image">
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('logoModal')">취소</button>
+                    <button type="submit" class="btn btn-save">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 콘텐츠 편집 모달 -->
+    <div id="contentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">콘텐츠 편집</h3>
+                <button class="close-btn" onclick="closeModal('contentModal')">&times;</button>
+            </div>
+            <form id="contentForm">
+                <div class="form-group">
+                    <label class="form-label">페이지 선택</label>
+                    <select id="contentPage" class="form-input" onchange="loadPageContent()">
+                        <option value="index">메인 페이지</option>
+                        <option value="products">제품소개</option>
+                        <option value="media">홍보센터</option>
+                        <option value="about">회사소개</option>
+                        <option value="contact">문의</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">페이지 제목</label>
+                    <input type="text" id="pageTitle" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">히어로 제목</label>
+                    <input type="text" id="heroTitle" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">히어로 부제목</label>
+                    <input type="text" id="heroSubtitle" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">배지 텍스트</label>
+                    <input type="text" id="badgeText" class="form-input">
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('contentModal')">취소</button>
+                    <button type="submit" class="btn btn-save">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 게시물 관리 모달 -->
+    <div id="postModal" class="modal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h3 class="modal-title">게시물 관리</h3>
+                <button class="close-btn" onclick="closeModal('postModal')">&times;</button>
+            </div>
+            <div style="margin-bottom: 2rem;">
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <select id="postCategory" class="form-input" style="flex: 1;" onchange="loadPosts()">
+                        <option value="videos">동영상</option>
+                        <option value="solutions">솔루션 & 적용분야</option>
+                        <option value="cases">사례</option>
+                        <option value="resources">자료실</option>
+                    </select>
+                    <button type="button" class="btn btn-primary" onclick="openPostEditor()">새 게시물 추가</button>
+                </div>
+                <div id="postsList" style="max-height: 400px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <!-- 동적으로 로드됨 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 게시물 편집 모달 -->
+    <div id="postEditorModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="postEditorTitle">게시물 편집</h3>
+                <button class="close-btn" onclick="closeModal('postEditorModal')">&times;</button>
+            </div>
+            <form id="postEditorForm">
+                <div class="form-group">
+                    <label class="form-label">제목</label>
+                    <input type="text" id="postTitle" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">카테고리</label>
+                    <select id="postCategoryInput" class="form-input" required onchange="updatePostFieldsVisibility()">
+                        <option value="videos">동영상</option>
+                        <option value="solutions">솔루션 & 적용분야</option>
+                        <option value="cases">사례</option>
+                        <option value="resources">자료실</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">설명</label>
+                    <textarea id="postDescription" class="form-textarea" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">썸네일 이미지</label>
+                    <div class="file-input" onclick="document.getElementById('postThumbnail').click()">
+                        <input type="file" id="postThumbnail" accept="image/*" onchange="previewPostThumbnail(this)">
+                        <div>
+                            <p>클릭하여 썸네일 이미지를 선택하세요</p>
+                        </div>
+                    </div>
+                    <div id="postThumbnailPreview" style="display: none; margin-top: 1rem;">
+                        <img id="postThumbnailImg" src="" alt="썸네일 미리보기" class="preview-image">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">태그 (쉼표로 구분)</label>
+                    <input type="text" id="postTags" class="form-input" placeholder="예: 용접기, 자동화, 로봇">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="postFeatured"> 추천 게시물로 설정
+                    </label>
+                </div>
+                <div class="form-group" id="videoUrlGroup" style="display: none;">
+                    <label class="form-label">동영상 URL (YouTube 링크 등)</label>
+                    <input type="url" id="postVideoUrl" class="form-input" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                <div class="form-group" id="fileSizeGroup" style="display: none;">
+                    <label class="form-label">파일 크기</label>
+                    <input type="text" id="postFileSize" class="form-input" placeholder="예: 2.5MB, 15MB">
+                </div>
+                <div class="form-group" id="downloadCountGroup" style="display: none;">
+                    <label class="form-label">다운로드 수</label>
+                    <input type="number" id="postDownloadCount" class="form-input" placeholder="예: 150">
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('postEditorModal')">취소</button>
+                    <button type="submit" class="btn btn-save">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 제품 관리 모달 -->
+    <div id="productModal" class="modal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h3 class="modal-title">제품 관리</h3>
+                <button class="close-btn" onclick="closeModal('productModal')">&times;</button>
+            </div>
+            <div style="margin-bottom: 2rem;">
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <button type="button" class="btn btn-primary" onclick="openProductEditor()">새 제품 추가</button>
+                </div>
+                <div id="productsList" style="max-height: 400px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <!-- 동적으로 로드됨 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 제품 편집 모달 -->
+    <div id="productEditorModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="productEditorTitle">제품 편집</h3>
+                <button class="close-btn" onclick="closeModal('productEditorModal')">&times;</button>
+            </div>
+            <form id="productEditorForm">
+                <div class="form-group">
+                    <label class="form-label">제품명</label>
+                    <input type="text" id="productName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">카테고리</label>
+                    <select id="productCategory" class="form-input" required>
+                        <option value="레이저 용접기">레이저 용접기</option>
+                        <option value="대형 용접기">대형 용접기</option>
+                        <option value="소형 용접기">소형 용접기</option>
+                        <option value="로봇 용접기">로봇 용접기</option>
+                        <option value="모바일 용접기">모바일 용접기</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">설명</label>
+                    <textarea id="productDescription" class="form-textarea" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">썸네일 이미지</label>
+                    <div class="file-input" onclick="document.getElementById('productThumbnail').click()">
+                        <input type="file" id="productThumbnail" accept="image/*" onchange="previewProductThumbnail(this)">
+                        <div>
+                            <p>클릭하여 썸네일 이미지를 선택하세요</p>
+                        </div>
+                    </div>
+                    <div id="productThumbnailPreview" style="display: none; margin-top: 1rem;">
+                        <img id="productThumbnailImg" src="" alt="썸네일 미리보기" class="preview-image">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">주요 특징 (쉼표로 구분)</label>
+                    <input type="text" id="productFeatures" class="form-input" placeholder="예: AI 자동제어, 고정밀, 안정성">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">가격</label>
+                    <input type="text" id="productPrice" class="form-input" placeholder="예: 문의, 1,000만원">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">제품 사양</label>
+                    <div id="productSpecifications">
+                        <div class="spec-row" style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+                            <input type="text" class="form-input" placeholder="항목명" style="flex: 1;" data-spec-key>
+                            <input type="text" class="form-input" placeholder="값" style="flex: 1;" data-spec-value>
+                            <button type="button" onclick="removeSpecRow(this)" class="btn btn-secondary" style="padding: 0.5rem;">삭제</button>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addSpecRow()" class="btn btn-secondary" style="margin-top: 0.5rem;">사양 항목 추가</button>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="productFeatured"> 추천 제품으로 설정
+                    </label>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('productEditorModal')">취소</button>
+                    <button type="submit" class="btn btn-save">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 네비게이션 관리 모달 -->
+    <div id="navigationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">네비게이션 관리</h3>
+                <button class="close-btn" onclick="closeModal('navigationModal')">&times;</button>
+            </div>
+            <form id="navigationForm">
+                <div class="form-group">
+                    <label class="form-label">메인 메뉴 항목</label>
+                    <div id="menuItems">
+                        <!-- 동적으로 로드됨 -->
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="addMenuItem()">메뉴 항목 추가</button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('navigationModal')">취소</button>
+                    <button type="submit" class="btn btn-save">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 리드 상세보기 모달 -->
+    <div id="leadDetailModal" class="modal lead-detail-modal">
+        <div class="modal-content">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 24px 24px 0 0;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <div id="leadTypeBadge" style="display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px; font-size: 0.875rem; font-weight: 600; color: white; margin-bottom: 1rem;"></div>
+                        <h3 style="font-size: 1.75rem; font-weight: 800; color: white; margin: 0;">문의 상세 정보</h3>
+                        <p id="leadTimestamp" style="color: rgba(255,255,255,0.8); margin: 0.5rem 0 0; font-size: 0.875rem;"></p>
+                    </div>
+                    <button class="close-btn" onclick="closeModal('leadDetailModal')" style="background: rgba(255,255,255,0.2); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; transition: all 0.3s ease;">&times;</button>
+                </div>
+            </div>
+            
+            <div style="padding: 2rem;">
+                <!-- 상태 관리 -->
+                <div style="margin-bottom: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%); border-radius: 16px; border: 2px solid #e2e8f0;">
+                    <label style="display: block; font-weight: 700; color: #2d3748; margin-bottom: 1rem; font-size: 0.95rem;">📋 처리 상태</label>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button class="lead-status-btn" data-status="pending" onclick="updateLeadStatus('pending')" style="flex: 1; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; background: white; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.875rem; transition: all 0.3s ease;">
+                            🆕 신규
+                        </button>
+                        <button class="lead-status-btn" data-status="inprogress" onclick="updateLeadStatus('inprogress')" style="flex: 1; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; background: white; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.875rem; transition: all 0.3s ease;">
+                            ⏳ 진행중
+                        </button>
+                        <button class="lead-status-btn" data-status="completed" onclick="updateLeadStatus('completed')" style="flex: 1; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; background: white; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.875rem; transition: all 0.3s ease;">
+                            ✅ 완료
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 고객 정보 -->
+                <div style="display: grid; gap: 1.5rem; margin-bottom: 2rem;">
+                    <h4 style="font-size: 1.125rem; font-weight: 700; color: #1a202c; margin: 0; padding-bottom: 0.75rem; border-bottom: 2px solid #e2e8f0;">👤 고객 정보</h4>
+                    
+                    <div id="leadDetailsContent" style="display: grid; gap: 1rem;">
+                        <!-- 동적으로 로드됨 -->
+                    </div>
+                </div>
+
+                <!-- 액션 버튼 -->
+                <div style="display: flex; gap: 1rem; padding-top: 1.5rem; border-top: 2px solid #e2e8f0;">
+                    <button onclick="copyLeadInfo()" style="flex: 1; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 0.95rem;">
+                        📋 정보 복사
+                    </button>
+                    <button onclick="deleteCurrentLead()" style="flex: 1; padding: 1rem; background: linear-gradient(135deg, #f56565 0%, #c53030 100%); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 0.95rem;">
+                        🗑️ 삭제
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        
+        .lead-status-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .lead-status-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+            border-color: transparent !important;
+        }
+        
+        .info-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 12px;
+            align-items: start;
+        }
+        
+        .info-label {
+            font-weight: 700;
+            color: #4a5568;
+            font-size: 0.875rem;
+        }
+        
+        .info-value {
+            color: #1a202c;
+            font-weight: 500;
+            word-break: break-word;
+        }
+        
+        #leadSearch:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+    </style>
+
+    <script>
+        // 전역 변수
+        let currentEditingPostId = null;
+        let currentEditingCategory = null;
+        let currentEditingProductId = null;
+
+        // 로그인 확인
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            const loginTime = localStorage.getItem('adminLoginTime');
+            
+            console.log('인증 확인:', { isLoggedIn, loginTime });
+            
+            if (!isLoggedIn || isLoggedIn !== 'true' || !loginTime) {
+                console.log('로그인 정보 없음, 로그인 페이지로 이동');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // 24시간 후 자동 로그아웃
+            const now = new Date().getTime();
+            const loginTimeNum = parseInt(loginTime);
+            
+            if (isNaN(loginTimeNum)) {
+                console.log('잘못된 로그인 시간, 로그인 페이지로 이동');
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminLoginTime');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const timeDiff = now - loginTimeNum;
+            const hoursDiff = timeDiff / (1000 * 60 * 60);
+            
+            console.log('시간 차이:', hoursDiff, '시간');
+            
+            if (hoursDiff > 24) {
+                console.log('세션 만료, 로그인 페이지로 이동');
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminLoginTime');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            console.log('인증 성공, 대시보드 로드');
+        }
+
+        // 로그아웃
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminLoginTime');
+            window.location.href = 'login.html';
+        }
+
+        // 섹션 표시
+        function showSection(sectionId) {
+            // 모든 섹션 숨기기
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // 모든 네비게이션 링크 비활성화
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // 선택된 섹션 표시
+            document.getElementById(sectionId).classList.add('active');
+            
+            // 선택된 네비게이션 링크 활성화
+            event.target.classList.add('active');
+            
+            // 통계 업데이트
+            if (sectionId === 'overview') {
+                updateStats();
+            } else if (sectionId === 'leads') {
+                loadLeads();
+            }
+        }
+
+        // 통계 업데이트
+        function updateStats() {
+            try {
+                let products = [];
+                let posts = [];
+                
+                if (window.productManager) {
+                    products = window.productManager.getProducts();
+                } else {
+                    console.log('productManager가 아직 로드되지 않음');
+                }
+                
+                if (window.postManager) {
+                    posts = window.postManager.getPosts('videos').concat(
+                        window.postManager.getPosts('solutions'),
+                        window.postManager.getPosts('cases'),
+                        window.postManager.getPosts('resources')
+                    );
+                } else {
+                    console.log('postManager가 아직 로드되지 않음');
+                }
+                
+                const totalProductsEl = document.getElementById('totalProducts');
+                const totalPostsEl = document.getElementById('totalPosts');
+                const featuredProductsEl = document.getElementById('featuredProducts');
+                
+                if (totalProductsEl) totalProductsEl.textContent = products.length;
+                if (totalPostsEl) totalPostsEl.textContent = posts.length;
+                if (featuredProductsEl) featuredProductsEl.textContent = products.filter(p => p.featured).length;
+                
+                console.log('통계 업데이트 완료:', { products: products.length, posts: posts.length });
+            } catch (error) {
+                console.error('통계 업데이트 중 오류:', error);
+            }
+        }
+
+        // 모달 열기
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        // 모달 닫기
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // 로고 모달 열기
+        function openLogoModal() {
+            openModal('logoModal');
+        }
+
+        // 콘텐츠 모달 열기
+        function openContentModal() {
+            openModal('contentModal');
+            loadPageContent();
+        }
+
+        // 게시물 모달 열기
+        function openPostModal() {
+            openModal('postModal');
+            loadPosts();
+        }
+
+        // 제품 모달 열기
+        function openProductModal() {
+            console.log('제품 모달 열기 시작');
+            openModal('productModal');
+            
+            // productManager 로드 확인 후 제품 목록 로드
+            if (window.productManager) {
+                loadProducts();
+            } else {
+                console.log('productManager 로드 대기 중...');
+                const checkInterval = setInterval(() => {
+                    if (window.productManager) {
+                        console.log('productManager 로드 완료, 제품 목록 로드');
+                        loadProducts();
+                        clearInterval(checkInterval);
+                    }
+                }, 100);
+                
+                // 5초 후에도 로드되지 않으면 에러 표시
+                setTimeout(() => {
+                    if (!window.productManager) {
+                        clearInterval(checkInterval);
+                        const productsList = document.getElementById('productsList');
+                        if (productsList) {
+                            productsList.innerHTML = '<div style="padding: 2rem; text-align: center; color: #e53e3e;">제품 관리자 로드 실패. 페이지를 새로고침해주세요.</div>';
+                        }
+                    }
+                }, 5000);
+            }
+        }
+
+        // 네비게이션 모달 열기
+        function openNavigationModal() {
+            openModal('navigationModal');
+            loadNavigationItems();
+        }
+
+        // 로고 미리보기
+        function previewLogo(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('logoPreviewImg').src = e.target.result;
+                    document.getElementById('logoPreview').style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 페이지 콘텐츠 로드
+        function loadPageContent() {
+            const page = document.getElementById('contentPage').value;
+            const pageData = JSON.parse(localStorage.getItem('jwonPageContent') || '{}');
+            const content = pageData[page] || {};
+            
+            document.getElementById('pageTitle').value = content.pageTitle || '';
+            document.getElementById('heroTitle').value = content.heroTitle || '';
+            document.getElementById('heroSubtitle').value = content.heroSubtitle || '';
+            document.getElementById('badgeText').value = content.badgeText || '';
+        }
+
+        // 게시물 편집기 열기
+        function openPostEditor(postId = null) {
+            if (postId) {
+                editPost(postId);
+            } else {
+                newPost();
+            }
+            openModal('postEditorModal');
+        }
+
+        // 제품 편집기 열기
+        function openProductEditor(productId = null) {
+            console.log('제품 편집기 열기:', productId);
+            
+            if (productId) {
+                editProduct(productId);
+            } else {
+                newProduct();
+                openModal('productEditorModal');
+            }
+        }
+
+        // 새 게시물
+        function newPost() {
+            document.getElementById('postEditorTitle').textContent = '새 게시물 추가';
+            document.getElementById('postEditorForm').reset();
+            document.getElementById('postThumbnailPreview').style.display = 'none';
+            currentEditingPostId = null;
+            currentEditingCategory = null;
+            updatePostFieldsVisibility();
+        }
+
+        // 새 제품
+        function newProduct() {
+            document.getElementById('productEditorTitle').textContent = '새 제품 추가';
+            document.getElementById('productEditorForm').reset();
+            document.getElementById('productThumbnailPreview').style.display = 'none';
+            currentEditingProductId = null;
+            loadSpecifications({});
+        }
+
+        // 게시물 필드 가시성 업데이트
+        function updatePostFieldsVisibility() {
+            const category = document.getElementById('postCategoryInput').value;
+            const videoUrlGroup = document.getElementById('videoUrlGroup');
+            const fileSizeGroup = document.getElementById('fileSizeGroup');
+            const downloadCountGroup = document.getElementById('downloadCountGroup');
+            
+            // 모든 추가 필드 숨기기
+            videoUrlGroup.style.display = 'none';
+            fileSizeGroup.style.display = 'none';
+            downloadCountGroup.style.display = 'none';
+            
+            // 카테고리별 필드 표시
+            if (category === 'videos') {
+                videoUrlGroup.style.display = 'block';
+            } else if (category === 'resources') {
+                fileSizeGroup.style.display = 'block';
+                downloadCountGroup.style.display = 'block';
+            }
+        }
+
+        // 게시물 편집
+        function editPost(postId) {
+            const result = window.postManager.findPostById(postId);
+            if (result) {
+                const { category, post } = result;
+                document.getElementById('postEditorTitle').textContent = '게시물 편집';
+                document.getElementById('postTitle').value = post.title;
+                document.getElementById('postCategoryInput').value = post.category;
+                document.getElementById('postDescription').value = post.description;
+                document.getElementById('postTags').value = post.tags ? post.tags.join(', ') : '';
+                document.getElementById('postFeatured').checked = post.featured || false;
+                
+                // 추가 필드들
+                document.getElementById('postVideoUrl').value = post.videoUrl || '';
+                document.getElementById('postFileSize').value = post.fileSize || '';
+                document.getElementById('postDownloadCount').value = post.downloadCount || '';
+                
+                if (post.thumbnail) {
+                    document.getElementById('postThumbnailImg').src = post.thumbnail;
+                    document.getElementById('postThumbnailPreview').style.display = 'block';
+                }
+                
+                currentEditingPostId = postId;
+                currentEditingCategory = category;
+                
+                // 필드 가시성 업데이트
+                updatePostFieldsVisibility();
+            }
+        }
+
+        // 제품 편집
+        function editProduct(productId) {
+            console.log('제품 편집 시작:', productId);
+            
+            if (!window.productManager) {
+                console.error('productManager가 로드되지 않음');
+                alert('제품 관리자가 로드되지 않았습니다. 페이지를 새로고침해주세요.');
+                return;
+            }
+            
+            const product = window.productManager.findProductById(productId);
+            console.log('찾은 제품:', product);
+            
+            if (!product) {
+                console.error('제품을 찾을 수 없음:', productId);
+                alert('제품을 찾을 수 없습니다.');
+                return;
+            }
+            
+            try {
+                document.getElementById('productEditorTitle').textContent = '제품 편집';
+                document.getElementById('productName').value = product.name || '';
+                document.getElementById('productCategory').value = product.category || '';
+                document.getElementById('productDescription').value = product.description || '';
+                document.getElementById('productFeatures').value = product.features ? product.features.join(', ') : '';
+                document.getElementById('productPrice').value = product.price || '';
+                document.getElementById('productFeatured').checked = product.featured || false;
+                
+                // 사양 데이터 로드
+                loadSpecifications(product.specifications || {});
+                
+                if (product.thumbnail) {
+                    document.getElementById('productThumbnailImg').src = product.thumbnail;
+                    document.getElementById('productThumbnailPreview').style.display = 'block';
+                } else {
+                    document.getElementById('productThumbnailPreview').style.display = 'none';
+                }
+                
+                currentEditingProductId = productId;
+                
+                // 편집 모달 열기
+                openModal('productEditorModal');
+                console.log('제품 편집 모달 열기 완료');
+            } catch (error) {
+                console.error('제품 편집 중 오류:', error);
+                alert('제품 편집 중 오류가 발생했습니다: ' + error.message);
+            }
+        }
+
+        // 게시물 목록 로드
+        function loadPosts() {
+            const category = document.getElementById('postCategory').value;
+            const posts = window.postManager.getPosts(category);
+            const postsList = document.getElementById('postsList');
+            
+            if (posts.length === 0) {
+                postsList.innerHTML = '<div style="padding: 2rem; text-align: center; color: #718096;">등록된 게시물이 없습니다.</div>';
+                return;
+            }
+            
+            postsList.innerHTML = posts.map(post => `
+                <div style="display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid #e2e8f0;">
+                    <img src="${post.thumbnail}" alt="${post.title}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 1rem;">
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0 0 0.25rem 0; font-size: 1rem;">${post.title}</h4>
+                        <p style="margin: 0; color: #718096; font-size: 0.875rem;">${post.category} • ${post.date}</p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="editPost('${post.id}')" class="btn btn-secondary btn-sm">편집</button>
+                        <button onclick="deletePost('${post.id}')" class="btn btn-danger btn-sm">삭제</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 제품 목록 로드
+        function loadProducts() {
+            console.log('제품 목록 로드 시작');
+            
+            if (!window.productManager) {
+                console.error('productManager가 로드되지 않음');
+                const productsList = document.getElementById('productsList');
+                if (productsList) {
+                    productsList.innerHTML = '<div style="padding: 2rem; text-align: center; color: #e53e3e;">제품 관리자가 로드되지 않았습니다. 페이지를 새로고침해주세요.</div>';
+                }
+                return;
+            }
+            
+            const products = window.productManager.getProducts();
+            const productsList = document.getElementById('productsList');
+            
+            console.log('로드된 제품 수:', products.length);
+            
+            if (!productsList) {
+                console.error('productsList 요소를 찾을 수 없음');
+                return;
+            }
+            
+            if (products.length === 0) {
+                productsList.innerHTML = '<div style="padding: 2rem; text-align: center; color: #718096;">등록된 제품이 없습니다.</div>';
+                return;
+            }
+            
+            productsList.innerHTML = products.map(product => `
+                <div style="display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid #e2e8f0;">
+                    <img src="${product.thumbnail}" alt="${product.name}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 1rem;">
+                    <div style="flex: 1;">
+                        <h4 style="margin: 0 0 0.25rem 0; font-size: 1rem;">${product.name}</h4>
+                        <p style="margin: 0; color: #718096; font-size: 0.875rem;">${product.category} • ${product.date}</p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="editProduct('${product.id}')" class="btn btn-secondary btn-sm" style="padding: 0.5rem 1rem; font-size: 0.75rem;">편집</button>
+                        <button onclick="deleteProduct('${product.id}')" class="btn btn-danger btn-sm" style="padding: 0.5rem 1rem; font-size: 0.75rem;">삭제</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            console.log('제품 목록 HTML 생성 완료');
+        }
+
+        // 게시물 삭제
+        function deletePost(postId) {
+            if (confirm('정말로 이 게시물을 삭제하시겠습니까?')) {
+                const result = window.postManager.findPostById(postId);
+                if (result) {
+                    window.postManager.deletePost(result.category, postId);
+                    console.log('게시물 삭제됨:', postId);
+                    loadPosts();
+                    alert('게시물이 삭제되었습니다.');
+                } else {
+                    alert('게시물을 찾을 수 없습니다.');
+                }
+            }
+        }
+
+        // 제품 삭제
+        function deleteProduct(productId) {
+            console.log('제품 삭제 시작:', productId);
+            
+            if (!window.productManager) {
+                console.error('productManager가 로드되지 않음');
+                alert('제품 관리자가 로드되지 않았습니다. 페이지를 새로고침해주세요.');
+                return;
+            }
+            
+            if (confirm('정말로 이 제품을 삭제하시겠습니까?')) {
+                try {
+                    window.productManager.deleteProduct(productId);
+                    console.log('제품 삭제됨:', productId);
+                    loadProducts();
+                    alert('제품이 삭제되었습니다.');
+                } catch (error) {
+                    console.error('제품 삭제 중 오류:', error);
+                    alert('제품 삭제 중 오류가 발생했습니다: ' + error.message);
+                }
+            }
+        }
+
+        // 게시물 썸네일 미리보기
+        function previewPostThumbnail(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('postThumbnailImg').src = e.target.result;
+                    document.getElementById('postThumbnailPreview').style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 제품 썸네일 미리보기
+        function previewProductThumbnail(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('productThumbnailImg').src = e.target.result;
+                    document.getElementById('productThumbnailPreview').style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 사양 항목 추가
+        function addSpecRow() {
+            const container = document.getElementById('productSpecifications');
+            const newRow = document.createElement('div');
+            newRow.className = 'spec-row';
+            newRow.style.cssText = 'display: flex; gap: 1rem; margin-bottom: 0.5rem;';
+            newRow.innerHTML = `
+                <input type="text" class="form-input" placeholder="항목명" style="flex: 1;" data-spec-key>
+                <input type="text" class="form-input" placeholder="값" style="flex: 1;" data-spec-value>
+                <button type="button" onclick="removeSpecRow(this)" class="btn btn-secondary" style="padding: 0.5rem;">삭제</button>
+            `;
+            container.appendChild(newRow);
+        }
+
+        // 사양 항목 삭제
+        function removeSpecRow(button) {
+            const specRows = document.querySelectorAll('.spec-row');
+            if (specRows.length > 1) {
+                button.parentElement.remove();
+            } else {
+                alert('최소 하나의 사양 항목은 필요합니다.');
+            }
+        }
+
+        // 사양 데이터 로드
+        function loadSpecifications(specs) {
+            const container = document.getElementById('productSpecifications');
+            container.innerHTML = '';
+            
+            if (specs && Object.keys(specs).length > 0) {
+                Object.entries(specs).forEach(([key, value]) => {
+                    const newRow = document.createElement('div');
+                    newRow.className = 'spec-row';
+                    newRow.style.cssText = 'display: flex; gap: 1rem; margin-bottom: 0.5rem;';
+                    newRow.innerHTML = `
+                        <input type="text" class="form-input" placeholder="항목명" style="flex: 1;" data-spec-key value="${key}">
+                        <input type="text" class="form-input" placeholder="값" style="flex: 1;" data-spec-value value="${value}">
+                        <button type="button" onclick="removeSpecRow(this)" class="btn btn-secondary" style="padding: 0.5rem;">삭제</button>
+                    `;
+                    container.appendChild(newRow);
+                });
+            } else {
+                // 기본 사양 항목 추가
+                addSpecRow();
+            }
+        }
+
+        // 사양 데이터 수집
+        function collectSpecifications() {
+            const specs = {};
+            const specRows = document.querySelectorAll('.spec-row');
+            
+            specRows.forEach(row => {
+                const keyInput = row.querySelector('[data-spec-key]');
+                const valueInput = row.querySelector('[data-spec-value]');
+                
+                if (keyInput.value.trim() && valueInput.value.trim()) {
+                    specs[keyInput.value.trim()] = valueInput.value.trim();
+                }
+            });
+            
+            return specs;
+        }
+
+        // 네비게이션 항목 로드
+        function loadNavigationItems() {
+            const navItems = JSON.parse(localStorage.getItem('jwonNavigation') || '[]');
+            const container = document.getElementById('menuItems');
+            
+            if (navItems.length === 0) {
+                container.innerHTML = '<div style="padding: 1rem; text-align: center; color: #718096;">등록된 메뉴 항목이 없습니다.</div>';
+                return;
+            }
+            
+            container.innerHTML = navItems.map((item, index) => `
+                <div class="menu-item">
+                    <input type="text" data-field="text" placeholder="메뉴 텍스트" value="${item.text}">
+                    <input type="text" data-field="url" placeholder="URL" value="${item.url}">
+                    <button type="button" class="remove-btn" onclick="removeMenuItem(this)">삭제</button>
+                </div>
+            `).join('');
+        }
+
+        // 메뉴 항목 추가
+        function addMenuItem() {
+            const container = document.getElementById('menuItems');
+            const newItem = document.createElement('div');
+            newItem.className = 'menu-item';
+            newItem.innerHTML = `
+                <input type="text" data-field="text" placeholder="메뉴 텍스트">
+                <input type="text" data-field="url" placeholder="URL">
+                <button type="button" class="remove-btn" onclick="removeMenuItem(this)">삭제</button>
+            `;
+            container.appendChild(newItem);
+        }
+
+        // 메뉴 항목 삭제
+        function removeMenuItem(button) {
+            button.parentElement.remove();
+        }
+
+        // 이벤트 리스너들
+        document.getElementById('logoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const file = document.getElementById('logoFile').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem('customLogo', e.target.result);
+                    alert('로고가 성공적으로 업데이트되었습니다!');
+                    closeModal('logoModal');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('contentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const page = document.getElementById('contentPage').value;
+            const pageData = JSON.parse(localStorage.getItem('jwonPageContent') || '{}');
+            
+            pageData[page] = {
+                pageTitle: document.getElementById('pageTitle').value,
+                heroTitle: document.getElementById('heroTitle').value,
+                heroSubtitle: document.getElementById('heroSubtitle').value,
+                badgeText: document.getElementById('badgeText').value
+            };
+            
+            localStorage.setItem('jwonPageContent', JSON.stringify(pageData));
+            alert('콘텐츠가 성공적으로 저장되었습니다!');
+            closeModal('contentModal');
+        });
+
+        document.getElementById('postEditorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('postTitle').value;
+            const category = document.getElementById('postCategoryInput').value;
+            const description = document.getElementById('postDescription').value;
+            const tags = document.getElementById('postTags').value.split(',').map(tag => tag.trim()).filter(tag => tag);
+            const featured = document.getElementById('postFeatured').checked;
+            const thumbnailFile = document.getElementById('postThumbnail').files[0];
+            
+            const postData = {
+                title,
+                category,
+                description,
+                tags,
+                featured,
+                videoUrl: document.getElementById('postVideoUrl').value,
+                fileSize: document.getElementById('postFileSize').value,
+                downloadCount: parseInt(document.getElementById('postDownloadCount').value) || 0
+            };
+            
+            // 썸네일 처리
+            if (thumbnailFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    postData.thumbnail = e.target.result;
+                    savePost(postData);
+                };
+                reader.readAsDataURL(thumbnailFile);
+            } else if (currentEditingPostId) {
+                // 편집 모드에서 썸네일이 변경되지 않은 경우 기존 썸네일 유지
+                const result = window.postManager.findPostById(currentEditingPostId);
+                if (result) {
+                    postData.thumbnail = result.post.thumbnail;
+                }
+                savePost(postData);
+            } else {
+                // 새 게시물에서 썸네일이 없는 경우 기본 이미지
+                postData.thumbnail = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmaWxsPSIjOTk5IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlPC90ZXh0Pgo8L3N2Zz4=';
+                savePost(postData);
+            }
+        });
+
+        // 게시물 저장
+        function savePost(postData) {
+            if (currentEditingPostId) {
+                // 편집 모드
+                window.postManager.updatePost(currentEditingCategory, currentEditingPostId, postData);
+                console.log('게시물 수정됨:', currentEditingPostId, postData);
+            } else {
+                // 새 게시물
+                const currentCategory = document.getElementById('postCategory').value;
+                window.postManager.addPost(currentCategory, postData);
+                console.log('새 게시물 추가됨:', currentCategory, postData);
+            }
+            
+            // 게시물 목록 새로고침
+            loadPosts();
+            
+            // 편집 모드 초기화
+            currentEditingPostId = null;
+            currentEditingCategory = null;
+            
+            alert('게시물이 성공적으로 저장되었습니다!');
+            closeModal('postEditorModal');
+        }
+
+        // 제품 편집 폼 제출
+        document.getElementById('productEditorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('productName').value;
+            const category = document.getElementById('productCategory').value;
+            const description = document.getElementById('productDescription').value;
+            const features = document.getElementById('productFeatures').value.split(',').map(feature => feature.trim()).filter(feature => feature);
+            const price = document.getElementById('productPrice').value;
+            const featured = document.getElementById('productFeatured').checked;
+            const thumbnailFile = document.getElementById('productThumbnail').files[0];
+            
+            const productData = {
+                name,
+                category,
+                description,
+                features,
+                price,
+                featured,
+                specifications: collectSpecifications()
+            };
+            
+            // 썸네일 처리
+            if (thumbnailFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    productData.thumbnail = e.target.result;
+                    saveProduct(productData);
+                };
+                reader.readAsDataURL(thumbnailFile);
+            } else if (currentEditingProductId) {
+                // 편집 모드에서 썸네일이 변경되지 않은 경우 기존 썸네일 유지
+                const product = window.productManager.findProductById(currentEditingProductId);
+                if (product) {
+                    productData.thumbnail = product.thumbnail;
+                }
+                saveProduct(productData);
+            } else {
+                // 새 제품에서 썸네일이 없는 경우 기본 이미지
+                productData.thumbnail = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmaWxsPSIjOTk5IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlPC90ZXh0Pgo8L3N2Zz4=';
+                saveProduct(productData);
+            }
+        });
+
+        // 제품 저장
+        function saveProduct(productData) {
+            if (currentEditingProductId) {
+                // 편집 모드
+                window.productManager.updateProduct(currentEditingProductId, productData);
+                console.log('제품 수정됨:', currentEditingProductId, productData);
+            } else {
+                // 새 제품
+                window.productManager.addProduct(productData);
+                console.log('새 제품 추가됨:', productData);
+            }
+            
+            // 제품 목록 새로고침
+            loadProducts();
+            
+            // 편집 모드 초기화
+            currentEditingProductId = null;
+            
+            alert('제품이 성공적으로 저장되었습니다!');
+            closeModal('productEditorModal');
+        }
+
+        document.getElementById('navigationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const menuItems = document.querySelectorAll('#menuItems > div');
+            const navItems = [];
+            
+            menuItems.forEach(item => {
+                const textInput = item.querySelector('input[data-field="text"]');
+                const urlInput = item.querySelector('input[data-field="url"]');
+                
+                if (textInput.value.trim() && urlInput.value.trim()) {
+                    navItems.push({
+                        text: textInput.value.trim(),
+                        url: urlInput.value.trim()
+                    });
+                }
+            });
+            
+            // 로컬 스토리지에 저장
+            localStorage.setItem('jwonNavigation', JSON.stringify(navItems));
+            
+            alert('네비게이션이 성공적으로 업데이트되었습니다!');
+            closeModal('navigationModal');
+        });
+
+        // 카테고리 변경 이벤트 리스너
+        document.addEventListener('DOMContentLoaded', function() {
+            const categorySelect = document.getElementById('postCategoryInput');
+            if (categorySelect) {
+                categorySelect.addEventListener('change', updatePostFieldsVisibility);
+            }
+        });
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM 로드 완료');
+            
+            // 인증 확인
+            checkAuth();
+            
+            // 스크립트 로드 확인 및 통계 업데이트
+            setTimeout(() => {
+                console.log('스크립트 로드 상태 확인:');
+                console.log('- productManager:', typeof window.productManager);
+                console.log('- postManager:', typeof window.postManager);
+                
+                updateStats();
+            }, 1000);
+        });
+
+        // ===== 리드 관리 =====
+        let currentLeadFilter = 'all';
+        let currentStatusFilter = 'all';
+        let currentSearchTerm = '';
+
+        function loadLeads() {
+            const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+            
+            // 통계 업데이트
+            const quotes = leads.filter(l => l.intent === 'quote');
+            const resources = leads.filter(l => l.intent === 'resource');
+            const techCalls = leads.filter(l => l.intent === 'tech-call');
+            
+            document.getElementById('totalQuotes').textContent = quotes.length;
+            document.getElementById('totalResources').textContent = resources.length;
+            document.getElementById('totalTechCalls').textContent = techCalls.length;
+            
+            // 테이블 업데이트
+            displayLeads(leads);
+        }
+
+        function filterLeads(type) {
+            currentLeadFilter = type;
+            updateLeadFilters();
+        }
+        
+        function filterByStatus(status) {
+            currentStatusFilter = status;
+            updateLeadFilters();
+        }
+        
+        function searchLeads() {
+            currentSearchTerm = document.getElementById('leadSearch').value.toLowerCase();
+            updateLeadFilters();
+        }
+        
+        function updateLeadFilters() {
+            // 유형 필터 버튼 스타일 업데이트
+            document.querySelectorAll('[id^="filter"]').forEach(btn => {
+                if (!btn.id.startsWith('filterAll') && !btn.id.startsWith('filterQuote') && !btn.id.startsWith('filterResource') && !btn.id.startsWith('filterTechCall')) return;
+                btn.style.background = '';
+                btn.style.color = '';
+            });
+            
+            const activeBtn = document.getElementById('filter' + currentLeadFilter.charAt(0).toUpperCase() + currentLeadFilter.slice(1).replace('-', ''));
+            if (activeBtn) {
+                activeBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                activeBtn.style.color = 'white';
+            } else if (currentLeadFilter === 'all') {
+                document.getElementById('filterAll').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                document.getElementById('filterAll').style.color = 'white';
+            }
+            
+            // 상태 필터 버튼 스타일 업데이트
+            document.querySelectorAll('[id^="status"]').forEach(btn => {
+                btn.style.background = '';
+                btn.style.color = '';
+            });
+            
+            const statusBtn = document.getElementById('status' + currentStatusFilter.charAt(0).toUpperCase() + currentStatusFilter.slice(1));
+            if (statusBtn) {
+                statusBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                statusBtn.style.color = 'white';
+            }
+            
+            // 리드 필터링
+            let leads = JSON.parse(localStorage.getItem('leads') || '[]');
+            
+            // 유형 필터
+            if (currentLeadFilter !== 'all') {
+                leads = leads.filter(l => l.intent === currentLeadFilter);
+            }
+            
+            // 상태 필터
+            if (currentStatusFilter !== 'all') {
+                leads = leads.filter(l => (l.status || 'pending') === currentStatusFilter);
+            }
+            
+            // 검색 필터
+            if (currentSearchTerm) {
+                leads = leads.filter(l => 
+                    (l.company && l.company.toLowerCase().includes(currentSearchTerm)) ||
+                    (l.name && l.name.toLowerCase().includes(currentSearchTerm)) ||
+                    (l.email && l.email.toLowerCase().includes(currentSearchTerm)) ||
+                    (l.phone && l.phone.includes(currentSearchTerm))
+                );
+            }
+            
+            displayLeads(leads);
+        }
+
+        // 전역 변수로 현재 리드 목록 저장
+        let currentLeadsCache = [];
+
+        function displayLeads(leads) {
+            const tbody = document.getElementById('leadsTableBody');
+            
+            // 전역 캐시에 저장
+            currentLeadsCache = leads;
+            
+            if (leads.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="padding: 2rem; text-align: center; color: #718096;">
+                            문의 내역이 없습니다.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // 최신순으로 정렬
+            leads.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            tbody.innerHTML = leads.map((lead, index) => {
+                const date = new Date(lead.timestamp);
+                const formattedDate = date.toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const typeLabels = {
+                    'quote': '견적요청',
+                    'resource': '자료다운로드',
+                    'tech-call': '기술상담'
+                };
+                
+                const typeBadgeColors = {
+                    'quote': 'background: #EBF8FF; color: #2C5282; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; font-weight: 600;',
+                    'resource': 'background: #F0FFF4; color: #22543D; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; font-weight: 600;',
+                    'tech-call': 'background: #FED7E2; color: #702459; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; font-weight: 600;'
+                };
+                
+                const status = lead.status || 'pending';
+                const statusLabels = {
+                    'pending': '🆕 신규',
+                    'inprogress': '⏳ 진행중',
+                    'completed': '✅ 완료'
+                };
+                
+                const statusColors = {
+                    'pending': 'background: #FEF3C7; color: #92400E; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;',
+                    'inprogress': 'background: #DBEAFE; color: #1E40AF; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;',
+                    'completed': 'background: #D1FAE5; color: #065F46; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;'
+                };
+                
+                return `
+                    <tr style="border-bottom: 1px solid #e2e8f0; transition: all 0.2s ease;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                        <td style="padding: 1rem; color: #4a5568; font-size: 0.875rem;">${formattedDate}</td>
+                        <td style="padding: 1rem;">
+                            <span style="${statusColors[status]}">${statusLabels[status]}</span>
+                        </td>
+                        <td style="padding: 1rem;">
+                            <span style="${typeBadgeColors[lead.intent]}">${typeLabels[lead.intent]}</span>
+                        </td>
+                        <td style="padding: 1rem; color: #2d3748; font-weight: 500;">${lead.company || '-'}</td>
+                        <td style="padding: 1rem; color: #2d3748;">${lead.name || '-'}</td>
+                        <td style="padding: 1rem; color: #4a5568;">${lead.phone || '-'}</td>
+                        <td style="padding: 1rem; color: #4a5568;">${lead.email || '-'}</td>
+                        <td style="padding: 1rem;">
+                            <button onclick="viewLeadDetailsByIndex(${index})" style="padding: 0.5rem 1rem; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;" onmouseover="this.style.background='#5568d3'" onmouseout="this.style.background='#667eea'">
+                                상세보기
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function exportLeadsToExcel() {
+            const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+            
+            if (leads.length === 0) {
+                alert('다운로드할 데이터가 없습니다.');
+                return;
+            }
+            
+            const typeLabels = {
+                'quote': '상담·견적 요청',
+                'resource': '자료 다운로드',
+                'tech-call': '기술상담'
+            };
+            
+            const statusLabels = {
+                'pending': '신규',
+                'inprogress': '진행중',
+                'completed': '완료'
+            };
+            
+            // CSV 생성
+            let csv = '\uFEFF'; // BOM for UTF-8
+            csv += '접수일시,상태,문의유형,회사명,담당자,연락처,이메일,업종,목표UPH,관심솔루션,희망일자,현재이슈,메시지\n';
+            
+            leads.forEach(lead => {
+                const date = new Date(lead.timestamp).toLocaleString('ko-KR');
+                const status = statusLabels[lead.status || 'pending'];
+                const type = typeLabels[lead.intent];
+                const company = (lead.company || '-').replace(/,/g, '，');
+                const name = (lead.name || '-').replace(/,/g, '，');
+                const phone = (lead.phone || '-').replace(/,/g, '，');
+                const email = (lead.email || '-').replace(/,/g, '，');
+                const industry = (lead.industry || '-').replace(/,/g, '，');
+                const uph = (lead.uph || '-').replace(/,/g, '，');
+                const solution = (lead.solution || '-').replace(/,/g, '，');
+                const preferredDate = (lead.preferredDate || '-').replace(/,/g, '，');
+                const issue = (lead.issue || '-').replace(/,/g, '，').replace(/\n/g, ' ');
+                const message = (lead.message || '-').replace(/,/g, '，').replace(/\n/g, ' ');
+                
+                csv += `"${date}","${status}","${type}","${company}","${name}","${phone}","${email}","${industry}","${uph}","${solution}","${preferredDate}","${issue}","${message}"\n`;
+            });
+            
+            // 다운로드
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            const timestamp = new Date().toISOString().slice(0, 10);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', `제이원로보틱스_리드목록_${timestamp}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast('📊 리드 목록이 다운로드되었습니다!');
+        }
+        
+        function viewLeadDetailsByIndex(index) {
+            const lead = currentLeadsCache[index];
+            
+            if (!lead) {
+                alert('리드를 찾을 수 없습니다.');
+                console.error('Lead not found at index:', index);
+                console.log('Current cache:', currentLeadsCache);
+                return;
+            }
+            
+            viewLeadDetails(lead);
+        }
+
+        // 현재 선택된 리드 저장
+        let currentSelectedLead = null;
+        let currentSelectedLeadIndex = null;
+
+        function viewLeadDetails(lead) {
+            if (!lead) {
+                alert('리드를 찾을 수 없습니다.');
+                console.error('Lead object is null or undefined');
+                return;
+            }
+            
+            currentSelectedLead = lead;
+            
+            const date = new Date(lead.timestamp);
+            const formattedDate = date.toLocaleString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            const typeLabels = {
+                'quote': '상담·견적 요청',
+                'resource': '자료 다운로드',
+                'tech-call': '기술상담'
+            };
+            
+            const typeBadges = {
+                'quote': '💼 견적요청',
+                'resource': '📄 자료다운로드',
+                'tech-call': '📞 기술상담'
+            };
+            
+            // 모달 타이틀 업데이트
+            document.getElementById('leadTypeBadge').textContent = typeBadges[lead.intent] || '📋 문의';
+            document.getElementById('leadTimestamp').textContent = `접수 일시: ${formattedDate}`;
+            
+            // 상태 버튼 업데이트
+            const status = lead.status || 'pending';
+            document.querySelectorAll('.lead-status-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.status === status) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // 상세 정보 구성
+            let detailsHTML = '';
+            
+            if (lead.company) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">🏢 회사명</div>
+                        <div class="info-value">${lead.company}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.name) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">👤 담당자명</div>
+                        <div class="info-value">${lead.name}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.phone) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">📞 연락처</div>
+                        <div class="info-value"><a href="tel:${lead.phone}" style="color: #667eea; text-decoration: none; font-weight: 600;">${lead.phone}</a></div>
+                    </div>
+                `;
+            }
+            
+            if (lead.email) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">📧 이메일</div>
+                        <div class="info-value"><a href="mailto:${lead.email}" style="color: #667eea; text-decoration: none; font-weight: 600;">${lead.email}</a></div>
+                    </div>
+                `;
+            }
+            
+            if (lead.industry) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">🏭 업종</div>
+                        <div class="info-value">${lead.industry}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.uph) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">⚙️ 목표 UPH</div>
+                        <div class="info-value">${lead.uph}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.solution) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">💡 관심 솔루션</div>
+                        <div class="info-value">${lead.solution}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.preferredDate) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">📆 희망 일자</div>
+                        <div class="info-value">${lead.preferredDate}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.issue) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">❗ 현재 이슈</div>
+                        <div class="info-value" style="white-space: pre-wrap;">${lead.issue}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.message) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">💬 메시지</div>
+                        <div class="info-value" style="white-space: pre-wrap;">${lead.message}</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('leadDetailsContent').innerHTML = detailsHTML;
+            
+            // 모달 열기
+            document.getElementById('leadDetailModal').style.display = 'block';
+        }
+        
+        function updateLeadStatus(newStatus) {
+            if (!currentSelectedLead) return;
+            
+            // 상태 업데이트
+            currentSelectedLead.status = newStatus;
+            
+            // localStorage 업데이트
+            const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+            const leadIndex = leads.findIndex(l => 
+                l.timestamp === currentSelectedLead.timestamp && 
+                l.email === currentSelectedLead.email
+            );
+            
+            if (leadIndex !== -1) {
+                leads[leadIndex].status = newStatus;
+                localStorage.setItem('leads', JSON.stringify(leads));
+            }
+            
+            // 버튼 스타일 업데이트
+            document.querySelectorAll('.lead-status-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.status === newStatus) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // 리드 목록 새로고침
+            loadLeads();
+            
+            const statusLabels = {
+                'pending': '신규',
+                'inprogress': '진행중',
+                'completed': '완료'
+            };
+            
+            // 성공 메시지 (간단한 토스트 형태)
+            showToast(`✅ 상태가 "${statusLabels[newStatus]}"로 변경되었습니다.`);
+        }
+        
+        function copyLeadInfo() {
+            if (!currentSelectedLead) return;
+            
+            const lead = currentSelectedLead;
+            const typeLabels = {
+                'quote': '상담·견적 요청',
+                'resource': '자료 다운로드',
+                'tech-call': '기술상담'
+            };
+            
+            let text = `【${typeLabels[lead.intent]}】\n\n`;
+            text += `접수일시: ${new Date(lead.timestamp).toLocaleString('ko-KR')}\n\n`;
+            
+            if (lead.company) text += `회사명: ${lead.company}\n`;
+            if (lead.name) text += `담당자: ${lead.name}\n`;
+            if (lead.phone) text += `연락처: ${lead.phone}\n`;
+            if (lead.email) text += `이메일: ${lead.email}\n`;
+            if (lead.industry) text += `업종: ${lead.industry}\n`;
+            if (lead.uph) text += `목표 UPH: ${lead.uph}\n`;
+            if (lead.solution) text += `관심 솔루션: ${lead.solution}\n`;
+            if (lead.preferredDate) text += `희망 일자: ${lead.preferredDate}\n`;
+            if (lead.issue) text += `\n현재 이슈:\n${lead.issue}\n`;
+            if (lead.message) text += `\n메시지:\n${lead.message}\n`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('📋 정보가 클립보드에 복사되었습니다!');
+            }).catch(err => {
+                alert('복사 실패: ' + err);
+            });
+        }
+        
+        function deleteCurrentLead() {
+            if (!currentSelectedLead) return;
+            
+            if (!confirm('정말로 이 문의를 삭제하시겠습니까?\n삭제된 데이터는 복구할 수 없습니다.')) {
+                return;
+            }
+            
+            // localStorage에서 삭제
+            const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+            const filteredLeads = leads.filter(l => 
+                !(l.timestamp === currentSelectedLead.timestamp && 
+                  l.email === currentSelectedLead.email)
+            );
+            
+            localStorage.setItem('leads', JSON.stringify(filteredLeads));
+            
+            // 모달 닫기
+            closeModal('leadDetailModal');
+            
+            // 리드 목록 새로고침
+            loadLeads();
+            
+            showToast('🗑️ 문의가 삭제되었습니다.');
+        }
+        
+        function showToast(message) {
+            // 기존 토스트 제거
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            // 새 토스트 생성
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+                font-weight: 600;
+                z-index: 10000;
+                animation: slideInUp 0.3s ease;
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // 3초 후 제거
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // 페이지 로드 시 인증 확인 (백업)
+        checkAuth();
+    </script>
+    <script src="../content-manager.js"></script>
+    <script src="../post-manager.js"></script>
+    <script src="../product-manager.js"></script>
+    <script>
+        // 스크립트 로드 후 초기화
+        window.addEventListener('load', function() {
+            console.log('모든 스크립트 로드 완료');
+            console.log('productManager 상태:', typeof window.productManager);
+            console.log('postManager 상태:', typeof window.postManager);
+        });
+    </script>
+</body>
+</html>

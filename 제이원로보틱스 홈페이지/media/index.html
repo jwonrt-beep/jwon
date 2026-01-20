@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>홍보센터 - 제이원로보틱스</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="header-content">
+            <a href="../index.html" class="logo" aria-label="제이원로보틱스 홈으로 이동">
+                <div class="logo-text">
+                    <span class="logo-ko">(주)제이원 로보틱스</span>
+                    <span class="logo-en">J-ONE Robotics Co., Ltd.</span>
+                </div>
+            </a>
+            <nav class="nav" role="navigation">
+                <ul class="nav-list">
+                    <li><a href="../index.html">홈</a></li>
+                    <li><a href="../products/index.html">제품소개</a></li>
+                    <li><a href="index.html" class="active">홍보센터</a></li>
+                    <li><a href="../about/index.html">회사소개</a></li>
+                    <li><a href="../contact/index.html">문의</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="메뉴 열기">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="media-hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-text">Media Center</span>
+                </div>
+                <h1 class="hero-title">홍보센터</h1>
+                <p class="hero-subtitle">다양한 소식과 정보로 고객의 비즈니스 성공을 함께하겠습니다</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sub Navigation -->
+    <nav class="media-subnav">
+        <div class="container">
+            <ul class="subnav-list">
+                <li><a href="videos/index.html" class="active">동영상</a></li>
+                <li><a href="solutions/index.html">솔루션 & 적용분야</a></li>
+                <li><a href="cases/index.html">사례</a></li>
+                <li><a href="resources/index.html">자료실</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Fullscreen Menu Overlay -->
+        <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+            <div class="menu-content">
+                    <button class="menu-close" id="menuClose" aria-label="메뉴 닫기">✕</button>
+                    <ul>
+                        <li><a href="../about/index.html">회사소개</a></li>
+                        <li><a href="../products/index.html">제품소개</a></li>
+                        <li><a href="../media/index.html">홍보센터</a></li>
+                        <li><a href="../contact/index.html">문의</a></li>
+                    </ul>
+                </div>
+            </div>
+        <!-- Overview Section -->
+        <section class="media-section">
+            <div class="container">
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                        <h3>동영상</h3>
+                        <p>제이원로보틱스의 혁신적인 용접 자동화 기술을 동영상으로 확인하세요</p>
+                        <a href="videos/index.html" class="btn btn-primary">동영상 보기</a>
+                    </div>
+
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"/>
+                                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                            </svg>
+                        </div>
+                        <h3>솔루션 & 적용분야</h3>
+                        <p>다양한 산업 분야에 최적화된 용접 자동화 솔루션을 제공합니다</p>
+                        <a href="solutions/index.html" class="btn btn-primary">솔루션 보기</a>
+                    </div>
+
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 17h2l.64-2.54A2 2 0 0 0 19.66 12H4.34a2 2 0 0 0-1.98 2.46L3 17h2m8-10v4m-4-4v4m8-4v4M9 7h6v4H9V7z"/>
+                            </svg>
+                        </div>
+                        <h3>사례</h3>
+                        <p>실제 고객사에서 검증된 성공 사례들을 확인하세요</p>
+                        <a href="cases/index.html" class="btn btn-primary">사례 보기</a>
+                    </div>
+
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10,9 9,9 8,9"/>
+                            </svg>
+                        </div>
+                        <h3>자료실</h3>
+                        <p>제이원로보틱스의 기술 자료와 문서를 다운로드하세요</p>
+                        <a href="resources/index.html" class="btn btn-primary">자료실 보기</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>제이원로보틱스</h3>
+                    <ul>
+                        <li><a href="../about/index.html">회사소개</a></li>
+                        <li><a href="../about/index.html">연혁</a></li>
+                        <li><a href="../about/index.html">인증현황</a></li>
+                        <li><a href="../contact/index.html">오시는 길</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>제품</h3>
+                    <ul>
+                        <li><a href="../products/index.html">JW-1000 시리즈</a></li>
+                        <li><a href="../products/index.html">JW-2000 시리즈</a></li>
+                        <li><a href="../products/index.html">JW-3000 시리즈</a></li>
+                        <li><a href="../products/index.html">JW-4000 시리즈</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>홍보센터</h3>
+                    <ul>
+                        <li><a href="videos/index.html">동영상</a></li>
+                        <li><a href="solutions/index.html">솔루션</a></li>
+                        <li><a href="cases/index.html">사례</a></li>
+                        <li><a href="resources/index.html">자료실</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>연락처</h3>
+                    <ul>
+                        <li>전화: 02-1234-5678</li>
+                        <li>이메일: info@j-one-robotics.com</li>
+                        <li>주소: 서울시 강남구 테헤란로 123</li>
+                        <li>사업자등록번호: 123-45-67890</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 제이원로보틱스. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="../admin-key.js"></script>
+    <style>
+        /* Media Center Styles - WorldWEL Inspired */
+        .media-hero {
+            background: var(--gradient-primary);
+            padding: 6rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+            color: var(--text-white);
+            margin-top: 80px;
+        }
+
+        .media-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(245, 158, 11, 0.15) 0%, transparent 50%);
+        }
+
+        .media-hero .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .media-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-lg);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            opacity: 0.95;
+        }
+
+        .media-hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .media-subnav {
+            background: var(--surface-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .subnav-list {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .subnav-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .subnav-list a:hover,
+        .subnav-list a.active {
+            color: var(--primary-color);
+            background: var(--card-bg);
+        }
+
+        .media-section {
+            padding: 4rem 0;
+        }
+
+        .media-section:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .section-badge {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .media-filters {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--border-color);
+            background: white;
+            color: var(--text-primary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .media-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .media-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .media-thumbnail {
+            position: relative;
+            height: 200px;
+            background: var(--surface-bg);
+            overflow: hidden;
+        }
+
+        .thumbnail-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-placeholder {
+            width: 80px;
+            height: 80px;
+            color: var(--accent-blue);
+            opacity: 0.7;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .play-button svg {
+            width: 24px;
+            height: 24px;
+            margin-left: 4px;
+        }
+
+        .media-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1rem;
+        }
+
+        .media-logo {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .media-menu {
+            color: white;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+
+        .media-menu svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .media-content {
+            padding: 1.5rem;
+        }
+
+        .media-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .media-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .tag {
+            background: var(--surface-bg);
+            color: var(--text-secondary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .media-banner {
+            background: var(--accent-green);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+        }
+
+        .media-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .media-category {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Solutions Grid */
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .solution-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .solution-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin: 0 auto 1.5rem;
+        }
+
+        .solution-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .solution-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .solution-features {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: var(--surface-bg);
+            color: var(--text-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Cases Grid */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .case-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .case-image {
+            height: 200px;
+            background: var(--surface-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .case-placeholder {
+            width: 80px;
+            height: 80px;
+            color: var(--accent-blue);
+            opacity: 0.7;
+        }
+
+        .case-content {
+            padding: 2rem;
+        }
+
+        .case-category {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .case-content h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .case-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .case-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .resource-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .resource-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-secondary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .resource-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .resource-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .resource-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .resource-type {
+            background: var(--surface-bg);
+            color: var(--text-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .resource-size {
+            color: var(--text-muted);
+        }
+
+        /* Overview Cards */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .overview-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .overview-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .overview-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke-width: 2.5;
+        }
+
+        .overview-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .overview-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+        }
+
+        @media (max-width: 768px) {
+            .subnav-list {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .overview-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script>
+        // Media Center JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Overview card hover effects
+            const overviewCards = document.querySelectorAll('.overview-card');
+            overviewCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
