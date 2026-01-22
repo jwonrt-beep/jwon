@@ -84,15 +84,72 @@ class JaywonRobotics {
     init() {
         this.setupEventListeners();
         this.setupScrollEffects();
-        this.setupHeroLoopUI();
+        // this.setupHeroLoopUI(); // 리뉴얼로 인해 비활성화
         this.setupExpoTools();
         this.setupAnalyticsTracking();
         this.enableLazyLoading();
         this.observeMotionPreference();
-        this.setupVideoSequentialPlay();
+        // this.setupVideoSequentialPlay(); // 리뉴얼로 인해 비활성화
         this.setupAnimations();
         this.setupIntersectionObserver();
+        this.setupSmoothScrollLinks();
+        this.setupAdminEasterEgg();
         console.log('제이원로보틱스 웹사이트 초기화 완료');
+    }
+    
+    setupSmoothScrollLinks() {
+        // 모든 앵커 링크에 smooth scroll 적용
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                const targetId = anchor.getAttribute('href');
+                if (targetId === '#') return;
+                
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const headerHeight = this.elements.header ? this.elements.header.offsetHeight : 80;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = targetPosition - headerHeight;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+    
+    setupAdminEasterEgg() {
+        // 히어로 타이틀에서 '스' 7번 클릭하면 관리자 페이지로 이동
+        const heroTitle = document.querySelector('.hero-title');
+        if (!heroTitle) return;
+        
+        let clickCount = 0;
+        let lastClickTime = 0;
+        const resetDelay = 2000; // 2초 이내에 7번 클릭해야 함
+        
+        heroTitle.addEventListener('click', (e) => {
+            const now = Date.now();
+            
+            // 2초 이상 지났으면 카운트 리셋
+            if (now - lastClickTime > resetDelay) {
+                clickCount = 0;
+            }
+            
+            clickCount++;
+            lastClickTime = now;
+            
+            // 7번 클릭하면 관리자 페이지로 이동
+            if (clickCount === 7) {
+                window.location.href = 'admin/login.html';
+                clickCount = 0;
+            }
+        });
+        
+        // 커서 스타일 변경 (클릭 가능함을 암시)
+        heroTitle.style.cursor = 'pointer';
     }
     
     setupEventListeners() {
@@ -178,14 +235,53 @@ class JaywonRobotics {
             });
         });
 
-        // Form submit tracking
+        // Form submit tracking + localStorage 저장
         document.querySelectorAll('form[data-analytics="form"]').forEach((form) => {
-            form.addEventListener('submit', () => {
+            form.addEventListener('submit', (event) => {
+                event.preventDefault(); // 기본 폼 제출 방지
+                
                 const eventName = form.dataset.analyticsEvent || 'form_submit';
                 this.dataLayerPush(eventName, {
                     form_id: form.id || null,
                     action: form.getAttribute('action') || window.location.pathname
                 });
+                
+                // 폼 데이터 수집
+                const formData = new FormData(form);
+                const leadData = {
+                    id: 'lead_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                    timestamp: new Date().toISOString(),
+                    intent: formData.get('intent'),
+                    company: formData.get('company'),
+                    name: formData.get('name'),
+                    phone: formData.get('phone'),
+                    email: formData.get('email')
+                };
+                
+                // 추가 필드 (있을 경우)
+                if (formData.get('industry')) leadData.industry = formData.get('industry');
+                if (formData.get('uph')) leadData.uph = formData.get('uph');
+                if (formData.get('solution')) leadData.solution = formData.get('solution');
+                if (formData.get('date')) leadData.preferredDate = formData.get('date');
+                if (formData.get('issue')) leadData.issue = formData.get('issue');
+                if (formData.get('message')) leadData.message = formData.get('message');
+                
+                // localStorage에 저장
+                const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+                leads.push(leadData);
+                localStorage.setItem('leads', JSON.stringify(leads));
+                
+                // 성공 메시지
+                const intentLabels = {
+                    'quote': '상담·견적 요청',
+                    'resource': '자료 다운로드',
+                    'tech-call': '기술상담'
+                };
+                
+                alert(`✅ ${intentLabels[leadData.intent] || '문의'}가 성공적으로 접수되었습니다!\n\n담당자가 빠른 시일 내에 연락드리겠습니다.\n평균 응답 시간: 4시간`);
+                
+                // 폼 초기화
+                form.reset();
             });
         });
     }

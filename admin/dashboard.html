@@ -315,6 +315,23 @@
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(5px);
             z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translate(-50%, -45%);
+            }
+            to { 
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
         }
 
         .modal-content {
@@ -322,16 +339,21 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
-            padding: 2rem;
-            border-radius: 20px;
+            padding: 0;
+            border-radius: 24px;
             width: 90%;
             max-width: 800px;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lead-detail-modal .modal-content {
+            max-width: 700px;
         }
 
         .modal-header {
@@ -714,6 +736,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('leads')">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        리드 관리
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link" onclick="showSection('navigation')">
                         <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
@@ -885,6 +915,109 @@
                         </div>
                         <p class="card-description">제품 정보, 사양, 특징, 가격을 관리할 수 있습니다.</p>
                         <button class="btn-admin btn-primary" onclick="openProductModal()">제품 관리</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 리드 관리 -->
+            <div id="leads" class="content-section">
+                <div class="page-header">
+                    <h1 class="page-title">리드 관리</h1>
+                    <p class="page-subtitle">상담·견적 요청, 자료 다운로드, 기술상담 신청 내역을 확인하세요</p>
+                </div>
+                
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">상담·견적 요청</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalQuotes">0</div>
+                        <div class="stat-change">전체 견적 요청 수</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">자료 다운로드</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalResources">0</div>
+                        <div class="stat-change">전체 다운로드 요청 수</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">기술상담 신청</span>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalTechCalls">0</div>
+                        <div class="stat-change">전체 기술상담 신청 수</div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 16px; padding: 2rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #1a202c;">최근 문의 내역</h3>
+                        <button onclick="exportLeadsToExcel()" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                            </svg>
+                            엑셀 다운로드
+                        </button>
+                    </div>
+
+                    <!-- 검색 및 필터 -->
+                    <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="position: relative;">
+                            <input type="text" id="leadSearch" placeholder="회사명, 담당자, 이메일로 검색..." onkeyup="searchLeads()" style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.95rem; transition: all 0.3s ease;">
+                            <svg style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: #a0aec0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-admin btn-secondary" onclick="filterLeads('all')" id="filterAll" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">전체</button>
+                            <button class="btn-admin btn-secondary" onclick="filterLeads('quote')" id="filterQuote">견적요청</button>
+                            <button class="btn-admin btn-secondary" onclick="filterLeads('resource')" id="filterResource">자료</button>
+                            <button class="btn-admin btn-secondary" onclick="filterLeads('tech-call')" id="filterTechCall">기술상담</button>
+                        </div>
+                    </div>
+
+                    <!-- 상태 필터 -->
+                    <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; padding: 1rem; background: #f7fafc; border-radius: 12px;">
+                        <span style="font-weight: 600; color: #4a5568; font-size: 0.875rem; align-self: center;">처리 상태:</span>
+                        <button class="btn-admin btn-secondary" onclick="filterByStatus('all')" id="statusAll" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 0.875rem; padding: 0.5rem 1rem;">전체</button>
+                        <button class="btn-admin btn-secondary" onclick="filterByStatus('pending')" id="statusPending" style="font-size: 0.875rem; padding: 0.5rem 1rem;">🆕 신규</button>
+                        <button class="btn-admin btn-secondary" onclick="filterByStatus('inprogress')" id="statusInprogress" style="font-size: 0.875rem; padding: 0.5rem 1rem;">⏳ 진행중</button>
+                        <button class="btn-admin btn-secondary" onclick="filterByStatus('completed')" id="statusCompleted" style="font-size: 0.875rem; padding: 0.5rem 1rem;">✅ 완료</button>
+                    </div>
+
+                    <div id="leadsTable" style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f7fafc; border-bottom: 2px solid #e2e8f0;">
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">일시</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">상태</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">유형</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">회사명</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">담당자</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">연락처</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">이메일</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 600; color: #2d3748; font-size: 0.875rem;">상세</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leadsTableBody">
+                                <tr>
+                                    <td colspan="8" style="padding: 2rem; text-align: center; color: #718096;">
+                                        문의 내역이 없습니다.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -1182,6 +1315,120 @@
         </div>
     </div>
 
+    <!-- 리드 상세보기 모달 -->
+    <div id="leadDetailModal" class="modal lead-detail-modal">
+        <div class="modal-content">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 24px 24px 0 0;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <div id="leadTypeBadge" style="display: inline-block; padding: 0.5rem 1rem; background: rgba(255,255,255,0.2); border-radius: 20px; font-size: 0.875rem; font-weight: 600; color: white; margin-bottom: 1rem;"></div>
+                        <h3 style="font-size: 1.75rem; font-weight: 800; color: white; margin: 0;">문의 상세 정보</h3>
+                        <p id="leadTimestamp" style="color: rgba(255,255,255,0.8); margin: 0.5rem 0 0; font-size: 0.875rem;"></p>
+                    </div>
+                    <button class="close-btn" onclick="closeModal('leadDetailModal')" style="background: rgba(255,255,255,0.2); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; transition: all 0.3s ease;">&times;</button>
+                </div>
+            </div>
+            
+            <div style="padding: 2rem;">
+                <!-- 상태 관리 -->
+                <div style="margin-bottom: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%); border-radius: 16px; border: 2px solid #e2e8f0;">
+                    <label style="display: block; font-weight: 700; color: #2d3748; margin-bottom: 1rem; font-size: 0.95rem;">📋 처리 상태</label>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button class="lead-status-btn" data-status="pending" onclick="updateLeadStatus('pending')" style="flex: 1; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; background: white; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.875rem; transition: all 0.3s ease;">
+                            🆕 신규
+                        </button>
+                        <button class="lead-status-btn" data-status="inprogress" onclick="updateLeadStatus('inprogress')" style="flex: 1; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; background: white; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.875rem; transition: all 0.3s ease;">
+                            ⏳ 진행중
+                        </button>
+                        <button class="lead-status-btn" data-status="completed" onclick="updateLeadStatus('completed')" style="flex: 1; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; background: white; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.875rem; transition: all 0.3s ease;">
+                            ✅ 완료
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 고객 정보 -->
+                <div style="display: grid; gap: 1.5rem; margin-bottom: 2rem;">
+                    <h4 style="font-size: 1.125rem; font-weight: 700; color: #1a202c; margin: 0; padding-bottom: 0.75rem; border-bottom: 2px solid #e2e8f0;">👤 고객 정보</h4>
+                    
+                    <div id="leadDetailsContent" style="display: grid; gap: 1rem;">
+                        <!-- 동적으로 로드됨 -->
+                    </div>
+                </div>
+
+                <!-- 액션 버튼 -->
+                <div style="display: flex; gap: 1rem; padding-top: 1.5rem; border-top: 2px solid #e2e8f0;">
+                    <button onclick="copyLeadInfo()" style="flex: 1; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 0.95rem;">
+                        📋 정보 복사
+                    </button>
+                    <button onclick="deleteCurrentLead()" style="flex: 1; padding: 1rem; background: linear-gradient(135deg, #f56565 0%, #c53030 100%); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 0.95rem;">
+                        🗑️ 삭제
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        
+        .lead-status-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .lead-status-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            color: white !important;
+            border-color: transparent !important;
+        }
+        
+        .info-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 12px;
+            align-items: start;
+        }
+        
+        .info-label {
+            font-weight: 700;
+            color: #4a5568;
+            font-size: 0.875rem;
+        }
+        
+        .info-value {
+            color: #1a202c;
+            font-weight: 500;
+            word-break: break-word;
+        }
+        
+        #leadSearch:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+    </style>
+
     <script>
         // 전역 변수
         let currentEditingPostId = null;
@@ -1255,6 +1502,8 @@
             // 통계 업데이트
             if (sectionId === 'overview') {
                 updateStats();
+            } else if (sectionId === 'leads') {
+                loadLeads();
             }
         }
 
@@ -1973,6 +2222,524 @@
                 updateStats();
             }, 1000);
         });
+
+        // ===== 리드 관리 =====
+        let currentLeadFilter = 'all';
+        let currentStatusFilter = 'all';
+        let currentSearchTerm = '';
+
+        function loadLeads() {
+            const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+            
+            // 통계 업데이트
+            const quotes = leads.filter(l => l.intent === 'quote');
+            const resources = leads.filter(l => l.intent === 'resource');
+            const techCalls = leads.filter(l => l.intent === 'tech-call');
+            
+            document.getElementById('totalQuotes').textContent = quotes.length;
+            document.getElementById('totalResources').textContent = resources.length;
+            document.getElementById('totalTechCalls').textContent = techCalls.length;
+            
+            // 테이블 업데이트
+            displayLeads(leads);
+        }
+
+        function filterLeads(type) {
+            currentLeadFilter = type;
+            updateLeadFilters();
+        }
+        
+        function filterByStatus(status) {
+            currentStatusFilter = status;
+            updateLeadFilters();
+        }
+        
+        function searchLeads() {
+            currentSearchTerm = document.getElementById('leadSearch').value.toLowerCase();
+            updateLeadFilters();
+        }
+        
+        function updateLeadFilters() {
+            // 유형 필터 버튼 스타일 업데이트
+            document.querySelectorAll('[id^="filter"]').forEach(btn => {
+                if (!btn.id.startsWith('filterAll') && !btn.id.startsWith('filterQuote') && !btn.id.startsWith('filterResource') && !btn.id.startsWith('filterTechCall')) return;
+                btn.style.background = '';
+                btn.style.color = '';
+            });
+            
+            const activeBtn = document.getElementById('filter' + currentLeadFilter.charAt(0).toUpperCase() + currentLeadFilter.slice(1).replace('-', ''));
+            if (activeBtn) {
+                activeBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                activeBtn.style.color = 'white';
+            } else if (currentLeadFilter === 'all') {
+                document.getElementById('filterAll').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                document.getElementById('filterAll').style.color = 'white';
+            }
+            
+            // 상태 필터 버튼 스타일 업데이트
+            document.querySelectorAll('[id^="status"]').forEach(btn => {
+                btn.style.background = '';
+                btn.style.color = '';
+            });
+            
+            const statusBtn = document.getElementById('status' + currentStatusFilter.charAt(0).toUpperCase() + currentStatusFilter.slice(1));
+            if (statusBtn) {
+                statusBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                statusBtn.style.color = 'white';
+            }
+            
+            // 리드 필터링
+            let leads = JSON.parse(localStorage.getItem('leads') || '[]');
+            
+            // 유형 필터
+            if (currentLeadFilter !== 'all') {
+                leads = leads.filter(l => l.intent === currentLeadFilter);
+            }
+            
+            // 상태 필터
+            if (currentStatusFilter !== 'all') {
+                leads = leads.filter(l => (l.status || 'pending') === currentStatusFilter);
+            }
+            
+            // 검색 필터
+            if (currentSearchTerm) {
+                leads = leads.filter(l => 
+                    (l.company && l.company.toLowerCase().includes(currentSearchTerm)) ||
+                    (l.name && l.name.toLowerCase().includes(currentSearchTerm)) ||
+                    (l.email && l.email.toLowerCase().includes(currentSearchTerm)) ||
+                    (l.phone && l.phone.includes(currentSearchTerm))
+                );
+            }
+            
+            displayLeads(leads);
+        }
+
+        // 전역 변수로 현재 리드 목록 저장
+        let currentLeadsCache = [];
+
+        function displayLeads(leads) {
+            const tbody = document.getElementById('leadsTableBody');
+            
+            // 전역 캐시에 저장
+            currentLeadsCache = leads;
+            
+            if (leads.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="padding: 2rem; text-align: center; color: #718096;">
+                            문의 내역이 없습니다.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // 최신순으로 정렬
+            leads.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            tbody.innerHTML = leads.map((lead, index) => {
+                const date = new Date(lead.timestamp);
+                const formattedDate = date.toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const typeLabels = {
+                    'quote': '견적요청',
+                    'resource': '자료다운로드',
+                    'tech-call': '기술상담'
+                };
+                
+                const typeBadgeColors = {
+                    'quote': 'background: #EBF8FF; color: #2C5282; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; font-weight: 600;',
+                    'resource': 'background: #F0FFF4; color: #22543D; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; font-weight: 600;',
+                    'tech-call': 'background: #FED7E2; color: #702459; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; font-weight: 600;'
+                };
+                
+                const status = lead.status || 'pending';
+                const statusLabels = {
+                    'pending': '🆕 신규',
+                    'inprogress': '⏳ 진행중',
+                    'completed': '✅ 완료'
+                };
+                
+                const statusColors = {
+                    'pending': 'background: #FEF3C7; color: #92400E; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;',
+                    'inprogress': 'background: #DBEAFE; color: #1E40AF; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;',
+                    'completed': 'background: #D1FAE5; color: #065F46; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;'
+                };
+                
+                return `
+                    <tr style="border-bottom: 1px solid #e2e8f0; transition: all 0.2s ease;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                        <td style="padding: 1rem; color: #4a5568; font-size: 0.875rem;">${formattedDate}</td>
+                        <td style="padding: 1rem;">
+                            <span style="${statusColors[status]}">${statusLabels[status]}</span>
+                        </td>
+                        <td style="padding: 1rem;">
+                            <span style="${typeBadgeColors[lead.intent]}">${typeLabels[lead.intent]}</span>
+                        </td>
+                        <td style="padding: 1rem; color: #2d3748; font-weight: 500;">${lead.company || '-'}</td>
+                        <td style="padding: 1rem; color: #2d3748;">${lead.name || '-'}</td>
+                        <td style="padding: 1rem; color: #4a5568;">${lead.phone || '-'}</td>
+                        <td style="padding: 1rem; color: #4a5568;">${lead.email || '-'}</td>
+                        <td style="padding: 1rem;">
+                            <button onclick="viewLeadDetailsByIndex(${index})" style="padding: 0.5rem 1rem; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;" onmouseover="this.style.background='#5568d3'" onmouseout="this.style.background='#667eea'">
+                                상세보기
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function exportLeadsToExcel() {
+            const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+            
+            if (leads.length === 0) {
+                alert('다운로드할 데이터가 없습니다.');
+                return;
+            }
+            
+            const typeLabels = {
+                'quote': '상담·견적 요청',
+                'resource': '자료 다운로드',
+                'tech-call': '기술상담'
+            };
+            
+            const statusLabels = {
+                'pending': '신규',
+                'inprogress': '진행중',
+                'completed': '완료'
+            };
+            
+            // CSV 생성
+            let csv = '\uFEFF'; // BOM for UTF-8
+            csv += '접수일시,상태,문의유형,회사명,담당자,연락처,이메일,업종,목표UPH,관심솔루션,희망일자,현재이슈,메시지\n';
+            
+            leads.forEach(lead => {
+                const date = new Date(lead.timestamp).toLocaleString('ko-KR');
+                const status = statusLabels[lead.status || 'pending'];
+                const type = typeLabels[lead.intent];
+                const company = (lead.company || '-').replace(/,/g, '，');
+                const name = (lead.name || '-').replace(/,/g, '，');
+                const phone = (lead.phone || '-').replace(/,/g, '，');
+                const email = (lead.email || '-').replace(/,/g, '，');
+                const industry = (lead.industry || '-').replace(/,/g, '，');
+                const uph = (lead.uph || '-').replace(/,/g, '，');
+                const solution = (lead.solution || '-').replace(/,/g, '，');
+                const preferredDate = (lead.preferredDate || '-').replace(/,/g, '，');
+                const issue = (lead.issue || '-').replace(/,/g, '，').replace(/\n/g, ' ');
+                const message = (lead.message || '-').replace(/,/g, '，').replace(/\n/g, ' ');
+                
+                csv += `"${date}","${status}","${type}","${company}","${name}","${phone}","${email}","${industry}","${uph}","${solution}","${preferredDate}","${issue}","${message}"\n`;
+            });
+            
+            // 다운로드
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            const timestamp = new Date().toISOString().slice(0, 10);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', `제이원로보틱스_리드목록_${timestamp}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast('📊 리드 목록이 다운로드되었습니다!');
+        }
+        
+        function viewLeadDetailsByIndex(index) {
+            const lead = currentLeadsCache[index];
+            
+            if (!lead) {
+                alert('리드를 찾을 수 없습니다.');
+                console.error('Lead not found at index:', index);
+                console.log('Current cache:', currentLeadsCache);
+                return;
+            }
+            
+            viewLeadDetails(lead);
+        }
+
+        // 현재 선택된 리드 저장
+        let currentSelectedLead = null;
+        let currentSelectedLeadIndex = null;
+
+        function viewLeadDetails(lead) {
+            if (!lead) {
+                alert('리드를 찾을 수 없습니다.');
+                console.error('Lead object is null or undefined');
+                return;
+            }
+            
+            currentSelectedLead = lead;
+            
+            const date = new Date(lead.timestamp);
+            const formattedDate = date.toLocaleString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            const typeLabels = {
+                'quote': '상담·견적 요청',
+                'resource': '자료 다운로드',
+                'tech-call': '기술상담'
+            };
+            
+            const typeBadges = {
+                'quote': '💼 견적요청',
+                'resource': '📄 자료다운로드',
+                'tech-call': '📞 기술상담'
+            };
+            
+            // 모달 타이틀 업데이트
+            document.getElementById('leadTypeBadge').textContent = typeBadges[lead.intent] || '📋 문의';
+            document.getElementById('leadTimestamp').textContent = `접수 일시: ${formattedDate}`;
+            
+            // 상태 버튼 업데이트
+            const status = lead.status || 'pending';
+            document.querySelectorAll('.lead-status-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.status === status) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // 상세 정보 구성
+            let detailsHTML = '';
+            
+            if (lead.company) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">🏢 회사명</div>
+                        <div class="info-value">${lead.company}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.name) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">👤 담당자명</div>
+                        <div class="info-value">${lead.name}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.phone) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">📞 연락처</div>
+                        <div class="info-value"><a href="tel:${lead.phone}" style="color: #667eea; text-decoration: none; font-weight: 600;">${lead.phone}</a></div>
+                    </div>
+                `;
+            }
+            
+            if (lead.email) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">📧 이메일</div>
+                        <div class="info-value"><a href="mailto:${lead.email}" style="color: #667eea; text-decoration: none; font-weight: 600;">${lead.email}</a></div>
+                    </div>
+                `;
+            }
+            
+            if (lead.industry) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">🏭 업종</div>
+                        <div class="info-value">${lead.industry}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.uph) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">⚙️ 목표 UPH</div>
+                        <div class="info-value">${lead.uph}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.solution) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">💡 관심 솔루션</div>
+                        <div class="info-value">${lead.solution}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.preferredDate) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">📆 희망 일자</div>
+                        <div class="info-value">${lead.preferredDate}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.issue) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">❗ 현재 이슈</div>
+                        <div class="info-value" style="white-space: pre-wrap;">${lead.issue}</div>
+                    </div>
+                `;
+            }
+            
+            if (lead.message) {
+                detailsHTML += `
+                    <div class="info-row">
+                        <div class="info-label">💬 메시지</div>
+                        <div class="info-value" style="white-space: pre-wrap;">${lead.message}</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('leadDetailsContent').innerHTML = detailsHTML;
+            
+            // 모달 열기
+            document.getElementById('leadDetailModal').style.display = 'block';
+        }
+        
+        function updateLeadStatus(newStatus) {
+            if (!currentSelectedLead) return;
+            
+            // 상태 업데이트
+            currentSelectedLead.status = newStatus;
+            
+            // localStorage 업데이트
+            const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+            const leadIndex = leads.findIndex(l => 
+                l.timestamp === currentSelectedLead.timestamp && 
+                l.email === currentSelectedLead.email
+            );
+            
+            if (leadIndex !== -1) {
+                leads[leadIndex].status = newStatus;
+                localStorage.setItem('leads', JSON.stringify(leads));
+            }
+            
+            // 버튼 스타일 업데이트
+            document.querySelectorAll('.lead-status-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.status === newStatus) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // 리드 목록 새로고침
+            loadLeads();
+            
+            const statusLabels = {
+                'pending': '신규',
+                'inprogress': '진행중',
+                'completed': '완료'
+            };
+            
+            // 성공 메시지 (간단한 토스트 형태)
+            showToast(`✅ 상태가 "${statusLabels[newStatus]}"로 변경되었습니다.`);
+        }
+        
+        function copyLeadInfo() {
+            if (!currentSelectedLead) return;
+            
+            const lead = currentSelectedLead;
+            const typeLabels = {
+                'quote': '상담·견적 요청',
+                'resource': '자료 다운로드',
+                'tech-call': '기술상담'
+            };
+            
+            let text = `【${typeLabels[lead.intent]}】\n\n`;
+            text += `접수일시: ${new Date(lead.timestamp).toLocaleString('ko-KR')}\n\n`;
+            
+            if (lead.company) text += `회사명: ${lead.company}\n`;
+            if (lead.name) text += `담당자: ${lead.name}\n`;
+            if (lead.phone) text += `연락처: ${lead.phone}\n`;
+            if (lead.email) text += `이메일: ${lead.email}\n`;
+            if (lead.industry) text += `업종: ${lead.industry}\n`;
+            if (lead.uph) text += `목표 UPH: ${lead.uph}\n`;
+            if (lead.solution) text += `관심 솔루션: ${lead.solution}\n`;
+            if (lead.preferredDate) text += `희망 일자: ${lead.preferredDate}\n`;
+            if (lead.issue) text += `\n현재 이슈:\n${lead.issue}\n`;
+            if (lead.message) text += `\n메시지:\n${lead.message}\n`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('📋 정보가 클립보드에 복사되었습니다!');
+            }).catch(err => {
+                alert('복사 실패: ' + err);
+            });
+        }
+        
+        function deleteCurrentLead() {
+            if (!currentSelectedLead) return;
+            
+            if (!confirm('정말로 이 문의를 삭제하시겠습니까?\n삭제된 데이터는 복구할 수 없습니다.')) {
+                return;
+            }
+            
+            // localStorage에서 삭제
+            const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+            const filteredLeads = leads.filter(l => 
+                !(l.timestamp === currentSelectedLead.timestamp && 
+                  l.email === currentSelectedLead.email)
+            );
+            
+            localStorage.setItem('leads', JSON.stringify(filteredLeads));
+            
+            // 모달 닫기
+            closeModal('leadDetailModal');
+            
+            // 리드 목록 새로고침
+            loadLeads();
+            
+            showToast('🗑️ 문의가 삭제되었습니다.');
+        }
+        
+        function showToast(message) {
+            // 기존 토스트 제거
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) {
+                existingToast.remove();
+            }
+            
+            // 새 토스트 생성
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+                font-weight: 600;
+                z-index: 10000;
+                animation: slideInUp 0.3s ease;
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // 3초 후 제거
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
 
         // 페이지 로드 시 인증 확인 (백업)
         checkAuth();
