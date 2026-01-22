@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin/
-
-Sitemap: https://j-one-robotics.com/sitemap.xml
-
