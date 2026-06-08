@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 디버그 - 제이원로보틱스</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .debug-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .debug-item {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+        .debug-label {
+            font-weight: bold;
+            color: #333;
+        }
+        .debug-value {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>관리자 디버그 페이지</h1>
+        <p>현재 로그인 상태와 로컬 스토리지 정보를 확인할 수 있습니다.</p>
+        
+        <div class="debug-item">
+            <div class="debug-label">adminLoggedIn:</div>
+            <div class="debug-value" id="adminLoggedIn">-</div>
+        </div>
+        
+        <div class="debug-item">
+            <div class="debug-label">adminLoginTime:</div>
+            <div class="debug-value" id="adminLoginTime">-</div>
+        </div>
+        
+        <div class="debug-item">
+            <div class="debug-label">로그인 시간 (읽기 가능):</div>
+            <div class="debug-value" id="loginTimeReadable">-</div>
+        </div>
+        
+        <div class="debug-item">
+            <div class="debug-label">현재 시간:</div>
+            <div class="debug-value" id="currentTime">-</div>
+        </div>
+        
+        <div class="debug-item">
+            <div class="debug-label">시간 차이 (시간):</div>
+            <div class="debug-value" id="timeDiff">-</div>
+        </div>
+        
+        <div class="debug-item">
+            <div class="debug-label">인증 상태:</div>
+            <div class="debug-value" id="authStatus">-</div>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+            <button class="btn" onclick="refreshDebug()">새로고침</button>
+            <button class="btn" onclick="testLogin()">테스트 로그인</button>
+            <button class="btn btn-danger" onclick="clearLogin()">로그인 정보 삭제</button>
+            <button class="btn" onclick="goToDashboard()">대시보드로 이동</button>
+        </div>
+    </div>
+
+    <script>
+        function refreshDebug() {
+            const adminLoggedIn = localStorage.getItem('adminLoggedIn');
+            const adminLoginTime = localStorage.getItem('adminLoginTime');
+            
+            document.getElementById('adminLoggedIn').textContent = adminLoggedIn || '없음';
+            document.getElementById('adminLoginTime').textContent = adminLoginTime || '없음';
+            
+            if (adminLoginTime) {
+                const loginTimeNum = parseInt(adminLoginTime);
+                if (!isNaN(loginTimeNum)) {
+                    const loginDate = new Date(loginTimeNum);
+                    document.getElementById('loginTimeReadable').textContent = loginDate.toLocaleString('ko-KR');
+                } else {
+                    document.getElementById('loginTimeReadable').textContent = '잘못된 형식';
+                }
+            } else {
+                document.getElementById('loginTimeReadable').textContent = '없음';
+            }
+            
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString('ko-KR');
+            
+            if (adminLoginTime) {
+                const loginTimeNum = parseInt(adminLoginTime);
+                if (!isNaN(loginTimeNum)) {
+                    const timeDiff = now.getTime() - loginTimeNum;
+                    const hoursDiff = timeDiff / (1000 * 60 * 60);
+                    document.getElementById('timeDiff').textContent = hoursDiff.toFixed(2) + '시간';
+                } else {
+                    document.getElementById('timeDiff').textContent = '계산 불가';
+                }
+            } else {
+                document.getElementById('timeDiff').textContent = '없음';
+            }
+            
+            // 인증 상태 확인
+            if (!adminLoggedIn || adminLoggedIn !== 'true' || !adminLoginTime) {
+                document.getElementById('authStatus').textContent = '로그인 필요';
+            } else {
+                const loginTimeNum = parseInt(adminLoginTime);
+                if (isNaN(loginTimeNum)) {
+                    document.getElementById('authStatus').textContent = '잘못된 로그인 시간';
+                } else {
+                    const timeDiff = now.getTime() - loginTimeNum;
+                    const hoursDiff = timeDiff / (1000 * 60 * 60);
+                    if (hoursDiff > 24) {
+                        document.getElementById('authStatus').textContent = '세션 만료 (24시간 초과)';
+                    } else {
+                        document.getElementById('authStatus').textContent = '인증 성공';
+                    }
+                }
+            }
+        }
+        
+        function testLogin() {
+            localStorage.setItem('adminLoggedIn', 'true');
+            localStorage.setItem('adminLoginTime', new Date().getTime().toString());
+            refreshDebug();
+            alert('테스트 로그인 완료!');
+        }
+        
+        function clearLogin() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminLoginTime');
+            refreshDebug();
+            alert('로그인 정보가 삭제되었습니다.');
+        }
+        
+        function goToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+        
+        // 페이지 로드 시 자동 새로고침
+        refreshDebug();
+    </script>
+</body>
+</html>

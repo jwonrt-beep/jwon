@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // http로 접속하면 https로 강제 전환 (브라우저 보안 경고 방지)
+        (function() {
+            if (window.location.protocol === 'http:') {
+                window.location.replace(
+                    'https://' + window.location.host + window.location.pathname + window.location.search + window.location.hash
+                );
+            }
+        })();
+    </script>
+    <title>자료실 - 제이원로보틱스</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <style>
+        /* Resources Page Styles - Board Format */
+        .media-hero {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+            color: #ffffff;
+        }
+
+        .media-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+        }
+
+        .media-hero .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .media-subnav {
+            background: var(--surface-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .subnav-list {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .subnav-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .subnav-list a:hover {
+            color: var(--primary-color);
+            background: var(--card-bg);
+            border-color: var(--primary-color);
+        }
+
+        .subnav-list a.active {
+            color: white;
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .media-section {
+            padding: 4rem 0;
+            background: #ffffff;
+        }
+
+        .media-filters {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            background: var(--card-bg);
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .resources-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .resource-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .resource-content {
+            padding: 1.5rem;
+        }
+
+        .resource-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .resource-description {
+            color: #718096;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .resource-category {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .resource-date {
+            color: #a0aec0;
+            font-size: 0.75rem;
+        }
+
+        .resource-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .resource-size {
+            color: #4a5568;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .resource-downloads {
+            color: #718096;
+            font-size: 0.875rem;
+        }
+
+        .download-btn {
+            width: 100%;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #f59e0b;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #718096;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+        }
+
+        .empty-state p {
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .resources-board {
+                grid-template-columns: 1fr;
+            }
+            
+            .subnav-list {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .media-filters {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="header-content">
+            <a href="../../index.html" class="logo" aria-label="제이원로보틱스 홈으로 이동">
+                <div class="logo-text">
+                    <span class="logo-ko">(주)제이원 로보틱스</span>
+                    <span class="logo-en">J-WON Robotics Co., Ltd.</span>
+                </div>
+            </a>
+            <nav class="nav" role="navigation">
+                <ul class="nav-list">
+                    <li><a href="../../index.html">홈</a></li>
+                    <li><a href="../../products/index.html">제품소개</a></li>
+                    <li><a href="../index.html">홍보센터</a></li>
+                    <li><a href="../../about/index.html">회사소개</a></li>
+                    <li><a href="../../contact/index.html">문의</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="메뉴 열기">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+        <div class="menu-content">
+                <button class="menu-close" id="menuClose" aria-label="메뉴 닫기">✕</button>
+                <ul>
+                    <li><a href="../../about/index.html">회사소개</a></li>
+                    <li><a href="../../products/index.html">제품소개</a></li>
+                    <li><a href="../../media/index.html">홍보센터</a></li>
+                    <li><a href="../../contact/index.html">문의</a></li>
+                </ul>
+            </div>
+        </div>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol>
+            <li><a href="../../index.html">홈</a></li>
+            <li><a href="../index.html">홍보센터</a></li>
+            <li>자료실</li>
+        </ol>
+    </nav>
+
+    <!-- Sub Navigation -->
+    <nav class="media-subnav">
+        <div class="container">
+            <ul class="subnav-list">
+                <li><a href="../videos/index.html">동영상</a></li>
+                <li><a href="../solutions/index.html">솔루션 & 적용분야</a></li>
+                <li><a href="../cases/index.html">사례</a></li>
+                <li><a href="index.html" class="active">자료실</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="media-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>자료실</h1>
+                <p>제이원로보틱스의 기술 자료와 문서를 다운로드하세요</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="media-section">
+        <div class="container">
+            <!-- Resources Filters -->
+            <div class="media-filters">
+                <button class="filter-btn active" data-filter="all">전체</button>
+                <button class="filter-btn" data-filter="PDF">PDF</button>
+                <button class="filter-btn" data-filter="카탈로그">카탈로그</button>
+                <button class="filter-btn" data-filter="매뉴얼">매뉴얼</button>
+                <button class="filter-btn" data-filter="기타">기타</button>
+            </div>
+
+            <!-- Resources Board -->
+            <div class="resources-board" id="resourcesBoard">
+                <!-- 동적으로 로드됨 -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <h3>자료가 없습니다</h3>
+                <p>아직 등록된 자료가 없습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>제이원로보틱스</h3>
+                    <p>혁신적인 용접 자동화 솔루션으로 제조업의 미래를 만들어갑니다.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>홍보센터</h3>
+                    <ul>
+                        <li><a href="../videos/index.html">동영상</a></li>
+                        <li><a href="../solutions/index.html">솔루션</a></li>
+                        <li><a href="../cases/index.html">사례</a></li>
+                        <li><a href="index.html">자료실</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>사이트</h3>
+                    <ul>
+                        <li><a href="../../products/index.html">제품소개</a></li>
+                        <li><a href="../../about/index.html">회사소개</a></li>
+                        <li><a href="../../contact/index.html">문의</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>연락처</h3>
+                    <p>📞 1899-8304 / 041-587-8567</p>
+                    <p>✉️ info@jwonrobotics.com</p>
+                    <p>📍 (31073) 충남 천안시 동남구 삼룡4길 58-16, 1동</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 제이원로보틱스. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../script.js"></script>
+    <script src="../../admin-key.js"></script>
+    <script src="../../logo-loader.js"></script>
+    <script src="../../content-manager.js"></script>
+    <script src="../../navigation-loader.js"></script>
+    <script src="../../post-manager.js"></script>
+    <script>
+        // 자료 로드 및 표시
+        function loadResources() {
+            const resourcesBoard = document.getElementById('resourcesBoard');
+            const emptyState = document.getElementById('emptyState');
+            const resources = window.postManager.getPosts('resources');
+            
+            if (resources.length === 0) {
+                resourcesBoard.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            resourcesBoard.style.display = 'grid';
+            emptyState.style.display = 'none';
+            
+            resourcesBoard.innerHTML = resources.map(resource => `
+                <div class="resource-card" data-category="${resource.category}" onclick="downloadResource('${resource.id}')" style="cursor: pointer;">
+                    ${resource.featured ? '<div class="featured-badge">추천</div>' : ''}
+                    <div class="resource-thumbnail">
+                        <img src="${resource.thumbnail}" alt="${resource.title}">
+                    </div>
+                    <div class="resource-content">
+                        <h3 class="resource-title">${resource.title}</h3>
+                        <p class="resource-description">${resource.description}</p>
+                        <div class="resource-meta">
+                            <span class="resource-category">${resource.category}</span>
+                            <span class="resource-date">${resource.date}</span>
+                        </div>
+                        <div class="resource-info">
+                            <span class="resource-size">${resource.fileSize || 'N/A'}</span>
+                            <span class="resource-downloads">다운로드 ${resource.downloadCount || 0}회</span>
+                        </div>
+                        <button class="download-btn">다운로드</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 필터 기능
+        function setupFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // 활성 버튼 변경
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 카드 필터링
+                    const cards = document.querySelectorAll('.resource-card');
+                    cards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        // 자료 다운로드
+        function downloadResource(resourceId) {
+            const resource = window.postManager.getPosts('resources').find(r => r.id === resourceId);
+            if (resource) {
+                // 다운로드 카운트 증가
+                resource.downloadCount = (resource.downloadCount || 0) + 1;
+                window.postManager.savePosts();
+                
+                // 실제 다운로드 (여기서는 모달로 표시)
+                showResourceModal(resource);
+            }
+        }
+
+        // 자료 모달 표시
+        function showResourceModal(resource) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2 style="margin: 0; color: #1a202c;">${resource.title}</h2>
+                        <button onclick="this.closest('.modal').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                    </div>
+                    <img src="${resource.thumbnail}" alt="${resource.title}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                    <p style="color: #4a5568; line-height: 1.6; margin-bottom: 1rem;">${resource.description}</p>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <span style="background: #e2e8f0; color: #4a5568; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">${resource.category}</span>
+                        <span style="color: #a0aec0; font-size: 0.75rem;">${resource.date}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
+                        <span style="color: #4a5568; font-weight: 500;">파일 크기: ${resource.fileSize || 'N/A'}</span>
+                        <span style="color: #718096;">다운로드: ${resource.downloadCount || 0}회</span>
+                    </div>
+                    <div style="text-align: center;">
+                        <button onclick="window.open('${resource.thumbnail}', '_blank'); this.closest('.modal').remove();" style="background: #3b82f6; color: white; border: none; padding: 0.8rem 2rem; border-radius: 8px; cursor: pointer; font-weight: 600; margin-right: 1rem;">다운로드</button>
+                        <button onclick="this.closest('.modal').remove()" style="background: #6b7280; color: white; border: none; padding: 0.8rem 2rem; border-radius: 8px; cursor: pointer; font-weight: 600;">닫기</button>
+                    </div>
+                </div>
+            `;
+            
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            loadResources();
+            setupFilters();
+        });
+
+        // 게시물 업데이트 감지
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'jwonPosts') {
+                loadResources();
+            }
+        });
+    </script>
+</body>
+</html>

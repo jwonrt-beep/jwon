@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://j-won-robotics.com/sitemap.xml
+

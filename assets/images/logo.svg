@@ -1,0 +1,26 @@
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left Icon - J in red square -->
+  <rect x="10" y="10" width="40" height="40" fill="none" stroke="#3b82f6" stroke-width="2" rx="4"/>
+  <text x="30" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#3b82f6" text-anchor="middle">J</text>
+  
+  <!-- Center Text - Jwon -->
+  <text x="70" y="25" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#1a202c">Jw</text>
+  
+  <!-- Star icon replacing 'o' -->
+  <circle cx="95" cy="20" r="8" fill="#f59e0b"/>
+  <circle cx="95" cy="20" r="6" fill="#3b82f6"/>
+  <circle cx="95" cy="20" r="4" fill="#ef4444"/>
+  <circle cx="95" cy="20" r="2" fill="#10b981"/>
+  <polygon points="95,12 97,18 103,18 98,22 100,28 95,24 90,28 92,22 87,18 93,18" fill="#ffffff"/>
+  
+  <text x="110" y="25" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#1a202c">n</text>
+  
+  <!-- robotics text -->
+  <text x="70" y="45" font-family="Arial, sans-serif" font-size="12" font-style="italic" fill="#4a5568">robotics</text>
+  
+  <!-- Separator line -->
+  <line x1="140" y1="15" x2="140" y2="45" stroke="#e2e8f0" stroke-width="1"/>
+  
+  <!-- Korean text -->
+  <text x="150" y="30" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1a202c" text-anchor="middle">(주)제이원로보틱스</text>
+</svg>

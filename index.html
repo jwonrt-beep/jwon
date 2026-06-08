@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // http로 접속하면 https로 강제 전환 (브라우저 보안 경고 방지)
+        (function() {
+            if (window.location.protocol === 'http:') {
+                window.location.replace(
+                    'https://' + window.location.host + window.location.pathname + window.location.search + window.location.hash
+                );
+            }
+        })();
+    </script>
+    <title>제이원로보틱스 - 혁신적인 용접 자동화 솔루션</title>
+    <meta name="description" content="1999년부터 축적된 용접·로봇 원천기술 + 현장 중심 자동화 통합 역량. 용접 특화 One-Stop Smart Factory Robot Integrator">
+    <meta name="keywords" content="용접 자동화, 로봇 시스템 통합, 제이원로보틱스, 세한메카트로닉스, 현대로보틱스, 용접 로봇, 스마트공장, SI, Robot Integrator">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="canonical" href="https://j-won-robotics.com/">
+    <meta name="google-site-verification" content="GOOGLE-SITE-VERIFICATION-CODE">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="제이원로보틱스 - 혁신적인 용접 자동화 솔루션">
+    <meta property="og:description" content="정밀한 용접의 완벽한 자동화를 제공하는 제이원로보틱스">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://j-won-robotics.com">
+    <meta property="og:image" content="assets/images/og-image.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="제이원로보틱스 - 혁신적인 용접 자동화 솔루션">
+    <meta name="twitter:description" content="정밀한 용접의 완벽한 자동화를 제공하는 제이원로보틱스">
+    <meta name="twitter:image" content="assets/images/og-image.jpg">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "제이원로보틱스",
+        "url": "https://j-won-robotics.com",
+        "logo": "https://j-won-robotics.com/assets/images/logo.png",
+        "description": "용접 자동화에 특화된 One-Stop Smart Factory Robot Integrator. 1999년부터 축적된 원천기술 기반",
+        "foundingDate": "1999",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "KR"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+82-41-587-8567",
+            "contactType": "customer service",
+            "email": "jeehoon21514@naver.com",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "충남 천안시 동남구 삼룡4길 58-16, 1동",
+                "addressLocality": "천안시",
+                "addressRegion": "충청남도",
+                "postalCode": "31073",
+                "addressCountry": "KR"
+            }
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "제이원로보틱스",
+        "url": "https://j-won-robotics.com/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://j-won-robotics.com/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "용접 자동화 토탈 솔루션",
+        "provider": {
+            "@type": "Organization",
+            "name": "제이원로보틱스"
+        },
+        "areaServed": ["KR","JP","CN","US","DE"],
+        "serviceType": [
+            "Active GⅢ AI 용접 제어",
+            "High Power GⅢ 고출력 용접",
+            "DTPSⅢ 디지털 트윈 티칭"
+        ],
+        "offers": {
+            "@type": "Offer",
+            "availability": "https://schema.org/InStock",
+            "priceSpecification": {
+                "@type": "PriceSpecification",
+                "priceCurrency": "KRW"
+            }
+        }
+    }
+    </script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="assets/images/hero_poster.jpg" type="image/jpeg">
+    <link rel="preload" as="image" href="assets/images/high-power-g3-hero.jpg" type="image/jpeg">
+
+    <!-- Analytics -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script>
+        window.gtag = window.gtag || function(){dataLayer.push(arguments);};
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXX');
+    </script>
+    <script>
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments);};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "CLARITY-PROJECT-ID");
+    </script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+</head>
+<body>
+    <!-- Skip Link -->
+    <a href="#main-content" class="skip-link">본문으로 바로가기</a>
+    
+    <!-- Header -->
+    <header class="header" role="banner">
+            <div class="header-content">
+            <a href="./" class="logo" aria-label="제이원로보틱스 홈으로 이동">
+                <div class="logo-text">
+                        <span class="logo-ko">(주)제이원 로보틱스</span>
+                        <span class="logo-en">J-WON Robotics Co., Ltd.</span>
+                    </div>
+            </a>
+                
+            <nav class="nav" role="navigation" aria-label="메인 네비게이션">
+                    <ul class="nav-list">
+                    <li class="nav-item has-mega">
+                            <a href="products/index.html" aria-haspopup="true" aria-expanded="false">제품소개</a>
+                            <div class="mega-panel" role="group" aria-label="제품 카테고리">
+                                <div class="mega-grid">
+                                    <div class="mega-col">
+                                        <h4>솔루션</h4>
+                                        <ul>
+                                            <li><a href="solutions/index.html#active-g3">Active GⅢ</a></li>
+                                            <li><a href="solutions/index.html#high-power-g3">High Power GⅢ</a></li>
+                                            <li><a href="solutions/index.html#dtps3">DTPSⅢ</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-col">
+                                        <h4>적용 분야</h4>
+                                        <ul>
+                                            <li><a href="applications/index.html#automotive">자동차</a></li>
+                                            <li><a href="applications/index.html#electronics">전자</a></li>
+                                            <li><a href="applications/index.html#shipbuilding">조선</a></li>
+                                            <li><a href="applications/index.html#construction">건설기계</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-col">
+                                        <h4>리소스</h4>
+                                        <ul>
+                                            <li><a href="media/index.html#videos">제품 영상</a></li>
+                                            <li><a href="resources/index.html">카탈로그/백서</a></li>
+                                            <li><a href="cases/index.html">적용 사례</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item has-mega">
+                            <a href="media/index.html" aria-haspopup="true" aria-expanded="false">홍보센터</a>
+                            <div class="mega-panel" role="group" aria-label="미디어">
+                                <div class="mega-grid">
+                                    <div class="mega-col">
+                                        <h4>미디어</h4>
+                                        <ul>
+                                            <li><a href="media/index.html#videos">영상</a></li>
+                                            <li><a href="media/index.html#gallery">갤러리</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="mega-col">
+                                        <h4>소식</h4>
+                                        <ul>
+                                            <li><a href="media/index.html#news">공지사항</a></li>
+                                            <li><a href="media/index.html#press">보도자료</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item has-mega">
+                            <a href="about/index.html" aria-haspopup="true" aria-expanded="false">회사소개</a>
+                            <div class="mega-panel" role="group" aria-label="회사">
+                                <div class="mega-grid">
+                                    <div class="mega-col">
+                                        <h4>회사</h4>
+                                        <ul>
+                                            <li><a href="about/index.html#vision">비전</a></li>
+                                            <li><a href="about/index.html#roadmap">연혁/로드맵</a></li>
+                                            <li><a href="about/index.html#partners">파트너십</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a href="contact/index.html">문의</a></li>
+                    </ul>
+                </nav>
+                
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="모바일 메뉴 토글" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content">
+    <!-- Fullscreen Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+        <div class="menu-content">
+                <button class="menu-close" id="menuClose" aria-label="메뉴 닫기">✕</button>
+                <ul>
+                    <li><a href="about/index.html">회사소개</a></li>
+                    <li><a href="products/index.html">제품소개</a></li>
+                    <li><a href="media/index.html">홍보센터</a></li>
+                    <li><a href="contact/index.html">문의</a></li>
+                </ul>
+            </div>
+        </div>
+    <!-- Hero Section -->
+        <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-text">Welding Automation Solutions</span>
+                    </div>
+                <h1 class="hero-title">
+                        J-WON ROBOTICS GROUP
+                </h1>
+                <p class="hero-subtitle">
+                        용접 자동화에 특화된 One-Stop Smart Factory Robot Integrator
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">1999년~</span>
+                            <span class="stat-label">20년+ 기술 축적</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">도입 라인</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">현장중심</span>
+                            <span class="stat-label">끝까지 책임지는 자동화</span>
+                        </div>
+                    </div>
+                <div class="hero-actions" style="margin-top: 2rem;">
+                        <a href="#rapid-quote" class="btn btn-primary" style="scroll-behavior: smooth;">상담·견적 요청</a>
+                        <a href="#company-intro" class="btn btn-gold" style="scroll-behavior: smooth;">회사 소개 보기</a>
+                        <a href="#product-resources" class="btn btn-outline" style="scroll-behavior: smooth;">제품·자료 보기</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-background">
+                <div class="hero-fallback" id="heroFallback" aria-hidden="true">
+                    <div class="hero-fallback-content">
+                        <p id="fallbackMessage">네트워크 상태를 확인하고 있습니다...</p>
+                        <button type="button" class="btn btn-outline btn-fallback" id="heroVideoRetry">영상 다시 시도</button>
+                    </div>
+                </div>
+                <video autoplay muted loop playsinline preload="metadata" poster="assets/images/hero_poster.jpg" id="heroVideo" aria-label="용접 자동화 시네마틱">
+                <source src="assets/video/제이원로보틱스 메인비디오 (1).mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay" aria-hidden="true"></div>
+        </div>
+    </section>
+
+        <!-- Customer Success (Unified) -->
+        <section class="section section-dark" id="success" aria-label="고객 실사례">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title"><span class="title-accent">실사례로 증명합니다</span></h2>
+                    <p class="section-subtitle">업종별 대표 케이스를 한 화면에서 빠르게 파악하세요</p>
+                    <p class="section-brief">자동차·조선·건설기계·중공업 현장에서 검증된 개선 포인트(품질/생산성/안전/유지보수)를 요약했습니다.</p>
+                </div>
+
+                <div class="grid grid-2" style="margin-bottom: 2.5rem;">
+                    <article class="card animate-fade-in-up">
+                        <div class="card-header">
+                            <h3 class="card-title">자동차 차체 라인 용접 자동화</h3>
+                            <p class="card-subtitle">현대자동차 협력사 · 품질 편차/인력 의존도 개선</p>
+                        </div>
+                        <div class="card-content">
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+                                <img src="assets/images/case-1-before.jpg" alt="자동차 라인 도입 전" style="width:100%; height:160px; object-fit:cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                                <img src="assets/images/case-1-after.jpg" alt="자동차 라인 도입 후" style="width:100%; height:160px; object-fit:cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                            </div>
+                            <div class="feature-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">불량률↓</span>
+                                    <span class="stat-label">품질 균일화</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">생산성↑</span>
+                                    <span class="stat-label">공정 안정화</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">인력↓</span>
+                                    <span class="stat-label">의존도 감소</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="media/cases/index.html" class="btn btn-primary">사례 모아보기</a>
+                        </div>
+                    </article>
+
+                    <article class="card animate-fade-in-up" style="animation-delay: 0.08s;">
+                        <div class="card-header">
+                            <h3 class="card-title">조선 대형 블록 용접</h3>
+                            <p class="card-subtitle">대형 강재 · 공정시간/재용접/인력난 개선</p>
+                        </div>
+                        <div class="card-content">
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+                                <img src="assets/images/case-shipbuilding-1.jpg" alt="조선 블록 용접 현장" style="width:100%; height:160px; object-fit:cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                                <img src="assets/images/case-automotive-2.jpg" alt="로봇 용접 셀 구축 예시" style="width:100%; height:160px; object-fit:cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                            </div>
+                            <div class="feature-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">공정시간↓</span>
+                                    <span class="stat-label">생산성 향상</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">재용접↓</span>
+                                    <span class="stat-label">품질 개선</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">자동화</span>
+                                    <span class="stat-label">인력난 대응</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="media/cases/index.html" class="btn btn-primary">사례 모아보기</a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="grid grid-2">
+                    <article class="card animate-fade-in-up" style="animation-delay: 0.12s;">
+                        <div class="card-header">
+                            <h3 class="card-title">건설기계 부품 용접 셀</h3>
+                            <p class="card-subtitle">형상 편차 · 지그/토치 각도/동선 최적화</p>
+                        </div>
+                        <div class="card-content">
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+                                <img src="assets/images/case-4-before.jpg" alt="건설기계 용접 공정 도입 전" style="width:100%; height:160px; object-fit:cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                                <img src="assets/images/case-4-after.jpg" alt="건설기계 용접 공정 도입 후" style="width:100%; height:160px; object-fit:cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                            </div>
+                            <div class="feature-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">셋업↓</span>
+                                    <span class="stat-label">리드타임 감소</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">납기↑</span>
+                                    <span class="stat-label">준수율 개선</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">티칭↓</span>
+                                    <span class="stat-label">변경 대응</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="media/cases/index.html" class="btn btn-primary">사례 모아보기</a>
+                        </div>
+                    </article>
+
+                    <article class="card animate-fade-in-up" style="animation-delay: 0.16s;">
+                        <div class="card-header">
+                            <h3 class="card-title">중공업 고출력 용접 라인</h3>
+                            <p class="card-subtitle">두꺼운 강재 · 안정적 품질/가동률 확보</p>
+                        </div>
+                        <div class="card-content">
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+                                <img src="assets/images/case-6-before.jpg" alt="중공업 용접 공정 도입 전" style="width:100%; height:160px; object-fit:cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                                <img src="assets/images/case-6-after.jpg" alt="중공업 용접 공정 도입 후" style="width:100%; height:160px; object-fit:cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                            </div>
+                            <div class="feature-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">가동률↑</span>
+                                    <span class="stat-label">라인 안정화</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">품질↑</span>
+                                    <span class="stat-label">편차 감소</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">추적</span>
+                                    <span class="stat-label">로그 기반</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="media/cases/index.html" class="btn btn-primary">사례 모아보기</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product + Resources (Unified) -->
+        <section class="section section-alt" id="product-resources" aria-label="제품과 자료">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title"><span class="title-accent">제품소개 · 자료 다운로드</span></h2>
+                    <p class="section-subtitle">필요한 정보를 가장 빠르게 찾을 수 있도록 한 섹션에 모았습니다</p>
+                    <p class="section-brief">제품/솔루션을 먼저 보고 싶거나, 제안서·카탈로그·백서를 바로 받고 싶다면 아래에서 선택하세요.</p>
+                </div>
+
+                <div class="grid grid-3">
+                    <article class="card reveal slide-up">
+                        <div class="card-header">
+                            <h3 class="card-title">제품·솔루션 보기</h3>
+                            <p class="card-subtitle">Active GⅢ · High Power GⅢ · DTPSⅢ</p>
+                        </div>
+                        <div class="card-content">
+                            <ul style="margin:0; padding-left: 1.2rem; color: var(--text-secondary); line-height: 1.8;">
+                                <li>용접 자동화 패키지 구성</li>
+                                <li>적용 분야별 솔루션 안내</li>
+                                <li>PoC/구축 흐름 빠른 이해</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer" style="display:flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <a href="products/index.html" class="btn btn-primary">제품소개</a>
+                            <a href="solutions/index.html" class="btn btn-outline">솔루션</a>
+                        </div>
+                    </article>
+
+                    <article class="card reveal slide-up" style="animation-delay: 0.06s;">
+                        <div class="card-header">
+                            <h3 class="card-title">자료 다운로드</h3>
+                            <p class="card-subtitle">카탈로그 · 백서 · 1페이지 요약</p>
+                        </div>
+                        <div class="card-content">
+                            <ul style="margin:0; padding-left: 1.2rem; color: var(--text-secondary); line-height: 1.8;">
+                                <li>산업별 요약 자료</li>
+                                <li>기술자료/다운로드 모음</li>
+                                <li>의사결정용 핵심 포인트</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer" style="display:flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <a href="resources/index.html" class="btn btn-primary">자료실</a>
+                            <a href="media/resources/index.html" class="btn btn-outline">다운로드</a>
+                        </div>
+                    </article>
+
+                    <article class="card reveal slide-up" style="animation-delay: 0.12s;">
+                        <div class="card-header">
+                            <h3 class="card-title">사례·영상으로 빠르게 확인</h3>
+                            <p class="card-subtitle">구축 사례 · 데모 영상 · 미디어</p>
+                        </div>
+                        <div class="card-content">
+                            <ul style="margin:0; padding-left: 1.2rem; color: var(--text-secondary); line-height: 1.8;">
+                                <li>현장 적용 사례 모아보기</li>
+                                <li>영상으로 동작/성과 확인</li>
+                                <li>자료/미디어 한 번에 접근</li>
+                            </ul>
+                        </div>
+                        <div class="card-footer" style="display:flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <a href="media/cases/index.html" class="btn btn-primary">구축 사례</a>
+                            <a href="media/index.html#videos" class="btn btn-outline">영상 보기</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Company Intro -->
+        <section class="section" id="company-intro" style="background: var(--surface-bg); padding: calc(var(--spacing-3xl) * 1.5) 0;">
+            <div class="container">
+                <div class="section-header" style="text-align: center; max-width: 900px; margin: 0 auto;">
+                    <h2 class="section-title"><span class="title-accent">J-WON ROBOTICS GROUP</span></h2>
+                    <p style="color: var(--text-secondary); font-size: 1.15rem; line-height: 1.8; margin-top: 1.5rem;">
+                        제이원로보틱스는 <strong style="color: var(--text-primary);">용접 자동화에 특화된 산업용 로봇 시스템 통합 기업</strong>입니다.
+                    </p>
+                    <p style="color: var(--text-secondary); font-size: 1.15rem; line-height: 1.8; margin-top: 1rem;">
+                        1999년부터 축적된 세한메카트로닉스의 용접·자동화 원천기술을 기반으로,
+                        <strong style="color: var(--text-primary);">공정 분석부터 로봇 선정, 지그 설계, 시스템 구축, 시운전 및 유지관리까지</strong>
+                        제조 현장을 위한 One-Stop 자동화 솔루션을 제공하고 있습니다.
+                    </p>
+                    <p style="color: var(--text-secondary); font-size: 1.15rem; line-height: 1.8; margin-top: 1rem;">
+                        특히 중소·중견 제조기업의 실제 생산 환경을 깊이 이해한 <strong style="color: var(--accent-blue);">현장 중심 설계</strong>를 강점으로
+                        로봇 자동화와 스마트공장 구축을 동시에 수행하고 있습니다.
+                    </p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; max-width: 1200px; margin-left: auto; margin-right: auto;">
+                    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; text-align: center;">
+                        <div style="color: var(--accent-blue); font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;">1999년~</div>
+                        <div style="color: var(--text-muted); font-size: 0.95rem;">용접 자동화 원천기술 축적</div>
+                    </div>
+                    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; text-align: center;">
+                        <div style="color: var(--accent-blue); font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;">500+</div>
+                        <div style="color: var(--text-muted); font-size: 0.95rem;">도입 라인</div>
+                    </div>
+                    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; text-align: center;">
+                        <div style="color: var(--accent-blue); font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;">One-Stop</div>
+                        <div style="color: var(--text-muted); font-size: 0.95rem;">통합 솔루션</div>
+                    </div>
+                    <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; text-align: center;">
+                        <div style="color: var(--accent-blue); font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;">현장중심</div>
+                        <div style="color: var(--text-muted); font-size: 0.95rem;">끝까지 책임지는 자동화</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section faq-section" id="faq" style="background: linear-gradient(180deg, #0a0f1a 0%, #0f172a 50%, #1a1f2e 100%) !important; padding: calc(var(--spacing-3xl) * 2) 0 !important; position: relative !important; overflow: hidden !important;">
+            <div class="container">
+                <div class="section-header" style="text-align: center !important; margin-bottom: 3rem !important;">
+                    <h2 class="section-title" style="color: #ffffff !important; font-size: 2.5rem !important; font-weight: 800 !important; margin: 0 0 1rem 0 !important;">
+                        <span class="title-accent" style="background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;">자주 묻는 질문</span>
+                    </h2>
+                    <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.75) !important; font-size: 1.125rem !important; margin: 0 !important;">상담부터 기술 미팅까지 자주 받는 질문을 정리했습니다.</p>
+                </div>
+                <div class="faq-list" style="display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 1.5rem !important; max-width: 1200px !important; margin: 0 auto !important;">
+                    <details class="faq-item" open style="background: linear-gradient(135deg, rgba(20, 30, 50, 0.95) 0%, rgba(30, 45, 70, 0.92) 100%) !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; border-radius: 24px !important; padding: 2rem !important; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important; backdrop-filter: blur(30px) !important; position: relative !important; overflow: hidden !important;">
+                        <summary style="color: #ffffff !important; font-size: 1.125rem !important; font-weight: 700 !important; margin: 0 0 1rem 0 !important; cursor: pointer !important; list-style: none !important; display: flex !important; align-items: center !important; gap: 0.75rem !important;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0 !important; color: #60a5fa !important;">
+                                <path d="M12 6V18M6 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>상담 신청 후 연락은 언제 오나요?</span>
+                        </summary>
+                        <p style="color: rgba(255, 255, 255, 0.75) !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 0 0 2rem !important; padding-top: 0.5rem !important;">입력해주신 업종·KPI를 확인한 뒤, 평균 4시간 이내에 전담 컨설턴트가 전화 또는 이메일로 회신드립니다.</p>
+                    </details>
+                    <details class="faq-item" style="background: linear-gradient(135deg, rgba(20, 30, 50, 0.95) 0%, rgba(30, 45, 70, 0.92) 100%) !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; border-radius: 24px !important; padding: 2rem !important; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important; backdrop-filter: blur(30px) !important; position: relative !important; overflow: hidden !important;">
+                        <summary style="color: #ffffff !important; font-size: 1.125rem !important; font-weight: 700 !important; margin: 0 0 1rem 0 !important; cursor: pointer !important; list-style: none !important; display: flex !important; align-items: center !important; gap: 0.75rem !important;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0 !important; color: #60a5fa !important;">
+                                <path d="M12 6V18M6 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>자료 다운로드 시 어떤 파일을 받을 수 있나요?</span>
+                        </summary>
+                        <p style="color: rgba(255, 255, 255, 0.75) !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 0 0 2rem !important; padding-top: 0.5rem !important;">산업별 1페이지 요약본과 기술 백서 PDF를 동시에 제공하며, 필요 시 케이스 스터디 링크도 함께 전송됩니다.</p>
+                    </details>
+                    <details class="faq-item" style="background: linear-gradient(135deg, rgba(20, 30, 50, 0.95) 0%, rgba(30, 45, 70, 0.92) 100%) !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; border-radius: 24px !important; padding: 2rem !important; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important; backdrop-filter: blur(30px) !important; position: relative !important; overflow: hidden !important;">
+                        <summary style="color: #ffffff !important; font-size: 1.125rem !important; font-weight: 700 !important; margin: 0 0 1rem 0 !important; cursor: pointer !important; list-style: none !important; display: flex !important; align-items: center !important; gap: 0.75rem !important;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0 !important; color: #60a5fa !important;">
+                                <path d="M12 6V18M6 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>15분 기술상담 전 준비해야 할 정보가 있나요?</span>
+                        </summary>
+                        <p style="color: rgba(255, 255, 255, 0.75) !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 0 0 2rem !important; padding-top: 0.5rem !important;">현재 공정에서 겪고 있는 이슈, 제품/라인 구성, 사용 중인 티칭 방식 정도만 정리해주시면 빠르게 논의를 시작할 수 있습니다.</p>
+                    </details>
+                    <details class="faq-item" style="background: linear-gradient(135deg, rgba(20, 30, 50, 0.95) 0%, rgba(30, 45, 70, 0.92) 100%) !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; border-radius: 24px !important; padding: 2rem !important; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important; backdrop-filter: blur(30px) !important; position: relative !important; overflow: hidden !important;">
+                        <summary style="color: #ffffff !important; font-size: 1.125rem !important; font-weight: 700 !important; margin: 0 0 1rem 0 !important; cursor: pointer !important; list-style: none !important; display: flex !important; align-items: center !important; gap: 0.75rem !important;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0 !important; color: #60a5fa !important;">
+                                <path d="M12 6V18M6 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>PoC 진행 기간과 비용은 어떻게 산정되나요?</span>
+                        </summary>
+                        <p style="color: rgba(255, 255, 255, 0.75) !important; font-size: 0.95rem !important; line-height: 1.6 !important; margin: 0 0 0 2rem !important; padding-top: 0.5rem !important;">데모 범위와 적용 라인 수에 따라 달라집니다. 상담 단계에서 입력해주신 KPI를 기반으로 PoC 일정과 예상 비용을 함께 안내드립니다.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "상담 신청 후 연락은 언제 오나요?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "입력해주신 업종·KPI를 확인한 뒤, 평균 4시간 이내에 전담 컨설턴트가 전화 또는 이메일로 회신드립니다."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "자료 다운로드 시 어떤 파일을 받을 수 있나요?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "산업별 1페이지 요약본과 기술 백서 PDF를 동시에 제공하며, 필요 시 케이스 스터디 링크도 함께 전송됩니다."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "15분 기술상담 전 준비해야 할 정보가 있나요?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "현재 공정에서 겪고 있는 이슈, 제품/라인 구성, 사용 중인 티칭 방식 정도만 정리해주시면 빠르게 논의를 시작할 수 있습니다."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "PoC 진행 기간과 비용은 어떻게 산정되나요?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "데모 범위와 적용 라인 수에 따라 달라집니다. 상담 단계에서 입력해주신 KPI를 기반으로 PoC 일정과 예상 비용을 함께 안내드립니다."
+                    }
+                }
+            ]
+        }
+        </script>
+        <!-- Trust & Partners -->
+        <section class="section trust-section" id="trust" style="background: linear-gradient(180deg, #0f172a 0%, #1a1f2e 50%, #0a0f1a 100%) !important; padding: calc(var(--spacing-3xl) * 2) 0 !important; position: relative !important; overflow: hidden !important;">
+            <div class="container">
+                <div class="section-header" style="text-align: center !important; margin-bottom: 3rem !important;">
+                    <h2 class="section-title" style="color: #ffffff !important; font-size: 2.5rem !important; font-weight: 800 !important; margin: 0 0 1rem 0 !important;">
+                        <span class="title-accent" style="background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%) !important; -webkit-background-clip: text !important; -webkit-text-fill-color: transparent !important; background-clip: text !important;">신뢰 지표 & 파트너</span>
+                    </h2>
+                    <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.75) !important; font-size: 1.125rem !important; margin: 0 !important;">주요 제조 공정에 적용된 실적과 파트너 네트워크를 확인하세요.</p>
+                </div>
+                <div class="trust-grid" style="display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 1.5rem !important; margin-bottom: 3rem !important;">
+                    <div class="trust-card" style="background: linear-gradient(135deg, rgba(20, 30, 50, 0.95) 0%, rgba(30, 45, 70, 0.92) 100%) !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; border-radius: 24px !important; padding: 2rem !important; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important; backdrop-filter: blur(30px) !important; text-align: center !important; position: relative !important; overflow: hidden !important;">
+                        <div style="width: 56px !important; height: 56px !important; display: flex !important; align-items: center !important; justify-content: center !important; background: rgba(59, 130, 246, 0.2) !important; border: 1px solid rgba(59, 130, 246, 0.4) !important; border-radius: 14px !important; color: #60a5fa !important; margin: 0 auto 1rem !important;">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 16V8C20.9996 7.64928 20.9071 7.30481 20.7315 7.00116C20.556 6.69751 20.3037 6.44536 20 6.27L13 2.27C12.696 2.09446 12.3511 2.00205 12 2.00205C11.6489 2.00205 11.304 2.09446 11 2.27L4 6.27C3.69626 6.44536 3.44398 6.69751 3.26846 7.00116C3.09294 7.30481 3.00036 7.64928 3 8V16C3.00036 16.3507 3.09294 16.6952 3.26846 16.9988C3.44398 17.3025 3.69626 17.5546 4 17.73L11 21.73C11.304 21.9055 11.6489 21.9979 12 21.9979C12.3511 21.9979 12.696 21.9055 13 21.73L20 17.73C20.3037 17.5546 20.556 17.3025 20.7315 16.9988C20.9071 16.6952 20.9996 16.3507 21 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3 style="color: rgba(255, 255, 255, 0.7) !important; font-size: 0.875rem !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 0.1em !important; margin: 0 0 0.75rem 0 !important;">도입 라인</h3>
+                        <p class="trust-value" style="color: #ffffff !important; font-size: 2rem !important; font-weight: 800 !important; margin: 0 0 0.5rem 0 !important; line-height: 1.2 !important;">500+ 라인</p>
+                        <p class="trust-desc" style="color: rgba(255, 255, 255, 0.75) !important; font-size: 0.875rem !important; line-height: 1.5 !important; margin: 0 !important;">자동차, 조선, 건설기계, 중공업 핵심 공정 적용</p>
+                    </div>
+                    <div class="trust-card" style="background: linear-gradient(135deg, rgba(20, 30, 50, 0.95) 0%, rgba(30, 45, 70, 0.92) 100%) !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; border-radius: 24px !important; padding: 2rem !important; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important; backdrop-filter: blur(30px) !important; text-align: center !important; position: relative !important; overflow: hidden !important;">
+                        <div style="width: 56px !important; height: 56px !important; display: flex !important; align-items: center !important; justify-content: center !important; background: rgba(59, 130, 246, 0.2) !important; border: 1px solid rgba(59, 130, 246, 0.4) !important; border-radius: 14px !important; color: #60a5fa !important; margin: 0 auto 1rem !important;">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3 style="color: rgba(255, 255, 255, 0.7) !important; font-size: 0.875rem !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 0.1em !important; margin: 0 0 0.75rem 0 !important;">평균 ROI</h3>
+                        <p class="trust-value" style="color: #ffffff !important; font-size: 2rem !important; font-weight: 800 !important; margin: 0 0 0.5rem 0 !important; line-height: 1.2 !important;">18개월</p>
+                        <p class="trust-desc" style="color: rgba(255, 255, 255, 0.75) !important; font-size: 0.875rem !important; line-height: 1.5 !important; margin: 0 !important;">설비 최적화와 PoC 이후 전환까지의 평균 회수 기간</p>
+                    </div>
+                    <div class="trust-card" style="background: linear-gradient(135deg, rgba(20, 30, 50, 0.95) 0%, rgba(30, 45, 70, 0.92) 100%) !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; border-radius: 24px !important; padding: 2rem !important; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important; backdrop-filter: blur(30px) !important; text-align: center !important; position: relative !important; overflow: hidden !important;">
+                        <div style="width: 56px !important; height: 56px !important; display: flex !important; align-items: center !important; justify-content: center !important; background: rgba(59, 130, 246, 0.2) !important; border: 1px solid rgba(59, 130, 246, 0.4) !important; border-radius: 14px !important; color: #60a5fa !important; margin: 0 auto 1rem !important;">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3 style="color: rgba(255, 255, 255, 0.7) !important; font-size: 0.875rem !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 0.1em !important; margin: 0 0 0.75rem 0 !important;">서비스 커버리지</h3>
+                        <p class="trust-value" style="color: #ffffff !important; font-size: 2rem !important; font-weight: 800 !important; margin: 0 0 0.5rem 0 !important; line-height: 1.2 !important;">24h SLA</p>
+                        <p class="trust-desc" style="color: rgba(255, 255, 255, 0.75) !important; font-size: 0.875rem !important; line-height: 1.5 !important; margin: 0 !important;">현장·원격을 통합한 글로벌 A/S 및 엔지니어 지원</p>
+                    </div>
+                    <div class="trust-card" style="background: linear-gradient(135deg, rgba(20, 30, 50, 0.95) 0%, rgba(30, 45, 70, 0.92) 100%) !important; border: 2px solid rgba(255, 255, 255, 0.2) !important; border-radius: 24px !important; padding: 2rem !important; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important; backdrop-filter: blur(30px) !important; text-align: center !important; position: relative !important; overflow: hidden !important;">
+                        <div style="width: 56px !important; height: 56px !important; display: flex !important; align-items: center !important; justify-content: center !important; background: rgba(59, 130, 246, 0.2) !important; border: 1px solid rgba(59, 130, 246, 0.4) !important; border-radius: 14px !important; color: #60a5fa !important; margin: 0 auto 1rem !important;">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3 style="color: rgba(255, 255, 255, 0.7) !important; font-size: 0.875rem !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 0.1em !important; margin: 0 0 0.75rem 0 !important;">품질 인증</h3>
+                        <p class="trust-value" style="color: #ffffff !important; font-size: 2rem !important; font-weight: 800 !important; margin: 0 0 0.5rem 0 !important; line-height: 1.2 !important;">ISO 9001</p>
+                        <p class="trust-desc" style="color: rgba(255, 255, 255, 0.75) !important; font-size: 0.875rem !important; line-height: 1.5 !important; margin: 0 !important;">글로벌 표준 품질 시스템 기반의 프로젝트 수행</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community / Notice / Resources Tabs -->
+        <section class="section section-alt" id="community" aria-label="커뮤니티와 공지">
+        <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title"><span class="title-accent">소식 & 자료</span></h2>
+                    <p class="section-subtitle">브랜드의 최신 소식과 자료를 한 곳에서</p>
+                    <p class="section-brief">공지·뉴스·자료실 탭을 통해 운영/홍보 자산을 한 화면에서 바로 접근하게 했습니다.</p>
+                </div>
+                <div class="tabs" role="tablist">
+                    <button class="tab active" role="tab" data-target="tab-notice" aria-selected="true">공지사항</button>
+                    <button class="tab" role="tab" data-target="tab-news">뉴스</button>
+                    <button class="tab" role="tab" data-target="tab-resources">자료실</button>
+                </div>
+                <div id="tab-notice" class="tab-content active" role="tabpanel">
+                    <ul class="card" style="list-style:none; padding: var(--spacing-lg);">
+                        <li><a href="#" class="reveal slide-up">[공지] 추석 연휴 고객지원 일정 안내 <small style="color:var(--text-muted)">2025-09-05</small></a></li>
+                        <li><a href="#" class="reveal slide-up">[업데이트] Active GⅢ v3.2 릴리즈 <small style="color:var(--text-muted)">2025-08-22</small></a></li>
+                        <li><a href="#" class="reveal slide-up">[안내] 기술 백서 개정판 배포 <small style="color:var(--text-muted)">2025-07-11</small></a></li>
+                    </ul>
+                </div>
+                <div id="tab-news" class="tab-content" role="tabpanel">
+                    <div class="card">
+                        <p class="reveal slide-up">국내외 전시회 출품 및 글로벌 파트너십 확대 소식을 전해드립니다.</p>
+                    </div>
+                </div>
+                <div id="tab-resources" class="tab-content" role="tabpanel">
+                    <div class="video-grid">
+                        <a href="media/index.html#videos" class="video-thumb reveal float-in">
+                            <img src="assets/images/hero_poster.jpg" alt="제품 영상 썸네일">
+                        </a>
+                        <a href="resources/index.html" class="video-thumb reveal float-in">
+                            <img src="assets/images/rd-lab.jpg" alt="자료실 썸네일">
+                        </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>J-WON ROBOTICS GROUP</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">
+                        용접 자동화에 특화된 One-Stop Smart Factory Robot Integrator. 1999년부터 축적된 원천기술로 현장을 끝까지 책임집니다.
+                    </p>
+                    <div style="margin-bottom: 1rem;">
+                        <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 0.5rem;">
+                            <strong>문의:</strong> <a href="tel:1899-8304" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">1899-8304</a> / <a href="tel:041-587-8567" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">041-587-8567</a>
+                        </p>
+                        <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 0.5rem;">
+                            <strong>이메일:</strong> <a href="mailto:jeehoon21514@naver.com" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">jeehoon21514@naver.com</a>
+                        </p>
+                        <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.875rem;">
+                            천안본사 (31073) 충남 천안시 동남구 삼룡4길 58-16, 1동
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none; transition: color 0.3s ease;">Facebook</a>
+                        <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none; transition: color 0.3s ease;">LinkedIn</a>
+                        <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none; transition: color 0.3s ease;">YouTube</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>사업 영역</h3>
+                    <ul>
+                        <li><a href="products/index.html">로봇 자동화 시스템</a></li>
+                        <li><a href="products/index.html">스마트팩토리 & 데이터</a></li>
+                        <li><a href="products/index.html">로봇 & 장비 공급</a></li>
+                        <li><a href="media/cases/index.html">구축 사례</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>회사</h3>
+                    <ul>
+                        <li><a href="about/index.html">그룹 구조</a></li>
+                        <li><a href="about/index.html">기술 진화 스토리</a></li>
+                        <li><a href="about/index.html">핵심 역량</a></li>
+                        <li><a href="contact/index.html">상담·견적 요청</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>지원</h3>
+                    <ul>
+                        <li><a href="resources/index.html">기술 자료</a></li>
+                        <li><a href="contact/index.html">고객 지원</a></li>
+                        <li><a href="admin/index.html" target="_blank">관리자</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                    <p>&copy; 2024 제이원로보틱스. All rights reserved.</p>
+                <div style="margin-top: 1rem;">
+                    <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none; margin-right: 1rem;">이용약관</a>
+                    <a href="#" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">개인정보처리방침</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Performance Metrics -->
+    <script>
+        (function monitorLCP() {
+            if (!('PerformanceObserver' in window)) return;
+            try {
+                const observer = new PerformanceObserver((entryList) => {
+                    const entries = entryList.getEntries();
+                    const lastEntry = entries[entries.length - 1];
+                    const lcpValue = (lastEntry?.renderTime || lastEntry?.loadTime || lastEntry?.startTime || 0).toFixed(2);
+                    if (window.dataLayer) {
+                        window.dataLayer.push({ event: 'lcp_update', lcp: Number(lcpValue) });
+                    } else {
+                        console.log('LCP', lcpValue);
+                    }
+                });
+                observer.observe({ type: 'largest-contentful-paint', buffered: true });
+            } catch (error) {
+                console.warn('LCP observer init failed', error);
+            }
+        })();
+    </script>
+    <!-- Form Handling Scripts -->
+    <script>
+        // 폼 제출 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            // 상담·견적 요청 폼
+            const quoteForm = document.querySelector('form[data-analytics-event="lead_quote"]');
+            if (quoteForm) {
+                quoteForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    const data = {
+                        type: 'quote',
+                        company: formData.get('company'),
+                        name: formData.get('name'),
+                        phone: formData.get('phone'),
+                        email: formData.get('email'),
+                        industry: formData.get('industry'),
+                        uph: formData.get('uph'),
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    // localStorage에 저장
+                    const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+                    leads.push(data);
+                    localStorage.setItem('leads', JSON.stringify(leads));
+                    
+                    // 성공 메시지
+                    alert('상담·견적 요청이 접수되었습니다.\n담당자가 평균 4시간 이내에 연락드리겠습니다.\n감사합니다!');
+                    this.reset();
+                    
+                    // 스크롤을 최상단으로
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+            
+            // 폼 제출은 script.js의 setupAnalyticsTracking()에서 통합 처리됨
+            
+            // 스크롤 부드럽게 처리
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#' && href.length > 1) {
+                        const target = document.querySelector(href);
+                        if (target) {
+                            e.preventDefault();
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="admin-key.js"></script>
+    <script src="logo-loader.js"></script>
+    <script src="content-manager.js"></script>
+    <script src="navigation-loader.js"></script>
+</body>
+</html>

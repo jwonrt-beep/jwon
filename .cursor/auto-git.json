@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "remote": "",
+  "branch": "main",
+  "commitPrefix": "Update",
+  "pushOnStop": true
+}
