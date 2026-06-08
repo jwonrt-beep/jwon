@@ -1,6 +1,6 @@
 {
   "enabled": true,
-  "remote": "",
+  "remote": "https://github.com/jwonrt-beep/jwon.git",
   "branch": "main",
   "commitPrefix": "Update",
   "pushOnStop": true
