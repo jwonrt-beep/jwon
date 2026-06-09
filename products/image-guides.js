@@ -118,7 +118,13 @@ var PRODUCT_IMAGE_GUIDES = {
             { src: '/assets/images/products/highpower/wgh-unit.jpg', label: 'WGH 용접전원', guide: ['WGH 계열 고출력 전원 장비'] },
             { src: '/assets/images/products/highpower/heavy-plate.jpg', label: '중후판 용접', guide: ['두꺼운 판재 필렛/对接 용접'] },
             { src: '/assets/images/products/highpower/large-frame.jpg', label: '대형 구조물', guide: ['건설장비·산업기계 대형 프레임 용접'] }
-        ]
+        ],
+        seriesImages: {
+            '중후판 프레임 용접 구성': { src: '/assets/images/products/highpower/card-heavy-plate.jpg', guide: ['중후판 프레임 + TL + WGH'] },
+            '대형 구조물 용접 구성': { src: '/assets/images/products/highpower/card-large-structure.jpg', guide: ['대형 구조물 + 포지셔너'] },
+            '필렛 고속·고출력 구성': { src: '/assets/images/products/highpower/card-fillet.jpg', guide: ['필렛 고속 용접 장면'] },
+            'TL + WGH 통합 고출력 셀': { src: '/assets/images/products/highpower/card-integrated-cell.jpg', guide: ['고출력 자동화 셀 전경'] }
+        }
     },
     'jig-positioner-automation': {
         hero: {
@@ -164,10 +170,31 @@ function getProductImageGuide(slug) {
         'ts-800': 'model', 'ts-950': 'model', 'tm-1100': 'model', 'tm-1400': 'model',
         'tm-1600': 'model', 'tm-1800': 'model', 'tm-2000': 'model', 'tl-1800': 'model', 'tl-2000': 'model',
         'wg-series': 'power', 'wgh-series': 'power', 'tawers-controller': 'power',
-        's-awp': 'process', 'hbc': 'process', 'zi-tech': 'process', 'basic-arc-process': 'process'
+        's-awp': 'process', 'hbc': 'process', 'zi-tech': 'process', 'basic-arc-process': 'process',
+        'heavy-plate-frame': 'highpower', 'large-structure': 'highpower', 'fillet-high-output': 'highpower', 'tl-wgh-integrated-cell': 'highpower'
     };
-    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : aliases[slug] === 'process' ? slug : (aliases[slug] || slug);
+    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : aliases[slug] === 'process' ? slug : aliases[slug] === 'highpower' ? slug : (aliases[slug] || slug);
     if (PRODUCT_IMAGE_GUIDES[key]) return PRODUCT_IMAGE_GUIDES[key];
+    if (typeof getHighPowerConfig === 'function' && getHighPowerConfig(slug)) {
+        var hp = getHighPowerConfig(slug);
+        var hpGuide = PRODUCT_IMAGE_GUIDES['high-power-welding-system'];
+        var hpImg = hpGuide && hpGuide.seriesImages ? hpGuide.seriesImages[hp.name] : null;
+        return {
+            hero: hpImg || {
+                src: '/assets/images/products/highpower/' + slug + '.jpg',
+                label: hp.name + ' 현장 사진',
+                guide: [
+                    hp.name + ' 적용 현장 (TL + WGH 구성)',
+                    '중후판·대형 워크 용접 장면',
+                    '고출력 용접 비드·스파크 결과'
+                ]
+            },
+            gallery: [
+                { src: '/assets/images/products/highpower/' + slug + '-field.jpg', label: '현장 적용', guide: [hp.name + ' 현장 용접'] },
+                { src: '/assets/images/products/highpower/' + slug + '-cell.jpg', label: '셀 구성', guide: ['로봇+전원+지그 통합 구성'] }
+            ]
+        };
+    }
     if (typeof getWeldingProcess === 'function' && getWeldingProcess(slug)) {
         var wp = getWeldingProcess(slug);
         var processGuide = PRODUCT_IMAGE_GUIDES['welding-process-software'];

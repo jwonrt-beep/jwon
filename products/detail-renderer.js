@@ -124,7 +124,7 @@
     }
 
     function heroVisual(content, slug) {
-        if (content.pageType === 'model' || content.pageType === 'power-series' || content.pageType === 'process-item') {
+        if (content.pageType === 'model' || content.pageType === 'power-series' || content.pageType === 'process-item' || content.pageType === 'highpower-config') {
             return modelHeroVisual(content, slug);
         }
         const guide = imgGuide(slug);
@@ -138,7 +138,7 @@
 
     function heroSection(product, content, qUrl, slug) {
         const c = content;
-        const parentNote = c.parentNote && !c.parentSystem
+        const parentNote = c.parentNote
             ? `<p class="pd-parent-note">${esc(c.parentNote)}</p>` : '';
         const highlight = c.heroHighlight
             ? `<p class="pd-hero-highlight">${esc(c.heroHighlight)}</p>` : '';
@@ -147,7 +147,7 @@
         const secondary = c.heroSecondaryBtn
             ? `<a href="${c.heroSecondaryBtn.target || '#'}" class="pd-btn-outline">${esc(c.heroSecondaryBtn.label)}</a>`
             : '';
-        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model' && c.pageType !== 'power-series' && c.pageType !== 'process-item'
+        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model' && c.pageType !== 'power-series' && c.pageType !== 'process-item' && c.pageType !== 'highpower-config'
             ? `<a href="${c.parentSystem.link}" class="pd-btn-outline">${esc(c.parentSystem.linkText || 'TAWERS 시스템 보기')}</a>`
             : '';
         const listBtn = c.backLink
@@ -158,12 +158,14 @@
             ? `<a href="/products/welding-power-controller/" class="pd-btn-outline">용접전원·컨트롤러 구성 보기</a>`
             : c.pageType === 'process-item'
             ? `<a href="/products/welding-process-software/" class="pd-btn-outline">용접 공법 소프트웨어 보기</a>`
+            : c.pageType === 'highpower-config'
+            ? `<a href="/products/high-power-welding-system/" class="pd-btn-outline">고출력 용접 시스템 보기</a>`
             : `<a href="${listUrl()}" class="pd-btn-outline">제품군 목록</a>`;
 
         return `
             ${parentSystemBanner(c.parentSystem)}
             ${hierarchyBanner(c.hierarchy)}
-            <section class="pd-hero${c.pageType === 'model' || c.pageType === 'power-series' || c.pageType === 'process-item' ? ' pd-hero--model' : ''}">
+            <section class="pd-hero${c.pageType === 'model' || c.pageType === 'power-series' || c.pageType === 'process-item' || c.pageType === 'highpower-config' ? ' pd-hero--model' : ''}">
                 <div class="container">
                     <div class="pd-hero-grid">
                         <div class="pd-hero-text">
@@ -596,6 +598,10 @@
             back.url = '/products/welding-process-software/';
             back.label = '용접 공법 소프트웨어 보기';
         }
+        if (content.pageType === 'highpower-config') {
+            back.url = '/products/high-power-welding-system/';
+            back.label = '고출력 용접 시스템 보기';
+        }
         return `
             <section class="pd-cta">
                 <div class="container">
@@ -630,11 +636,13 @@
         const guide = imgGuide(slug);
         let html = heroSection(product, content, qUrl, slug);
 
-        if (type === 'model' || type === 'power-series' || type === 'process-item') {
+        if (type === 'model' || type === 'power-series' || type === 'process-item' || type === 'highpower-config') {
             const specNote = type === 'power-series'
                 ? '출력·전류·토치·와이어 송급 구성은 작업물 조건에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
                 : type === 'process-item'
                 ? '공법 파라미터·세부 용접 조건은 작업물·소재·두께에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
+                : type === 'highpower-config'
+                ? '출력·전류·토치·와이어 송급·용접 속도 등은 작업물 조건에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
                 : undefined;
             html += summarySection(content.summaryCards, '핵심 요약');
             html += cautionNoteSection(content.cautionNote);
@@ -674,6 +682,8 @@
                 lineupCards = buildPowerLineupCardsFromData();
             } else if (slug === 'welding-process-software' && typeof buildProcessLineupCardsFromData === 'function') {
                 lineupCards = buildProcessLineupCardsFromData();
+            } else if (slug === 'high-power-welding-system' && typeof buildHighPowerLineupCardsFromData === 'function') {
+                lineupCards = buildHighPowerLineupCardsFromData();
             } else if (typeof buildLineupCardsFromData === 'function') {
                 lineupCards = buildLineupCardsFromData();
             } else {
@@ -715,6 +725,9 @@
         }
 
         let content = getProductDetailContent(slug);
+        if (!content && typeof getHighPowerConfigDetailContent === 'function') {
+            content = getHighPowerConfigDetailContent(slug);
+        }
         if (!content && typeof getProcessItemDetailContent === 'function') {
             content = getProcessItemDetailContent(slug);
         }

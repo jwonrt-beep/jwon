@@ -465,6 +465,9 @@ function getProductDetailContent(slug) {
     if (slug === 'welding-process-software' && typeof buildProcessLineupDetailContent === 'function') {
         return buildProcessLineupDetailContent();
     }
+    if (slug === 'high-power-welding-system' && typeof buildHighPowerLineupDetailContent === 'function') {
+        return buildHighPowerLineupDetailContent();
+    }
     const aliases = {
         tawers: 'tawers-welding-robot-system',
         'tm-series': 'welding-robot-manipulator-lineup',
@@ -475,6 +478,19 @@ function getProductDetailContent(slug) {
 }
 
 function getCatalogProduct(slug) {
+    if (typeof getHighPowerConfig === 'function') {
+        const hp = getHighPowerConfig(slug);
+        if (hp) {
+            return {
+                name: hp.name,
+                slug: slug,
+                badge: hp.parentLineup,
+                description: hp.tagline,
+                imageHint: hp.series + ' · ' + hp.name,
+                categories: ['고출력 용접']
+            };
+        }
+    }
     if (typeof getWeldingProcess === 'function') {
         const proc = getWeldingProcess(slug);
         if (proc) {
@@ -548,6 +564,9 @@ function resolveSlugFromUrl() {
         if (parts[idx + 1] === 'welding-process' && parts[idx + 2]) {
             return parts[idx + 2];
         }
+        if (parts[idx + 1] === 'high-power' && parts[idx + 2]) {
+            return parts[idx + 2];
+        }
         if (parts[idx + 1] !== 'index.html' && parts[idx + 1] !== 'detail.html') {
             return parts[idx + 1];
         }
@@ -576,6 +595,13 @@ function getPowerSeriesDetailContent(slug) {
 function getProcessItemDetailContent(slug) {
     if (typeof buildProcessItemDetailContent === 'function') {
         return buildProcessItemDetailContent(slug);
+    }
+    return null;
+}
+
+function getHighPowerConfigDetailContent(slug) {
+    if (typeof buildHighPowerConfigDetailContent === 'function') {
+        return buildHighPowerConfigDetailContent(slug);
     }
     return null;
 }
