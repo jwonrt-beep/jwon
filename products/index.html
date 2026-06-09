@@ -453,7 +453,7 @@
             productsBoard.innerHTML = products.map((product) => {
                 const filterTags = (product.filterTags || product.categories || []).join(',');
                 const highlightClass = product.highlight ? ' product-card--highlight' : '';
-                const detailUrl = product.slug + '/index.html';
+                const detailUrl = product.slug + '/';
                 const quoteUrl = '../contact/index.html?type=quote&product=' + encodeURIComponent(product.name);
 
                 return `

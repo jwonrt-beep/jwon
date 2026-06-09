@@ -1,20 +1,5 @@
 (function () {
-    function getProductsBasePath() {
-        const parts = window.location.pathname.split('/').filter(Boolean);
-        const idx = parts.indexOf('products');
-        if (idx >= 0 && parts[idx + 1] && parts[idx + 1] !== 'detail.html' && parts[idx + 1] !== 'index.html') {
-            return '../';
-        }
-        return '';
-    }
-
-    function assetPath(relativeFromProducts) {
-        const base = getProductsBasePath();
-        const clean = relativeFromProducts.replace(/^\.\.\//, '');
-        return base ? `../../${clean}` : `../${clean}`;
-    }
-
-    const PLACEHOLDER = assetPath('../assets/images/products/placeholder.svg');
+    const PLACEHOLDER = '/assets/images/products/placeholder.svg';
 
     function esc(text) {
         const d = document.createElement('div');
@@ -23,17 +8,15 @@
     }
 
     function detailUrl(slug) {
-        return `${getProductsBasePath()}${slug}/index.html`;
+        return `/products/${slug}/`;
     }
 
     function listUrl() {
-        return `${getProductsBasePath()}index.html`;
+        return '/products/';
     }
 
     function quoteUrl(product) {
-        const base = getProductsBasePath();
-        const prefix = base ? '../../' : '../';
-        return `${prefix}contact/index.html?type=quote&product=${encodeURIComponent(product.name)}`;
+        return `/contact/index.html?type=quote&product=${encodeURIComponent(product.name)}`;
     }
 
     function heroVisual(product, hint) {
@@ -306,6 +289,7 @@
         } else if (type === 'extension' || type === 'peripheral') {
             html += systemSection(content.systemSection);
             if (content.recommendations) html += recommendationsSection(content.recommendations);
+            if (content.selectionGuide) html += selectionGuideSection(content.selectionGuide, '구성 선택 가이드');
         }
 
         html += fieldsSection(content.applicationFields);
@@ -324,15 +308,19 @@
         const container = document.getElementById('detailContent');
 
         if (!product || !slug) {
-            if (notFound) notFound.style.display = 'block';
+            if (notFound) { notFound.style.display = 'block'; notFound.hidden = false; }
+            if (container) container.innerHTML = '';
             return;
         }
 
         const content = getProductDetailContent(slug);
         if (!content) {
-            if (notFound) notFound.style.display = 'block';
+            if (notFound) { notFound.style.display = 'block'; notFound.hidden = false; }
+            if (container) container.innerHTML = '';
             return;
         }
+
+        if (notFound) { notFound.style.display = 'none'; notFound.hidden = true; }
 
         document.title = `${product.name} - 제이원로보틱스`;
         const bc = document.getElementById('breadcrumbProduct');

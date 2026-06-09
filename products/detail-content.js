@@ -243,6 +243,12 @@ const PRODUCT_DETAIL_CONTENT = {
             components: ['맞춤 지그', '회전 포지셔너', '슬라이드 유닛', '클램핑 시스템', '센서·인터록', '로봇 연동 인터페이스']
         },
         applicationFields: ['프레임 용접', '원형·곡면 작업물', '다면 용접', '대형 구조물', '반복 생산 라인'],
+        selectionGuide: [
+            { condition: '다면 용접, 접근성 부족', recommendation: '회전 포지셔너 + 맞춤 지그' },
+            { condition: '작업물 고정 정밀도 필요', recommendation: '클램핑·센서 연동 지그' },
+            { condition: '대형 구조물 용접', recommendation: '슬라이드 유닛 + 포지셔너' },
+            { condition: '로봇 셀과 함께 구성', recommendation: 'TAWERS + 지그·포지셔너 통합 설계' }
+        ],
         problems: [
             '작업물 고정 불량으로 용접 품질 편차',
             '다면 용접 시 접근성 부족',
@@ -284,6 +290,12 @@ const PRODUCT_DETAIL_CONTENT = {
             components: ['TAWERS 로봇 시스템', '지그·포지셔너', '안전펜스', '컨트롤러', '인터록', '시운전·교육']
         },
         applicationFields: ['신규 자동화 라인', '기존 공정 개조', '소형·중형 셀', '다품종 셋업', 'PoC·파일럿 라인'],
+        selectionGuide: [
+            { condition: '신규 용접 자동화 라인 구축', recommendation: 'TAWERS + 지그 + 펜스 턴키 셀' },
+            { condition: '기존 공정에 로봇만 추가', recommendation: '부분 셀 + 안전·인터록 보완' },
+            { condition: '벤더 분리 발주로 일정 지연', recommendation: '설계·제작·시운전 One-Stop' },
+            { condition: '시운전·교육까지 필요', recommendation: '턴키 납품 + 현장 교육 패키지' }
+        ],
         problems: [
             '로봇만 도입해 주변 설비 미비',
             '벤더별 분리 발주로 일정 지연',
@@ -325,6 +337,12 @@ const PRODUCT_DETAIL_CONTENT = {
             components: ['용접 설비 데이터', '공정 모니터링', '작업 이력', '품질 로그', '대시보드', 'MES 연동']
         },
         applicationFields: ['용접 자동화 라인', '품질 추적 필요 공정', '다품종 생산', '국책·스마트공장 과제', '데이터 기반 공정 개선'],
+        selectionGuide: [
+            { condition: '용접 품질 데이터가 남지 않음', recommendation: '설비 데이터 수집 + 품질 로그' },
+            { condition: '공정 상태 실시간 파악 필요', recommendation: '모니터링 대시보드 구축' },
+            { condition: '작업 이력·추적성 필요', recommendation: 'MES·이력 연동' },
+            { condition: '단계적 스마트공장 도입', recommendation: 'PoC → 파일럿 → 확장 구축' }
+        ],
         problems: [
             '용접 품질 데이터가 남지 않음',
             '공정 상태를 실시간 파악하기 어려움',
