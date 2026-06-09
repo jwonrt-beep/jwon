@@ -124,7 +124,7 @@
     }
 
     function heroVisual(content, slug) {
-        if (content.pageType === 'model' || content.pageType === 'power-series' || content.pageType === 'process-item' || content.pageType === 'highpower-config') {
+        if (content.pageType === 'model' || content.pageType === 'power-series' || content.pageType === 'process-item' || content.pageType === 'highpower-config' || content.pageType === 'jig-config') {
             return modelHeroVisual(content, slug);
         }
         const guide = imgGuide(slug);
@@ -147,7 +147,7 @@
         const secondary = c.heroSecondaryBtn
             ? `<a href="${c.heroSecondaryBtn.target || '#'}" class="pd-btn-outline">${esc(c.heroSecondaryBtn.label)}</a>`
             : '';
-        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model' && c.pageType !== 'power-series' && c.pageType !== 'process-item' && c.pageType !== 'highpower-config'
+        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model' && c.pageType !== 'power-series' && c.pageType !== 'process-item' && c.pageType !== 'highpower-config' && c.pageType !== 'jig-config'
             ? `<a href="${c.parentSystem.link}" class="pd-btn-outline">${esc(c.parentSystem.linkText || 'TAWERS 시스템 보기')}</a>`
             : '';
         const listBtn = c.backLink
@@ -160,12 +160,14 @@
             ? `<a href="/products/welding-process-software/" class="pd-btn-outline">용접 공법 소프트웨어 보기</a>`
             : c.pageType === 'highpower-config'
             ? `<a href="/products/high-power-welding-system/" class="pd-btn-outline">고출력 용접 시스템 보기</a>`
+            : c.pageType === 'jig-config'
+            ? `<a href="/products/jig-positioner-automation/" class="pd-btn-outline">지그·포지셔너 자동화 보기</a>`
             : `<a href="${listUrl()}" class="pd-btn-outline">제품군 목록</a>`;
 
         return `
             ${parentSystemBanner(c.parentSystem)}
             ${hierarchyBanner(c.hierarchy)}
-            <section class="pd-hero${c.pageType === 'model' || c.pageType === 'power-series' || c.pageType === 'process-item' || c.pageType === 'highpower-config' ? ' pd-hero--model' : ''}">
+            <section class="pd-hero${c.pageType === 'model' || c.pageType === 'power-series' || c.pageType === 'process-item' || c.pageType === 'highpower-config' || c.pageType === 'jig-config' ? ' pd-hero--model' : ''}">
                 <div class="container">
                     <div class="pd-hero-grid">
                         <div class="pd-hero-text">
@@ -602,6 +604,10 @@
             back.url = '/products/high-power-welding-system/';
             back.label = '고출력 용접 시스템 보기';
         }
+        if (content.pageType === 'jig-config') {
+            back.url = '/products/jig-positioner-automation/';
+            back.label = '지그·포지셔너 자동화 보기';
+        }
         return `
             <section class="pd-cta">
                 <div class="container">
@@ -636,13 +642,15 @@
         const guide = imgGuide(slug);
         let html = heroSection(product, content, qUrl, slug);
 
-        if (type === 'model' || type === 'power-series' || type === 'process-item' || type === 'highpower-config') {
+        if (type === 'model' || type === 'power-series' || type === 'process-item' || type === 'highpower-config' || type === 'jig-config') {
             const specNote = type === 'power-series'
                 ? '출력·전류·토치·와이어 송급 구성은 작업물 조건에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
                 : type === 'process-item'
                 ? '공법 파라미터·세부 용접 조건은 작업물·소재·두께에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
                 : type === 'highpower-config'
                 ? '출력·전류·토치·와이어 송급·용접 속도 등은 작업물 조건에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
+                : type === 'jig-config'
+                ? '지그·포지셔너 치수, 회전·슬라이드 스트로크, 클램핑·센서 구성은 작업물 조건에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
                 : undefined;
             html += summarySection(content.summaryCards, '핵심 요약');
             html += cautionNoteSection(content.cautionNote);
@@ -684,6 +692,8 @@
                 lineupCards = buildProcessLineupCardsFromData();
             } else if (slug === 'high-power-welding-system' && typeof buildHighPowerLineupCardsFromData === 'function') {
                 lineupCards = buildHighPowerLineupCardsFromData();
+            } else if (slug === 'jig-positioner-automation' && typeof buildJigLineupCardsFromData === 'function') {
+                lineupCards = buildJigLineupCardsFromData();
             } else if (typeof buildLineupCardsFromData === 'function') {
                 lineupCards = buildLineupCardsFromData();
             } else {
@@ -725,6 +735,9 @@
         }
 
         let content = getProductDetailContent(slug);
+        if (!content && typeof getJigConfigDetailContent === 'function') {
+            content = getJigConfigDetailContent(slug);
+        }
         if (!content && typeof getHighPowerConfigDetailContent === 'function') {
             content = getHighPowerConfigDetailContent(slug);
         }

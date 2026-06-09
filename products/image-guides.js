@@ -136,7 +136,13 @@ var PRODUCT_IMAGE_GUIDES = {
             { src: '/assets/images/products/jig/custom-jig.jpg', label: '맞춤 지그', guide: ['작업물 형상에 맞춘 지그 제작 사례'] },
             { src: '/assets/images/products/jig/positioner.jpg', label: '회전 포지셔너', guide: ['포지셔너 회전 + 다면 용접 장면'] },
             { src: '/assets/images/products/jig/robot-jig-cell.jpg', label: '로봇+지그 연동', guide: ['로봇과 지그가 연동된 셀 전경'] }
-        ]
+        ],
+        seriesImages: {
+            '맞춤 지그': { src: '/assets/images/products/jig/card-custom-jig.jpg', guide: ['맞춤 지그 + 작업물 고정 장면'] },
+            '회전 포지셔너': { src: '/assets/images/products/jig/card-rotary.jpg', guide: ['회전 포지셔너 + 다면 용접'] },
+            '슬라이드 유닛': { src: '/assets/images/products/jig/card-slide.jpg', guide: ['슬라이드 + 대형 워크 이동'] },
+            '클램핑·센서·로봇 연동 통합': { src: '/assets/images/products/jig/card-integrated.jpg', guide: ['센서·클램핑·로봇 연동 셀'] }
+        }
     },
     'turnkey-robot-automation-cell': {
         hero: {
@@ -171,10 +177,31 @@ function getProductImageGuide(slug) {
         'tm-1600': 'model', 'tm-1800': 'model', 'tm-2000': 'model', 'tl-1800': 'model', 'tl-2000': 'model',
         'wg-series': 'power', 'wgh-series': 'power', 'tawers-controller': 'power',
         's-awp': 'process', 'hbc': 'process', 'zi-tech': 'process', 'basic-arc-process': 'process',
-        'heavy-plate-frame': 'highpower', 'large-structure': 'highpower', 'fillet-high-output': 'highpower', 'tl-wgh-integrated-cell': 'highpower'
+        'heavy-plate-frame': 'highpower', 'large-structure': 'highpower', 'fillet-high-output': 'highpower', 'tl-wgh-integrated-cell': 'highpower',
+        'custom-jig': 'jig', 'rotary-positioner': 'jig', 'slide-unit': 'jig', 'integrated-setup': 'jig'
     };
-    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : aliases[slug] === 'process' ? slug : aliases[slug] === 'highpower' ? slug : (aliases[slug] || slug);
+    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : aliases[slug] === 'process' ? slug : aliases[slug] === 'highpower' ? slug : aliases[slug] === 'jig' ? slug : (aliases[slug] || slug);
     if (PRODUCT_IMAGE_GUIDES[key]) return PRODUCT_IMAGE_GUIDES[key];
+    if (typeof getJigConfig === 'function' && getJigConfig(slug)) {
+        var jig = getJigConfig(slug);
+        var jigGuide = PRODUCT_IMAGE_GUIDES['jig-positioner-automation'];
+        var jigImg = jigGuide && jigGuide.seriesImages ? jigGuide.seriesImages[jig.name] : null;
+        return {
+            hero: jigImg || {
+                src: '/assets/images/products/jig/' + slug + '.jpg',
+                label: jig.name + ' 현장 사진',
+                guide: [
+                    jig.name + ' 적용 현장 (지그·포지셔너 + 로봇)',
+                    '작업물 고정·회전·슬라이드 장면',
+                    'TAWERS 셀 내 지그·포지셔너 연동 구성'
+                ]
+            },
+            gallery: [
+                { src: '/assets/images/products/jig/' + slug + '-field.jpg', label: '현장 적용', guide: [jig.name + ' 현장 용접'] },
+                { src: '/assets/images/products/jig/' + slug + '-setup.jpg', label: '셋업·지그', guide: ['작업물 셋업·지그 디테일'] }
+            ]
+        };
+    }
     if (typeof getHighPowerConfig === 'function' && getHighPowerConfig(slug)) {
         var hp = getHighPowerConfig(slug);
         var hpGuide = PRODUCT_IMAGE_GUIDES['high-power-welding-system'];
