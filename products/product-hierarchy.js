@@ -109,17 +109,29 @@ var PRODUCT_HIERARCHY = {
         type: 'extension',
         parent: 'tawers-welding-robot-system'
     },
-    filters: [
-        { id: 'all', label: '전체' },
-        { id: 'tawers', label: 'TAWERS 통합 시스템' },
-        { id: 'lineup', label: '로봇 라인업' },
-        { id: 'power', label: '용접전원' },
-        { id: 'process', label: '용접 공법' },
-        { id: 'highpower', label: '고출력 구성' },
-        { id: 'jig', label: '지그·포지셔너' },
-        { id: 'turnkey', label: '턴키셀' },
-        { id: 'smartfactory', label: '스마트팩토리' }
-    ]
+    filterGroups: {
+        parent: [
+            { id: 'all', label: '전체 보기' },
+            { id: 'tawers', label: 'TAWERS 통합 시스템' }
+        ],
+        modules: {
+            label: 'TAWERS 구성 모듈',
+            items: [
+                { id: 'lineup', label: '로봇 라인업' },
+                { id: 'power', label: '용접전원' },
+                { id: 'process', label: '용접 공법' },
+                { id: 'highpower', label: '고출력 구성' },
+                { id: 'jig', label: '지그·포지셔너' },
+                { id: 'turnkey', label: '턴키셀' }
+            ]
+        },
+        extension: {
+            label: 'TAWERS 확장',
+            items: [
+                { id: 'smartfactory', label: '스마트팩토리' }
+            ]
+        }
+    }
 };
 
 // getRobotModel, getRobotSeries 등은 robot-lineup-data.js 에 정의
