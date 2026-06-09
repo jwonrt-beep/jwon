@@ -11,12 +11,46 @@
         return `/products/${slug}/`;
     }
 
+    function modelUrl(slug) {
+        return `/products/welding-robot/${slug}/`;
+    }
+
     function listUrl() {
         return '/products/';
     }
 
     function quoteUrl(product) {
         return `/contact/index.html?type=quote&product=${encodeURIComponent(product.name)}`;
+    }
+
+    function parentSystemBanner(ps) {
+        if (!ps) return '';
+        const link = ps.link
+            ? `<a href="${ps.link}" class="pd-parent-link">${esc(ps.linkText || '상위 시스템 보기')}</a>`
+            : '';
+        return `
+            <div class="pd-parent-banner">
+                <div class="container pd-parent-banner-inner">
+                    <span class="pd-parent-label">${esc(ps.label || '상위 시스템')}</span>
+                    <span class="pd-parent-text">${esc(ps.text)}</span>
+                    ${link}
+                </div>
+            </div>`;
+    }
+
+    function hierarchyBanner(items) {
+        if (!items || !items.length) return '';
+        return `
+            <div class="pd-hierarchy-banner">
+                <div class="container pd-hierarchy-banner-inner">
+                    ${items.map((item) => {
+                        const inner = item.link
+                            ? `<a href="${item.link}">${esc(item.text)}</a>`
+                            : esc(item.text);
+                        return `<div class="pd-hierarchy-item"><span>${esc(item.label)}</span>${inner}</div>`;
+                    }).join('')}
+                </div>
+            </div>`;
     }
 
     function heroVisual(product, hint) {
@@ -28,9 +62,23 @@
 
     function heroSection(product, content, qUrl) {
         const c = content;
-        const parentNote = c.parentNote
+        const parentNote = c.parentNote && !c.parentSystem
             ? `<p class="pd-parent-note">${esc(c.parentNote)}</p>` : '';
+        const highlight = c.heroHighlight
+            ? `<p class="pd-hero-highlight">${esc(c.heroHighlight)}</p>` : '';
+        const secondary = c.heroSecondaryBtn
+            ? `<a href="${c.heroSecondaryBtn.target || '#'}" class="pd-btn-outline">${esc(c.heroSecondaryBtn.label)}</a>`
+            : '';
+        const parentLink = c.parentSystem && c.parentSystem.link
+            ? `<a href="${c.parentSystem.link}" class="pd-btn-outline">${esc(c.parentSystem.linkText || 'TAWERS 시스템 보기')}</a>`
+            : '';
+        const listBtn = c.pageType === 'model'
+            ? `<a href="/products/welding-robot-manipulator-lineup/" class="pd-btn-outline">로봇 라인업</a>`
+            : `<a href="${listUrl()}" class="pd-btn-outline">제품군 목록</a>`;
+
         return `
+            ${parentSystemBanner(c.parentSystem)}
+            ${hierarchyBanner(c.hierarchy)}
             <section class="pd-hero">
                 <div class="container">
                     <div class="pd-hero-grid">
@@ -38,10 +86,12 @@
                             <span class="pd-badge">${esc(c.heroBadge || product.badge)}</span>
                             <h1>${esc(c.heroTitle || product.name)}</h1>
                             <p class="pd-hero-desc">${esc(c.heroDescription || product.description)}</p>
+                            ${highlight}
                             ${parentNote}
                             <div class="pd-hero-actions">
                                 <a href="${qUrl}" class="pd-btn-primary">견적 문의</a>
-                                <a href="${listUrl()}" class="pd-btn-outline">제품군 목록</a>
+                                ${parentLink || secondary}
+                                ${listBtn}
                             </div>
                         </div>
                         ${heroVisual(product, c.imageHint || product.imageHint)}
@@ -60,6 +110,86 @@
                             <div class="pd-summary-card">
                                 <h3>${esc(c.title)}</h3>
                                 <p>${esc(c.desc)}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>`;
+    }
+
+    function architectureSection(sec) {
+        if (!sec) return '';
+        const id = sec.id || 'architecture';
+        const positions = ['top', 'right-top', 'right-bottom', 'bottom', 'left-bottom', 'left-top'];
+        return `
+            <section class="pd-section pd-architecture" id="${esc(id)}">
+                <div class="container">
+                    <h2 class="pd-section-title">${esc(sec.title)}</h2>
+                    <p class="pd-section-desc">${esc(sec.description)}</p>
+                    <div class="pd-arch-diagram">
+                        <div class="pd-arch-center">
+                            <div class="pd-arch-center-inner">
+                                <span class="pd-arch-center-badge">통합 플랫폼</span>
+                                <h3>${esc(sec.center.title)}</h3>
+                                ${sec.center.subtitle ? `<p>${esc(sec.center.subtitle)}</p>` : ''}
+                            </div>
+                        </div>
+                        ${sec.nodes.map((node, i) => {
+                            const pos = positions[i] || 'top';
+                            const href = node.link ? detailUrl(node.link) : '#';
+                            return `
+                                <a href="${href}" class="pd-arch-node pd-arch-node--${pos}">
+                                    <h4>${esc(node.title)}</h4>
+                                    <p>${esc(node.desc)}</p>
+                                </a>`;
+                        }).join('')}
+                        <svg class="pd-arch-lines" aria-hidden="true" viewBox="0 0 800 600" preserveAspectRatio="none">
+                            <line x1="400" y1="300" x2="400" y2="80" />
+                            <line x1="400" y1="300" x2="620" y2="140" />
+                            <line x1="400" y1="300" x2="620" y2="460" />
+                            <line x1="400" y1="300" x2="400" y2="520" />
+                            <line x1="400" y1="300" x2="180" y2="460" />
+                            <line x1="400" y1="300" x2="180" y2="140" />
+                        </svg>
+                    </div>
+                </div>
+            </section>`;
+    }
+
+    function configFlowSection(sec) {
+        if (!sec) return '';
+        return `
+            <section class="pd-section pd-section--alt pd-config-flow">
+                <div class="container">
+                    <h2 class="pd-section-title">${esc(sec.title)}</h2>
+                    <div class="pd-flow-timeline">
+                        ${sec.steps.map((step, i) => `
+                            <div class="pd-flow-step">
+                                <div class="pd-flow-num">${String(i + 1).padStart(2, '0')}</div>
+                                <div class="pd-flow-body">
+                                    <h3>${esc(step.title)}</h3>
+                                    <p>${esc(step.desc)}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>`;
+    }
+
+    function childModulesSection(sec) {
+        if (!sec) return '';
+        return `
+            <section class="pd-section pd-child-modules">
+                <div class="container">
+                    <span class="pd-section-label">TAWERS 하위 구성</span>
+                    <h2 class="pd-section-title">${esc(sec.title)}</h2>
+                    <div class="pd-child-grid">
+                        ${sec.items.map((item) => `
+                            <div class="pd-child-card">
+                                <h3>${esc(item.name)}</h3>
+                                <p>${esc(item.desc)}</p>
+                                <a href="${detailUrl(item.link)}" class="pd-child-link">${esc(item.btn)} →</a>
                             </div>
                         `).join('')}
                     </div>
@@ -99,18 +229,20 @@
             </section>`;
     }
 
-    function recommendationsSection(items) {
+    function recommendationsSection(items, title) {
         if (!items || !items.length) return '';
+        const hasSite = items.some((r) => r.site);
         return `
             <section class="pd-section">
                 <div class="container">
-                    <h2 class="pd-section-title">추천 구성 예시</h2>
+                    <h2 class="pd-section-title">${esc(title || '추천 구성 예시')}</h2>
                     <p class="pd-section-desc">현장 조건에 따른 TAWERS 시스템 구성 예시입니다. 실제 제안은 작업물·소재·생산량을 확인한 뒤 결정합니다.</p>
-                    <div class="pd-rec-grid">
+                    <div class="pd-rec-grid${hasSite ? ' pd-rec-grid--with-site' : ''}">
                         ${items.map((r) => `
                             <div class="pd-rec-card">
                                 <h4>${esc(r.title)}</h4>
-                                <p>${esc(r.desc)}</p>
+                                <p class="pd-rec-desc">${esc(r.desc)}</p>
+                                ${r.site ? `<p class="pd-rec-site">적합 현장: ${esc(r.site)}</p>` : ''}
                             </div>
                         `).join('')}
                     </div>
@@ -137,6 +269,11 @@
                                         ${(c.tags || []).map((t) => `<span>${esc(t)}</span>`).join('')}
                                     </div>
                                     <div class="pd-lineup-models">대표 모델: ${esc(c.models)}</div>
+                                    ${c.modelLinks && c.modelLinks.length ? `
+                                        <div class="pd-model-links">
+                                            ${c.modelLinks.map((m) => `<a href="${m.url || modelUrl(m.name.toLowerCase())}">${esc(m.name)}</a>`).join('')}
+                                        </div>
+                                    ` : ''}
                                 </div>
                             </div>
                         `).join('')}
@@ -274,6 +411,30 @@
         const qUrl = quoteUrl(product);
         const type = content.pageType || 'system';
         let html = heroSection(product, content, qUrl);
+
+        if (type === 'parent-system') {
+            html += architectureSection(content.architectureSection);
+            html += configFlowSection(content.configFlowSection);
+            html += summarySection(content.summaryCards);
+            html += childModulesSection(content.childModulesSection);
+            html += recommendationsSection(content.recommendations, '현장 조건별 TAWERS 구성 예시');
+            html += fieldsSection(content.applicationFields);
+            html += problemsSection(content.problems);
+            html += specsSection(content.specifications);
+            html += processStepsSection(content.process);
+            html += ctaSection(content, qUrl);
+            return html;
+        }
+
+        if (type === 'model') {
+            html += summarySection(content.summaryCards);
+            html += specsSection(content.specifications);
+            if (content.relatedLinks) html += relatedSection(content.relatedLinks);
+            html += processStepsSection(content.process);
+            html += ctaSection(content, qUrl);
+            return html;
+        }
+
         html += summarySection(content.summaryCards);
 
         if (type === 'system') {
@@ -313,7 +474,10 @@
             return;
         }
 
-        const content = getProductDetailContent(slug);
+        let content = getProductDetailContent(slug);
+        if (!content && typeof getModelDetailContent === 'function') {
+            content = getModelDetailContent(slug);
+        }
         if (!content) {
             if (notFound) { notFound.style.display = 'block'; notFound.hidden = false; }
             if (container) container.innerHTML = '';

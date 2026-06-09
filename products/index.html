@@ -7,6 +7,7 @@
     <title>제품소개 - 제이원로보틱스</title>
     <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/products/products.css">
     <style>
         .products-hero {
             background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #0f2744 100%);
@@ -337,7 +338,7 @@
         <div class="container">
             <div class="hero-content">
                 <h1>제품군</h1>
-                <p>현장 문제에 맞는 용접 자동화 솔루션을 제안합니다. TAWERS 통합 시스템, 로봇 라인업, 용접 공법, 주변 자동화까지 One-Stop으로 구성합니다.</p>
+                <p>TAWERS 통합 용접로봇 시스템을 중심으로 로봇 라인업, 용접 공법, 주변 자동화, 데이터 연동까지 현장 맞춤형 솔루션을 설계합니다.</p>
             </div>
         </div>
     </section>
@@ -354,31 +355,8 @@
                 </ul>
             </div>
         </div>
-    <!-- Products Section -->
-    <section class="products-section">
-        <div class="container">
-            <p class="products-intro">제이원로보틱스는 로봇팔만 공급하지 않습니다. TAWERS 용접로봇 시스템을 중심으로 매니퓰레이터, 용접 공법, 지그, 턴키 셀, 데이터 연동까지 현장 조건에 맞춰 설계·제안합니다.</p>
-            <div class="products-filters">
-                <button class="filter-btn active" data-filter="all">전체</button>
-                <button class="filter-btn" data-filter="용접로봇 시스템">용접로봇 시스템</button>
-                <button class="filter-btn" data-filter="로봇 라인업">로봇 라인업</button>
-                <button class="filter-btn" data-filter="용접 공법">용접 공법</button>
-                <button class="filter-btn" data-filter="지그/포지셔너">지그/포지셔너</button>
-                <button class="filter-btn" data-filter="스마트팩토리">스마트팩토리</button>
-            </div>
-
-            <!-- Products Board -->
-            <div class="products-board" id="productsBoard">
-                <!-- 동적으로 로드됨 -->
-            </div>
-
-            <!-- Empty State -->
-            <div class="empty-state" id="emptyState" style="display: none;">
-                <h3>제품이 없습니다</h3>
-                <p>아직 등록된 제품이 없습니다.</p>
-            </div>
-        </div>
-    </section>
+    <!-- TAWERS 중심 계층형 제품군 -->
+    <div id="productsHierarchy" class="pg-page"></div>
 
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
@@ -420,103 +398,10 @@
     </footer>
 
     <script src="/script.js"></script>
-    <script src="/product-manager.js"></script>
-    <script src="/admin-key.js"></script>
+    <script src="/products/product-hierarchy.js"></script>
+    <script src="/products/products-page.js"></script>
     <script src="/logo-loader.js"></script>
     <script src="/content-manager.js"></script>
     <script src="/navigation-loader.js"></script>
-    <script>
-        const placeholderImg = '/assets/images/products/placeholder.svg';
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function loadProducts() {
-            const productsBoard = document.getElementById('productsBoard');
-            const emptyState = document.getElementById('emptyState');
-            const products = window.productManager.getProducts();
-
-            if (!products || products.length === 0) {
-                productsBoard.style.display = 'none';
-                emptyState.style.display = 'block';
-                emptyState.querySelector('h3').textContent = '제품을 불러올 수 없습니다';
-                emptyState.querySelector('p').textContent = '페이지를 새로고침해 주세요.';
-                return;
-            }
-
-            productsBoard.style.display = 'grid';
-            emptyState.style.display = 'none';
-
-            productsBoard.innerHTML = products.map((product) => {
-                const filterTags = (product.filterTags || product.categories || []).join(',');
-                const highlightClass = product.highlight ? ' product-card--highlight' : '';
-                const detailUrl = '/products/' + product.slug + '/';
-                const quoteUrl = '/contact/index.html?type=quote&product=' + encodeURIComponent(product.name);
-
-                return `
-                <article class="product-card${highlightClass}"
-                         data-filters="${escapeHtml(filterTags)}">
-                    <div class="product-thumbnail" style="background:#0f172a url('${placeholderImg}') center/cover no-repeat;">
-                        ${product.badge ? `<span class="product-badge">${escapeHtml(product.badge)}</span>` : ''}
-                        ${product.imageHint ? `<div class="product-thumbnail-hint">${escapeHtml(product.imageHint)}</div>` : ''}
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-name">${escapeHtml(product.name)}</h3>
-                        <p class="product-description">${escapeHtml(product.description)}</p>
-                        <div class="product-features">
-                            ${(product.features || []).map((f) => `<span class="product-feature">${escapeHtml(f)}</span>`).join('')}
-                        </div>
-                        <div class="product-quote">견적: <span>${escapeHtml(product.price || '현장 조건별 별도 산정')}</span></div>
-                        <div class="product-actions">
-                            <a href="${detailUrl}" class="btn-detail">상세보기</a>
-                            <a href="${quoteUrl}" class="btn-quote">견적문의</a>
-                        </div>
-                    </div>
-                </article>`;
-            }).join('');
-        }
-
-        function setupFilters() {
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const emptyState = document.getElementById('emptyState');
-            const productsBoard = document.getElementById('productsBoard');
-
-            filterBtns.forEach((btn) => {
-                btn.addEventListener('click', function () {
-                    const filter = this.getAttribute('data-filter');
-                    filterBtns.forEach((b) => b.classList.remove('active'));
-                    this.classList.add('active');
-
-                    let visible = 0;
-                    document.querySelectorAll('.product-card').forEach((card) => {
-                        const filters = card.getAttribute('data-filters') || '';
-                        const match = filter === 'all' || filters.split(',').includes(filter);
-                        card.style.display = match ? 'flex' : 'none';
-                        if (match) visible++;
-                    });
-
-                    if (visible === 0) {
-                        emptyState.style.display = 'block';
-                        emptyState.querySelector('h3').textContent = '해당 카테고리 제품군이 없습니다';
-                        emptyState.querySelector('p').textContent = '다른 필터를 선택해 주세요.';
-                        productsBoard.style.display = 'none';
-                    } else {
-                        emptyState.style.display = 'none';
-                        productsBoard.style.display = 'grid';
-                    }
-                });
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            loadProducts();
-            setupFilters();
-        });
-
-        // 카탈로그는 product-manager.js 내장 데이터 사용
-    </script>
 </body>
 </html>
