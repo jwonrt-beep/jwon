@@ -124,7 +124,7 @@
     }
 
     function heroVisual(content, slug) {
-        if (content.pageType === 'model' || content.pageType === 'power-series') {
+        if (content.pageType === 'model' || content.pageType === 'power-series' || content.pageType === 'process-item') {
             return modelHeroVisual(content, slug);
         }
         const guide = imgGuide(slug);
@@ -147,7 +147,7 @@
         const secondary = c.heroSecondaryBtn
             ? `<a href="${c.heroSecondaryBtn.target || '#'}" class="pd-btn-outline">${esc(c.heroSecondaryBtn.label)}</a>`
             : '';
-        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model' && c.pageType !== 'power-series'
+        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model' && c.pageType !== 'power-series' && c.pageType !== 'process-item'
             ? `<a href="${c.parentSystem.link}" class="pd-btn-outline">${esc(c.parentSystem.linkText || 'TAWERS 시스템 보기')}</a>`
             : '';
         const listBtn = c.backLink
@@ -156,12 +156,14 @@
             ? `<a href="/products/welding-robot-manipulator-lineup/" class="pd-btn-outline">로봇 라인업 보기</a>`
             : c.pageType === 'power-series'
             ? `<a href="/products/welding-power-controller/" class="pd-btn-outline">용접전원·컨트롤러 구성 보기</a>`
+            : c.pageType === 'process-item'
+            ? `<a href="/products/welding-process-software/" class="pd-btn-outline">용접 공법 소프트웨어 보기</a>`
             : `<a href="${listUrl()}" class="pd-btn-outline">제품군 목록</a>`;
 
         return `
             ${parentSystemBanner(c.parentSystem)}
             ${hierarchyBanner(c.hierarchy)}
-            <section class="pd-hero${c.pageType === 'model' || c.pageType === 'power-series' ? ' pd-hero--model' : ''}">
+            <section class="pd-hero${c.pageType === 'model' || c.pageType === 'power-series' || c.pageType === 'process-item' ? ' pd-hero--model' : ''}">
                 <div class="container">
                     <div class="pd-hero-grid">
                         <div class="pd-hero-text">
@@ -343,7 +345,7 @@
                     <div class="pd-lineup-grid">
                         ${cards.map((c) => {
                             const img = guides[c.name] || c.image || null;
-                            const detailLinks = c.modelLinks || c.seriesLinks || [];
+                            const detailLinks = c.modelLinks || c.seriesLinks || c.detailLinks || [];
                             return `
                             <div class="pd-lineup-card${c.highlight ? ' pd-lineup-card--highlight' : ''}">
                                 ${img ? renderImageSlot(img, 'lineup') : renderImageSlot({
@@ -360,10 +362,11 @@
                                     <div class="pd-lineup-tags">
                                         ${(c.tags || []).map((t) => `<span>${esc(t)}</span>`).join('')}
                                     </div>
-                                    ${c.models ? `<div class="pd-lineup-models">${c.modelLinks ? '대표 모델' : '구성'}: ${esc(c.models)}</div>` : ''}
+                                    ${c.problem ? `<div class="pd-lineup-problem"><span>해결 문제</span> ${esc(c.problem)}</div>` : ''}
+                                    ${c.models ? `<div class="pd-lineup-models">${c.modelLinks || c.detailLinks ? '공법' : '구성'}: ${esc(c.models)}</div>` : ''}
                                     ${detailLinks.length ? `
                                         <div class="pd-model-links">
-                                            ${detailLinks.map((m) => `<a href="${m.url || modelUrl(m.name.toLowerCase())}">${esc(m.name)}</a>`).join('')}
+                                            ${detailLinks.map((m) => `<a href="${m.url}">${esc(m.name)}</a>`).join('')}
                                         </div>
                                     ` : ''}
                                 </div>
@@ -589,6 +592,10 @@
             back.url = '/products/welding-power-controller/';
             back.label = '용접전원·컨트롤러 구성 보기';
         }
+        if (content.pageType === 'process-item') {
+            back.url = '/products/welding-process-software/';
+            back.label = '용접 공법 소프트웨어 보기';
+        }
         return `
             <section class="pd-cta">
                 <div class="container">
@@ -623,9 +630,11 @@
         const guide = imgGuide(slug);
         let html = heroSection(product, content, qUrl, slug);
 
-        if (type === 'model' || type === 'power-series') {
+        if (type === 'model' || type === 'power-series' || type === 'process-item') {
             const specNote = type === 'power-series'
                 ? '출력·전류·토치·와이어 송급 구성은 작업물 조건에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
+                : type === 'process-item'
+                ? '공법 파라미터·세부 용접 조건은 작업물·소재·두께에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
                 : undefined;
             html += summarySection(content.summaryCards, '핵심 요약');
             html += cautionNoteSection(content.cautionNote);
@@ -663,6 +672,8 @@
             var lineupCards;
             if (slug === 'welding-power-controller' && typeof buildPowerLineupCardsFromData === 'function') {
                 lineupCards = buildPowerLineupCardsFromData();
+            } else if (slug === 'welding-process-software' && typeof buildProcessLineupCardsFromData === 'function') {
+                lineupCards = buildProcessLineupCardsFromData();
             } else if (typeof buildLineupCardsFromData === 'function') {
                 lineupCards = buildLineupCardsFromData();
             } else {
@@ -704,6 +715,9 @@
         }
 
         let content = getProductDetailContent(slug);
+        if (!content && typeof getProcessItemDetailContent === 'function') {
+            content = getProcessItemDetailContent(slug);
+        }
         if (!content && typeof getPowerSeriesDetailContent === 'function') {
             content = getPowerSeriesDetailContent(slug);
         }

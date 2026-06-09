@@ -462,6 +462,9 @@ function getProductDetailContent(slug) {
     if (slug === 'welding-power-controller' && typeof buildPowerLineupDetailContent === 'function') {
         return buildPowerLineupDetailContent();
     }
+    if (slug === 'welding-process-software' && typeof buildProcessLineupDetailContent === 'function') {
+        return buildProcessLineupDetailContent();
+    }
     const aliases = {
         tawers: 'tawers-welding-robot-system',
         'tm-series': 'welding-robot-manipulator-lineup',
@@ -472,6 +475,19 @@ function getProductDetailContent(slug) {
 }
 
 function getCatalogProduct(slug) {
+    if (typeof getWeldingProcess === 'function') {
+        const proc = getWeldingProcess(slug);
+        if (proc) {
+            return {
+                name: proc.name,
+                slug: slug,
+                badge: proc.series,
+                description: proc.tagline,
+                imageHint: proc.series + ' · ' + proc.name,
+                categories: ['용접 공법']
+            };
+        }
+    }
     if (typeof getPowerSeries === 'function') {
         const ps = getPowerSeries(slug);
         if (ps) {
@@ -529,6 +545,9 @@ function resolveSlugFromUrl() {
         if (parts[idx + 1] === 'welding-power' && parts[idx + 2]) {
             return parts[idx + 2];
         }
+        if (parts[idx + 1] === 'welding-process' && parts[idx + 2]) {
+            return parts[idx + 2];
+        }
         if (parts[idx + 1] !== 'index.html' && parts[idx + 1] !== 'detail.html') {
             return parts[idx + 1];
         }
@@ -550,6 +569,13 @@ function getModelDetailContent(slug) {
 function getPowerSeriesDetailContent(slug) {
     if (typeof buildPowerSeriesDetailContent === 'function') {
         return buildPowerSeriesDetailContent(slug);
+    }
+    return null;
+}
+
+function getProcessItemDetailContent(slug) {
+    if (typeof buildProcessItemDetailContent === 'function') {
+        return buildProcessItemDetailContent(slug);
     }
     return null;
 }

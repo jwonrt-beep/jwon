@@ -361,6 +361,25 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
 }
+.pd-lineup-problem {
+    background: #eff6ff;
+    border-radius: 8px;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.85rem;
+    color: #1d4ed8;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-top: 0.75rem;
+}
+.pd-lineup-problem span {
+    display: block;
+    font-size: 0.72rem;
+    color: #64748b;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
 
 .pd-fields-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
 .pd-field-card {

@@ -100,6 +100,12 @@ var PRODUCT_IMAGE_GUIDES = {
             'HBC': { src: '/assets/images/products/process/hbc.jpg', guide: ['박판 용접, 번스루 없는 안정적 비드'] },
             'Zi-Tech': { src: '/assets/images/products/process/zi-tech.jpg', guide: ['도금강판 용접, 블로홀 없는 결과'] },
             'MTS-CO₂ / SP-MAG / HD-Pulse': { src: '/assets/images/products/process/basic-process.jpg', guide: ['일반 MAG/CO₂ 용접 현장'] }
+        },
+        seriesImages: {
+            'S-AWP / AWP4': { src: '/assets/images/products/process/card-s-awp.jpg', guide: ['S-AWP 적용 비드·스패터 비교'] },
+            'HBC': { src: '/assets/images/products/process/card-hbc.jpg', guide: ['HBC 박판 용접 결과'] },
+            'Zi-Tech': { src: '/assets/images/products/process/card-zi-tech.jpg', guide: ['도금강판 Zi-Tech 적용'] },
+            'MTS-CO₂ / SP-MAG / HD-Pulse': { src: '/assets/images/products/process/card-basic.jpg', guide: ['기본 MAG/CO₂ 용접 현장'] }
         }
     },
     'high-power-welding-system': {
@@ -157,10 +163,31 @@ function getProductImageGuide(slug) {
         tawers: 'tawers-welding-robot-system',
         'ts-800': 'model', 'ts-950': 'model', 'tm-1100': 'model', 'tm-1400': 'model',
         'tm-1600': 'model', 'tm-1800': 'model', 'tm-2000': 'model', 'tl-1800': 'model', 'tl-2000': 'model',
-        'wg-series': 'power', 'wgh-series': 'power', 'tawers-controller': 'power'
+        'wg-series': 'power', 'wgh-series': 'power', 'tawers-controller': 'power',
+        's-awp': 'process', 'hbc': 'process', 'zi-tech': 'process', 'basic-arc-process': 'process'
     };
-    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : (aliases[slug] || slug);
+    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : aliases[slug] === 'process' ? slug : (aliases[slug] || slug);
     if (PRODUCT_IMAGE_GUIDES[key]) return PRODUCT_IMAGE_GUIDES[key];
+    if (typeof getWeldingProcess === 'function' && getWeldingProcess(slug)) {
+        var wp = getWeldingProcess(slug);
+        var processGuide = PRODUCT_IMAGE_GUIDES['welding-process-software'];
+        var procImg = processGuide && processGuide.seriesImages ? processGuide.seriesImages[wp.name] : null;
+        return {
+            hero: procImg || {
+                src: '/assets/images/products/process/' + slug + '.jpg',
+                label: wp.name + ' 적용 사진',
+                guide: [
+                    wp.name + ' 용접 비드·품질 결과 사진',
+                    '적용 전·후 비교 (스패터/번스루/블로홀 등)',
+                    'TAWERS 시스템 현장 적용 장면'
+                ]
+            },
+            gallery: [
+                { src: '/assets/images/products/process/' + slug + '-before-after.jpg', label: '적용 전·후', guide: [wp.name + ' 적용 전후 비교'] },
+                { src: '/assets/images/products/process/' + slug + '-field.jpg', label: '현장 적용', guide: ['현장 용접 장면'] }
+            ]
+        };
+    }
     if (typeof getPowerSeries === 'function' && getPowerSeries(slug)) {
         var ps = getPowerSeries(slug);
         var lineupGuide = PRODUCT_IMAGE_GUIDES['welding-power-controller'];
