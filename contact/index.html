@@ -541,6 +541,25 @@
     <script src="../content-manager.js"></script>
     <script src="../navigation-loader.js"></script>
     <script>
+        // 제품군 페이지에서 넘어온 견적 문의 파라미터 처리
+        (function applyInquiryParams() {
+            const params = new URLSearchParams(window.location.search);
+            const product = params.get('product');
+            const type = params.get('type');
+
+            if (type === 'quote') {
+                const inquiryType = document.getElementById('inquiry-type');
+                if (inquiryType) inquiryType.value = 'quote';
+            }
+
+            if (product) {
+                const message = document.getElementById('message');
+                if (message && !message.value) {
+                    message.value = `[${decodeURIComponent(product)}] 견적 문의\n\n현장 조건:\n- 업종/제품:\n- 용접 소재/두께:\n- 현재 공정 이슈:\n`;
+                }
+            }
+        })();
+
         // Contact form handling
         document.getElementById('contactForm').addEventListener('submit', function(e) {
                     e.preventDefault();
