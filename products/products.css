@@ -131,6 +131,36 @@
     font-size: 0.78rem;
     text-align: center;
 }
+.pg-tawers-visual--slot {
+    background: transparent;
+    border: none;
+    min-height: auto;
+    overflow: hidden;
+    border-radius: 12px;
+}
+.pg-tawers-visual--slot .pd-img-slot { border-radius: 12px; overflow: hidden; }
+.pg-module-thumb {
+    margin: -1.35rem -1.35rem 1rem;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+}
+.pg-module-thumb .pd-img-slot--module { min-height: 140px; border-radius: 0; }
+.pg-module-thumb .pd-img-slot-placeholder { min-height: 140px; border-radius: 0; border: none; border-bottom: 1px dashed rgba(96,165,250,0.35); }
+.pg-extension-visual {
+    margin: -2rem -2rem 1.25rem;
+    max-width: calc(100% + 4rem);
+}
+.pg-extension-visual .pd-img-slot-placeholder { min-height: 180px; border-radius: 12px 12px 0 0; }
+
+.pg-compact-tawers {
+    background: #0f172a;
+    color: #fff;
+    padding: 1.25rem 0;
+    text-align: center;
+    font-size: 0.88rem;
+}
+.pg-compact-tawers a { color: #93c5fd; font-weight: 600; text-decoration: none; }
+.pg-compact-tawers a:hover { text-decoration: underline; }
 
 /* Modules section */
 .pg-modules { padding: 3.5rem 0 2rem; }
@@ -237,15 +267,6 @@
 .pg-extension-card p { color: #64748b; font-size: 0.88rem; line-height: 1.65; margin-bottom: 1.25rem; }
 
 .pg-hidden { display: none !important; }
-.pg-compact-tawers {
-    background: #0f172a;
-    color: #fff;
-    padding: 1.25rem 0;
-    text-align: center;
-    font-size: 0.88rem;
-}
-.pg-compact-tawers a { color: #93c5fd; font-weight: 600; text-decoration: none; }
-.pg-compact-tawers a:hover { text-decoration: underline; }
 
 @media (max-width: 1024px) {
     .pg-tawers-grid { grid-template-columns: 1fr; }

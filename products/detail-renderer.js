@@ -34,6 +34,9 @@
 
     /** 사진 슬롯: 파일 있으면 사진 표시, 없으면 준비 안내 카드 */
     function renderImageSlot(slot, sizeClass) {
+        if (typeof window.renderImageSlotHtml === 'function') {
+            return window.renderImageSlotHtml(slot, sizeClass);
+        }
         if (!slot) return '';
         const cls = 'pd-img-slot' + (sizeClass ? ' pd-img-slot--' + sizeClass : '');
         const guideItems = (slot.guide || []).map(function (g) {
@@ -56,13 +59,82 @@
             </div>`;
     }
 
-    function visualGallerySection(gallery, title) {
+    function featuredImageSection(slot, title, desc, sizeClass) {
+        if (!slot) return '';
+        return `
+            <section class="pd-section pd-featured-image">
+                <div class="container">
+                    ${title ? `<h2 class="pd-section-title">${esc(title)}</h2>` : ''}
+                    ${desc ? `<p class="pd-section-desc">${esc(desc)}</p>` : ''}
+                    ${renderImageSlot(slot, sizeClass || 'featured')}
+                </div>
+            </section>`;
+    }
+
+    function lineupCompareSection(guide) {
+        if (!guide.modelComparison && !guide.reachComparison) return '';
+        return `
+            <section class="pd-section pd-lineup-compare">
+                <div class="container">
+                    <h2 class="pd-section-title">모델별 작업반경과 적용 현장을 비교하세요</h2>
+                    <p class="pd-section-desc">TS · TM · TL 시리즈의 차이를 작업반경과 적용 현장 중심으로 확인합니다.</p>
+                    <div class="pd-compare-grid">
+                        ${guide.modelComparison ? renderImageSlot(guide.modelComparison, 'compare') : ''}
+                        ${guide.reachComparison ? renderImageSlot(guide.reachComparison, 'compare') : ''}
+                    </div>
+                </div>
+            </section>`;
+    }
+
+    function modelGallerySection(slug, content) {
+        const guide = imgGuide(slug);
+        const gallery = guide.gallery || [];
+        if (!gallery.length) return '';
+        const modelName = content.heroTitle || slug;
+        return `
+            <section class="pd-section pd-model-gallery">
+                <div class="container">
+                    <h2 class="pd-section-title">${esc(modelName)} 이미지 구성</h2>
+                    <p class="pd-section-desc">제품 단독, 현장 적용, 디테일, 작업반경, 추천 워크 — 5개 슬롯으로 모델 특성을 확인합니다.</p>
+                    <div class="pd-gallery-grid pd-gallery-grid--model">
+                        ${gallery.map(function (g) { return renderImageSlot(g, 'gallery'); }).join('')}
+                    </div>
+                </div>
+            </section>`;
+    }
+
+    function imagePrioritySection(priority) {
+        if (!priority || !priority.tiers) return '';
+        return `
+            <section class="pd-section pd-image-priority">
+                <div class="container">
+                    <h2 class="pd-section-title">${esc(priority.title)}</h2>
+                    <p class="pd-section-desc">${esc(priority.description)}</p>
+                    <div class="pd-priority-grid">
+                        ${priority.tiers.map(function (tier) {
+                            return `
+                            <div class="pd-priority-card">
+                                <span class="pd-priority-level">${esc(tier.level)}</span>
+                                <h3>${esc(tier.label)}</h3>
+                                <ul>${tier.items.map(function (item) { return '<li>' + esc(item) + '</li>'; }).join('')}</ul>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            </section>`;
+    }
+
+    function visualGallerySection(gallery, title, desc) {
         if (!gallery || !gallery.length) return '';
+        const isExample = gallery.some(function (g) { return g.imageType === '예시 이미지'; });
+        const defaultDesc = isExample
+            ? '아래는 연동 구성·대시보드 예시 이미지입니다. 실제 납품 사례와 구분하여 표시합니다.'
+            : '아래 영역에 현장 사진을 넣으면 고객이 시스템 구성과 적용 결과를 더 직관적으로 이해할 수 있습니다.';
         return `
             <section class="pd-section pd-visual-gallery">
                 <div class="container">
                     <h2 class="pd-section-title">${esc(title || '현장·적용 사진')}</h2>
-                    <p class="pd-section-desc">아래 영역에 현장 사진을 넣으면 고객이 시스템 구성과 적용 결과를 더 직관적으로 이해할 수 있습니다.</p>
+                    <p class="pd-section-desc">${esc(desc || defaultDesc)}</p>
                     <div class="pd-gallery-grid">
                         ${gallery.map(function (g) { return renderImageSlot(g, 'gallery'); }).join('')}
                     </div>
@@ -212,15 +284,18 @@
             </section>`;
     }
 
-    function architectureSection(sec) {
+    function architectureSection(sec, slug) {
         if (!sec) return '';
         const id = sec.id || 'architecture';
+        const guide = imgGuide(slug);
+        const archImg = guide.systemArchitecture || null;
         const positions = ['top', 'right-top', 'right-bottom', 'bottom', 'left-bottom', 'left-top'];
         return `
             <section class="pd-section pd-architecture" id="${esc(id)}">
                 <div class="container">
                     <h2 class="pd-section-title">${esc(sec.title)}</h2>
                     <p class="pd-section-desc">${esc(sec.description)}</p>
+                    ${archImg ? `<div class="pd-arch-image">${renderImageSlot(archImg, 'featured')}</div>` : ''}
                     <div class="pd-arch-diagram">
                         <div class="pd-arch-center">
                             <div class="pd-arch-center-inner">
@@ -252,12 +327,15 @@
             </section>`;
     }
 
-    function configFlowSection(sec) {
+    function configFlowSection(sec, slug) {
         if (!sec) return '';
+        const guide = imgGuide(slug);
+        const flowImg = guide.configurationFlow || null;
         return `
             <section class="pd-section pd-config-flow">
                 <div class="container">
                     <h2 class="pd-section-title">${esc(sec.title)}</h2>
+                    ${flowImg ? `<div class="pd-flow-image">${renderImageSlot(flowImg, 'featured')}</div>` : ''}
                     <div class="pd-flow-timeline">
                         ${sec.steps.map((step, i) => `
                             <div class="pd-flow-step">
@@ -273,6 +351,16 @@
             </section>`;
     }
 
+    function systemMapSection(guide) {
+        if (!guide.systemMap) return '';
+        return featuredImageSection(
+            guide.systemMap,
+            'TAWERS 하위 구성 연결',
+            'TAWERS 용접로봇 시스템을 중심으로 로봇 라인업, 공법, 주변 설비, 데이터 연동까지 계층적으로 연결됩니다.',
+            'map'
+        );
+    }
+
     function childModulesSection(sec, slug) {
         if (!sec) return '';
         const guides = imgGuide(slug).module || {};
@@ -284,9 +372,15 @@
                     <div class="pd-child-grid">
                         ${sec.items.map((item) => {
                             const img = guides[item.name] || null;
+                            const slot = img ? {
+                                src: img.src,
+                                label: item.name,
+                                guide: img.guide || [],
+                                fallback: img.fallback
+                            } : null;
                             return `
                             <div class="pd-child-card">
-                                ${img ? renderImageSlot(img, 'thumb') : ''}
+                                ${slot ? renderImageSlot(slot, 'thumb') : ''}
                                 <div class="pd-child-card-body">
                                     <h3>${esc(item.name)}</h3>
                                     <p>${esc(item.desc)}</p>
@@ -670,6 +764,20 @@
                 : undefined;
             html += summarySection(content.summaryCards, '핵심 요약');
             html += cautionNoteSection(content.cautionNote);
+            if (type === 'process-item' && guide.processSelectionMap) {
+                html += featuredImageSection(guide.processSelectionMap, '문제별 용접 공법 선택표', '현장 문제 기준으로 공법 적용 가능 여부를 함께 검토합니다.', 'map');
+            }
+            if (type === 'highpower-config' && guide.wghSystemMap) {
+                html += featuredImageSection(guide.wghSystemMap, 'WGH 고출력 구성 맵', 'TAWERS 고출력 확장 구성으로 WGH와 TL 로봇을 함께 검토합니다.', 'map');
+            }
+            if (type === 'turnkey-config' && guide.processFlow) {
+                html += featuredImageSection(guide.processFlow, '턴키 도입 프로세스', '상담부터 시운전·교육까지의 턴키 납품 흐름입니다.', 'flow');
+            }
+            if (type === 'smartfactory-config') {
+                html += visualGallerySection(guide.gallery, '연동 화면 예시', '아래는 대시보드·데이터 연동 예시 이미지입니다. 실제 납품 사례와 구분하여 표시합니다.');
+            } else {
+                html += modelGallerySection(slug, content);
+            }
             html += modelSpecsTableSection(content.specifications, specNote);
             html += fieldsSection(content.applicationFields, '적용 현장');
             html += combinationsSection(content.recommendedCombinations);
@@ -679,18 +787,23 @@
             return html;
         }
 
-        html += visualGallerySection(guide.gallery);
+        if (type !== 'parent-system') {
+            html += visualGallerySection(guide.gallery);
+        }
 
         if (type === 'parent-system') {
-            html += architectureSection(content.architectureSection);
-            html += configFlowSection(content.configFlowSection);
+            html += architectureSection(content.architectureSection, slug);
+            html += configFlowSection(content.configFlowSection, slug);
+            html += systemMapSection(guide);
             html += summarySection(content.summaryCards);
             html += childModulesSection(content.childModulesSection, slug);
             html += recommendationsSection(content.recommendations, '현장 조건별 TAWERS 구성 예시', slug);
+            html += visualGallerySection(guide.gallery, '시스템 전체·현장 사진');
             html += fieldsSection(content.applicationFields);
             html += problemsSection(content.problems);
             html += specsSection(content.specifications);
             html += processStepsSection(content.process);
+            html += imagePrioritySection(guide.imagePriority);
             html += ctaSection(content, qUrl);
             return html;
         }
@@ -719,6 +832,25 @@
             } else {
                 lineupCards = content.lineupCards;
             }
+            if (slug === 'welding-robot-manipulator-lineup') {
+                html += lineupCompareSection(guide);
+            }
+            if (slug === 'welding-process-software' && guide.processSelectionMap) {
+                html += featuredImageSection(
+                    guide.processSelectionMap,
+                    '문제별 용접 공법 선택표',
+                    '현장 문제 기준으로 S-AWP, HBC, Zi-Tech, 고출력 구성을 선택할 수 있습니다.',
+                    'map'
+                );
+            }
+            if (slug === 'high-power-welding-system' && guide.wghSystemMap) {
+                html += featuredImageSection(
+                    guide.wghSystemMap,
+                    'WGH 고출력 구성 맵',
+                    'WGH는 TAWERS와 별개 브랜드가 아니라, TL 로봇과 함께 검토하는 고출력·중후판 확장 구성입니다.',
+                    'map'
+                );
+            }
             html += lineupSection(lineupCards, slug, {
                 title: content.lineupSectionTitle,
                 desc: content.lineupSectionDesc
@@ -737,6 +869,14 @@
         html += problemsSection(content.problems);
         if (content.relatedLinks) html += relatedSection(content.relatedLinks);
         html += specsSection(content.specifications);
+        if (slug === 'turnkey-robot-automation-cell' && guide.processFlow) {
+            html += featuredImageSection(
+                guide.processFlow,
+                '턴키 도입 프로세스',
+                '상담부터 시운전·교육까지 One-Stop으로 진행하는 턴키 자동화 셀 도입 흐름입니다.',
+                'flow'
+            );
+        }
         html += processStepsSection(content.process);
         html += ctaSection(content, qUrl);
         return html;

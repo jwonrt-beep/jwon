@@ -1,11 +1,28 @@
 (function () {
-    var PLACEHOLDER = '/assets/images/products/placeholder.svg';
     var currentFilter = 'all';
 
     function esc(t) {
         var d = document.createElement('div');
         d.textContent = t || '';
         return d.innerHTML;
+    }
+
+    function renderSlot(slot, sizeClass) {
+        if (typeof window.renderImageSlotHtml === 'function') {
+            return window.renderImageSlotHtml(slot, sizeClass);
+        }
+        return '';
+    }
+
+    function pickTawersHeroSlot() {
+        if (typeof getTawersHeroImagePriority === 'function') {
+            return getTawersHeroImagePriority();
+        }
+        var g = typeof getProductImageGuide === 'function'
+            ? getProductImageGuide('tawers-welding-robot-system')
+            : null;
+        if (!g) return null;
+        return g.hero || g.systemMap || g.systemArchitecture || null;
     }
 
     function renderTawersHero(parent, mode) {
@@ -15,6 +32,10 @@
                 '<a href="' + parent.url + '">TAWERS 시스템 보기</a></div>';
         }
         if (mode === 'hidden') return '';
+        var heroSlot = pickTawersHeroSlot();
+        var visualHtml = heroSlot
+            ? '<div class="pg-tawers-visual pg-tawers-visual--slot">' + renderSlot(heroSlot, 'hero') + '</div>'
+            : '<div class="pg-tawers-visual"><div class="pg-tawers-visual-hint">' + esc(parent.imageHint) + '</div></div>';
         return '<section class="pg-tawers" data-section="tawers" id="pgTawersHero">' +
             '<div class="container">' +
             '<div class="pg-tawers-grid">' +
@@ -28,14 +49,23 @@
             '<a href="' + parent.url + '" class="pg-btn-primary">TAWERS 시스템 자세히 보기</a>' +
             '<a href="/contact/index.html?type=quote&product=' + encodeURIComponent(parent.quoteProduct) + '" class="pg-btn-outline">견적 문의하기</a>' +
             '</div></div>' +
-            '<div class="pg-tawers-visual" style="background-image:url(\'' + PLACEHOLDER + '\')">' +
-            '<div class="pg-tawers-visual-hint">' + esc(parent.imageHint) + '</div>' +
-            '</div></div></div></section>';
+            visualHtml +
+            '</div></div></section>';
     }
 
     function renderModuleCard(m, filter) {
         var hidden = filter !== 'all' && filter !== m.filterTag ? ' pg-hidden' : '';
+        var imgData = typeof getModuleCardImage === 'function' ? getModuleCardImage(m.id) : null;
+        var imgHtml = '';
+        if (imgData) {
+            imgHtml = '<div class="pg-module-thumb">' + renderSlot({
+                src: imgData.src,
+                label: imgData.label,
+                guide: imgData.guide
+            }, 'module') + '</div>';
+        }
         return '<article class="pg-module-card' + hidden + '" data-filter="' + esc(m.filterTag) + '" data-module="' + esc(m.id) + '">' +
+            imgHtml +
             '<span class="pg-module-badge">' + esc(m.badge) + '</span>' +
             '<h3>' + esc(m.name) + '</h3>' +
             '<p>' + esc(m.description) + '</p>' +
@@ -62,6 +92,18 @@
     function renderExtension(h, filter) {
         var e = h.extension;
         var hide = filter !== 'all' && filter !== 'smartfactory';
+        var imgData = typeof getModuleCardImage === 'function'
+            ? getModuleCardImage('smart-factory-integration')
+            : null;
+        if (!imgData && typeof getProductImageGuide === 'function') {
+            var sf = getProductImageGuide('smart-factory-integration');
+            if (sf && sf.hero) {
+                imgData = { src: sf.hero.src, label: sf.hero.label, guide: sf.hero.guide };
+            }
+        }
+        var imgHtml = imgData
+            ? '<div class="pg-extension-visual">' + renderSlot(Object.assign({}, imgData, { imageType: '예시 이미지' }), 'module') + '</div>'
+            : '';
         return '<section class="pg-extension' + (hide ? ' pg-hidden' : '') + '" data-section="extension" id="pgExtension">' +
             '<div class="container">' +
             '<div class="pg-section-head">' +
@@ -69,6 +111,7 @@
             '<h2>' + esc(h.extensionSection.title) + '</h2>' +
             '</div>' +
             '<div class="pg-extension-card" data-filter="' + esc(e.filterTag) + '">' +
+            imgHtml +
             '<span class="pg-module-badge">' + esc(e.badge) + '</span>' +
             '<h3>' + esc(e.name) + '</h3>' +
             '<p>' + esc(e.description) + '</p>' +
