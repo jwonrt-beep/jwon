@@ -121,18 +121,4 @@ var PRODUCT_HIERARCHY = {
     ]
 };
 
-var ROBOT_MODEL_CATALOG = {
-    'ts-800': { name: 'TS-800', series: 'TS 시리즈', seriesSlug: 'ts-series', parent: 'welding-robot-manipulator-lineup', desc: '소형 워크와 좁은 설치 공간에 적합한 컴팩트 아크 용접 로봇', payload: '8kg급', reach: '소형 작업반경' },
-    'ts-950': { name: 'TS-950', series: 'TS 시리즈', seriesSlug: 'ts-series', parent: 'welding-robot-manipulator-lineup', desc: '소형 부품 용접에 적합한 공간 절약형 로봇', payload: '9.5kg급', reach: '소형~중형 작업반경' },
-    'tm-1100': { name: 'TM-1100', series: 'TM 시리즈', seriesSlug: 'tm-series', parent: 'welding-robot-manipulator-lineup', desc: '표준 범용형 아크 용접 로봇', payload: '11kg급', reach: '표준 작업반경' },
-    'tm-1400': { name: 'TM-1400', series: 'TM 시리즈', seriesSlug: 'tm-series', parent: 'welding-robot-manipulator-lineup', desc: '일반 제조업 프레임 용접에 많이 선택되는 표준형', payload: '14kg급', reach: '표준 작업반경' },
-    'tm-1600': { name: 'TM-1600', series: 'TM 시리즈', seriesSlug: 'tm-series', parent: 'welding-robot-manipulator-lineup', desc: '중형 프레임과 범용 용접에 적합한 표준형', payload: '16kg급', reach: '중형 작업반경' },
-    'tm-1800': { name: 'TM-1800', series: 'TM 시리즈', seriesSlug: 'tm-series', parent: 'welding-robot-manipulator-lineup', desc: '중대형 프레임 용접에 적합한 표준형', payload: '18kg급', reach: '중대형 작업반경' },
-    'tm-2000': { name: 'TM-2000', series: 'TM 시리즈', seriesSlug: 'tm-series', parent: 'welding-robot-manipulator-lineup', desc: '대형 프레임 경계의 범용 표준형 로봇', payload: '20kg급', reach: '대형 작업반경' },
-    'tl-1800': { name: 'TL-1800', series: 'TL 시리즈', seriesSlug: 'tl-series', parent: 'welding-robot-manipulator-lineup', desc: '긴 작업반경이 필요한 대형 구조물 용접용 롱암 로봇', payload: '18kg급', reach: '롱암 작업반경' },
-    'tl-2000': { name: 'TL-2000', series: 'TL 시리즈', seriesSlug: 'tl-series', parent: 'welding-robot-manipulator-lineup', desc: '대형 프레임·산업기계 부품용 대형 워크 대응 로봇', payload: '20kg급', reach: '초장축 작업반경' }
-};
-
-function getRobotModel(slug) {
-    return ROBOT_MODEL_CATALOG[slug] || null;
-}
+// getRobotModel, getRobotSeries 등은 robot-lineup-data.js 에 정의

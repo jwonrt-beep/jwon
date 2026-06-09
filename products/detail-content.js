@@ -107,7 +107,7 @@ const PRODUCT_DETAIL_CONTENT = {
         },
         heroBadge: 'TS · TM · TL 시리즈',
         heroTitle: '용접 로봇 매니퓰레이터 라인업',
-        heroDescription: 'TAWERS 시스템에서 작업물 크기와 설치 공간에 따라 선택하는 로봇팔 라인업입니다. 소형 워크용 TS, 표준 범용형 TM, 대형 워크용 TL 시리즈를 현장 조건에 맞춰 제안합니다.',
+        heroDescription: 'TAWERS 시스템에서 작업물 크기, 설치 공간, 용접 범위에 따라 선택하는 로봇팔 라인업입니다. 소형 워크용 TS, 표준 범용형 TM, 대형 워크용 TL 시리즈를 현장 조건에 맞춰 제안합니다.',
         imageHint: 'TS · TM · TL 로봇팔 라인업 비교',
         summaryCards: [
             { title: '작업물 기준 선택', desc: '소형 부품부터 대형 구조물까지 라인업 분리' },
@@ -475,7 +475,7 @@ function getCatalogProduct(slug) {
                 name: model.name,
                 slug: slug,
                 badge: model.series,
-                description: model.desc,
+                description: model.tagline,
                 imageHint: model.series + ' · ' + model.name,
                 categories: ['용접 로봇']
             };
@@ -510,52 +510,8 @@ function isRobotModelSlug(slug) {
 }
 
 function getModelDetailContent(slug) {
-    const model = typeof getRobotModel === 'function' ? getRobotModel(slug) : null;
-    if (!model) return null;
-    const seriesGuide = {
-        'TS 시리즈': '소형 워크, 좁은 설치 공간, 자동차 소부품·판금 소부품',
-        'TM 시리즈': '표준 범용 프레임, 일반 제조업, 판금·기계 부품',
-        'TL 시리즈': '대형 구조물, 산업기계·건설장비 프레임, 롱암 작업'
-    };
-    return {
-        pageType: 'model',
-        parentSystem: {
-            label: '상위 시스템',
-            text: 'TAWERS 용접로봇 시스템',
-            link: '/products/tawers-welding-robot-system/',
-            linkText: 'TAWERS 시스템 보기'
-        },
-        hierarchy: [
-            { label: '상위 라인업', text: '용접 로봇 매니퓰레이터 라인업', link: '/products/welding-robot-manipulator-lineup/' },
-            { label: '시리즈', text: model.series },
-            { label: '모델', text: model.name }
-        ],
-        heroBadge: model.series,
-        heroTitle: model.name,
-        heroDescription: model.desc + ' TAWERS 용접로봇 시스템에서 작업물 크기와 설치 공간에 맞춰 선택하는 로봇팔 모델입니다.',
-        imageHint: model.series + ' · ' + model.name,
-        summaryCards: [
-            { title: '페이로드', desc: model.payload },
-            { title: '작업반경', desc: model.reach },
-            { title: 'TAWERS 연동', desc: '통합 시스템 내 매니퓰레이터' },
-            { title: '적용 현장', desc: seriesGuide[model.series] || '현장 조건별 선정' }
-        ],
-        specifications: {
-            '모델명': model.name,
-            '시리즈': model.series,
-            '페이로드': model.payload,
-            '작업반경': model.reach,
-            '상위 시스템': 'TAWERS 용접로봇 시스템',
-            '견적 방식': '현장 조건별 별도 산정'
-        },
-        process: ['작업물·설치 공간 확인', '작업반경·페이로드 검토', 'TAWERS 시스템 내 모델 선정', '용접전원·공법 연동 검토', '견적·납기 안내', '설치·시운전'],
-        relatedLinks: [
-            { slug: 'welding-robot-manipulator-lineup', name: '로봇 매니퓰레이터 라인업', desc: model.series + ' 비교' },
-            { slug: 'tawers-welding-robot-system', name: 'TAWERS 용접로봇 시스템', desc: '상위 통합 시스템' }
-        ],
-        cta: {
-            title: model.name + ' 모델 상담',
-            description: '작업물 크기, 용접 길이, 설치 공간을 알려주시면 ' + model.name + ' 포함 TAWERS 시스템 구성을 제안드립니다.'
-        }
-    };
+    if (typeof buildModelDetailContent === 'function') {
+        return buildModelDetailContent(slug);
+    }
+    return null;
 }

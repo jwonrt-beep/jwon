@@ -100,7 +100,33 @@
             </div>`;
     }
 
+    function modelHeroVisual(content, slug) {
+        const guide = imgGuide(slug);
+        const slot = guide.hero || {
+            src: '/assets/images/products/robots/' + slug + '.jpg',
+            label: (content.heroTitle || '') + ' 제품/현장 사진',
+            guide: [
+                (content.heroTitle || '') + ' 로봇 단독 제품 사진 (정면·측면)',
+                '현장 설치 후 용접 작업 장면',
+                '작업반경·로봇 크기가 보이는 각도'
+            ]
+        };
+        const modelName = content.heroTitle || '';
+        const seriesName = content.heroBadge || '';
+        return `
+            <div class="pd-model-hero-visual">
+                ${renderImageSlot(slot, 'hero')}
+                <div class="pd-model-hero-label" aria-hidden="true">
+                    <span class="pd-model-hero-series">${esc(seriesName)}</span>
+                    <span class="pd-model-hero-name">${esc(modelName)}</span>
+                </div>
+            </div>`;
+    }
+
     function heroVisual(content, slug) {
+        if (content.pageType === 'model') {
+            return modelHeroVisual(content, slug);
+        }
         const guide = imgGuide(slug);
         const slot = (content && content.heroImage) || guide.hero || {
             src: '',
@@ -116,25 +142,28 @@
             ? `<p class="pd-parent-note">${esc(c.parentNote)}</p>` : '';
         const highlight = c.heroHighlight
             ? `<p class="pd-hero-highlight">${esc(c.heroHighlight)}</p>` : '';
+        const position = c.heroPosition
+            ? `<p class="pd-hero-position">${esc(c.heroPosition)}</p>` : '';
         const secondary = c.heroSecondaryBtn
             ? `<a href="${c.heroSecondaryBtn.target || '#'}" class="pd-btn-outline">${esc(c.heroSecondaryBtn.label)}</a>`
             : '';
-        const parentLink = c.parentSystem && c.parentSystem.link
+        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model'
             ? `<a href="${c.parentSystem.link}" class="pd-btn-outline">${esc(c.parentSystem.linkText || 'TAWERS 시스템 보기')}</a>`
             : '';
         const listBtn = c.pageType === 'model'
-            ? `<a href="/products/welding-robot-manipulator-lineup/" class="pd-btn-outline">로봇 라인업</a>`
+            ? `<a href="/products/welding-robot-manipulator-lineup/" class="pd-btn-outline">로봇 라인업 보기</a>`
             : `<a href="${listUrl()}" class="pd-btn-outline">제품군 목록</a>`;
 
         return `
             ${parentSystemBanner(c.parentSystem)}
             ${hierarchyBanner(c.hierarchy)}
-            <section class="pd-hero">
+            <section class="pd-hero${c.pageType === 'model' ? ' pd-hero--model' : ''}">
                 <div class="container">
                     <div class="pd-hero-grid">
                         <div class="pd-hero-text">
                             <span class="pd-badge">${esc(c.heroBadge || product.badge)}</span>
                             <h1>${esc(c.heroTitle || product.name)}</h1>
+                            ${position}
                             <p class="pd-hero-desc">${esc(c.heroDescription || product.description)}</p>
                             ${highlight}
                             ${parentNote}
@@ -150,12 +179,12 @@
             </section>`;
     }
 
-    function summarySection(cards) {
+    function summarySection(cards, title) {
         if (!cards || !cards.length) return '';
         return `
             <section class="pd-section pd-section--alt pd-summary-section">
                 <div class="container">
-                    <h2 class="pd-section-title pd-section-title--center">한눈에 보는 핵심 포인트</h2>
+                    <h2 class="pd-section-title pd-section-title--center">${esc(title || '한눈에 보는 핵심 포인트')}</h2>
                     <div class="pd-summary-grid">
                         ${cards.map((c, i) => `
                             <div class="pd-summary-card">
@@ -466,6 +495,100 @@
             </section>`;
     }
 
+    function cautionNoteSection(note) {
+        if (!note) return '';
+        return `
+            <section class="pd-section pd-caution-section">
+                <div class="container">
+                    <div class="pd-caution-box">
+                        <strong>참고 사항</strong>
+                        <p>${esc(note)}</p>
+                    </div>
+                </div>
+            </section>`;
+    }
+
+    function modelSpecsTableSection(specs) {
+        if (!specs) return '';
+        return `
+            <section class="pd-section pd-model-specs">
+                <div class="container">
+                    <h2 class="pd-section-title">주요 스펙</h2>
+                    <p class="pd-section-desc">아래 수치는 제공된 로봇 매니퓰레이터 사양 기준입니다. 토치·케이블·주변 장치 구성은 현장 조건에 따라 확인이 필요합니다.</p>
+                    <table class="pd-spec-table pd-spec-table--model">
+                        <tbody>
+                            ${Object.entries(specs).map(([k, v]) => `
+                                <tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </section>`;
+    }
+
+    function combinationsSection(items) {
+        if (!items || !items.length) return '';
+        return `
+            <section class="pd-section pd-section--alt pd-combo-section">
+                <div class="container">
+                    <h2 class="pd-section-title">TAWERS 시스템 추천 조합</h2>
+                    <p class="pd-section-desc">이 모델을 TAWERS 통합 시스템 안에서 이렇게 구성하는 경우가 많습니다.</p>
+                    <div class="pd-combo-grid">
+                        ${items.map((item) => `
+                            <div class="pd-combo-card">
+                                <span class="pd-combo-icon">+</span>
+                                <p>${esc(item)}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>`;
+    }
+
+    function similarComparisonSection(items) {
+        if (!items || !items.length) return '';
+        return `
+            <section class="pd-section pd-compare-section">
+                <div class="container">
+                    <h2 class="pd-section-title">비슷한 모델과 비교</h2>
+                    <div class="pd-compare-list">
+                        ${items.map((item) => `
+                            <div class="pd-compare-item">${esc(item)}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            </section>`;
+    }
+
+    function consultationCriteriaSection(criteria) {
+        if (!criteria || !criteria.length) return '';
+        return `
+            <section class="pd-section pd-section--alt pd-criteria-section">
+                <div class="container">
+                    <h2 class="pd-section-title">상담 시 준비해주시면 좋은 정보</h2>
+                    <p class="pd-section-desc">아래 정보를 주시면 이 모델의 적용 가능 여부와 더 적합한 구성을 함께 검토합니다.</p>
+                    <div class="pd-criteria-grid">
+                        ${criteria.map((c) => `<div class="pd-criteria-item">${esc(c)}</div>`).join('')}
+                    </div>
+                </div>
+            </section>`;
+    }
+
+    function modelCtaSection(content, qUrl) {
+        const c = content.cta || {};
+        return `
+            <section class="pd-cta">
+                <div class="container">
+                    <h2>${esc(c.title || '견적 문의')}</h2>
+                    <p>${esc(c.description || '')}</p>
+                    <div class="pd-cta-actions">
+                        <a href="${qUrl}" class="pd-btn-primary">견적 문의하기</a>
+                        <a href="/products/welding-robot-manipulator-lineup/" class="pd-btn-outline">로봇 라인업 보기</a>
+                    </div>
+                </div>
+            </section>`;
+    }
+
     function ctaSection(content, qUrl) {
         const c = content.cta || {};
         return `
@@ -487,6 +610,18 @@
         const guide = imgGuide(slug);
         let html = heroSection(product, content, qUrl, slug);
 
+        if (type === 'model') {
+            html += summarySection(content.summaryCards, '핵심 요약');
+            html += cautionNoteSection(content.cautionNote);
+            html += modelSpecsTableSection(content.specifications);
+            html += fieldsSection(content.applicationFields, '적용 현장');
+            html += combinationsSection(content.recommendedCombinations);
+            html += similarComparisonSection(content.similarComparison);
+            html += consultationCriteriaSection(content.consultationCriteria);
+            html += modelCtaSection(content, qUrl);
+            return html;
+        }
+
         html += visualGallerySection(guide.gallery);
 
         if (type === 'parent-system') {
@@ -503,22 +638,16 @@
             return html;
         }
 
-        if (type === 'model') {
-            html += summarySection(content.summaryCards);
-            html += specsSection(content.specifications);
-            if (content.relatedLinks) html += relatedSection(content.relatedLinks);
-            html += processStepsSection(content.process);
-            html += ctaSection(content, qUrl);
-            return html;
-        }
-
         html += summarySection(content.summaryCards);
 
         if (type === 'system') {
             html += systemSection(content.systemSection);
             html += recommendationsSection(content.recommendations, '추천 구성 예시', slug);
         } else if (type === 'lineup') {
-            html += lineupSection(content.lineupCards, slug);
+            var lineupCards = (typeof buildLineupCardsFromData === 'function')
+                ? buildLineupCardsFromData()
+                : content.lineupCards;
+            html += lineupSection(lineupCards, slug);
             html += selectionGuideSection(content.selectionGuide);
         } else if (type === 'process') {
             html += processCardsSection(content.processCards, slug);
