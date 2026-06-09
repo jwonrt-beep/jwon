@@ -3,16 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-        // http로 접속하면 https로 강제 전환 (브라우저 보안 경고 방지)
-        (function() {
-            if (window.location.protocol === 'http:') {
-                window.location.replace(
-                    'https://' + window.location.host + window.location.pathname + window.location.search + window.location.hash
-                );
-            }
-        })();
-    </script>
+    <script src="../js/force-https.js"></script>
     <title>회사소개 - 제이원로보틱스</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">

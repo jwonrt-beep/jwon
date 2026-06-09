@@ -3,16 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-        // http로 접속하면 https로 강제 전환 (브라우저 보안 경고 방지)
-        (function() {
-            if (window.location.protocol === 'http:') {
-                window.location.replace(
-                    'https://' + window.location.host + window.location.pathname + window.location.search + window.location.hash
-                );
-            }
-        })();
-    </script>
+    <script src="js/force-https.js"></script>
     <title>제이원로보틱스 - 혁신적인 용접 자동화 솔루션</title>
     <meta name="description" content="1999년부터 축적된 용접·로봇 원천기술 + 현장 중심 자동화 통합 역량. 용접 특화 One-Stop Smart Factory Robot Integrator">
     <meta name="keywords" content="용접 자동화, 로봇 시스템 통합, 제이원로보틱스, 세한메카트로닉스, 현대로보틱스, 용접 로봇, 스마트공장, SI, Robot Integrator">
