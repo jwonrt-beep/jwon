@@ -649,6 +649,8 @@ a:hover {
 /* Force white titles on subpage hero variants as well */
 .media-hero .hero-title,
 .products-hero .hero-content h1,
+.pd-hero h1,
+.pd-cta h2,
 .hero .hero-title {
     -webkit-text-fill-color: #ffffff !important;
     color: #ffffff !important;

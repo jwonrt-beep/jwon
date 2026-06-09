@@ -3,7 +3,7 @@ class ProductManager {
     constructor() {
         this.storageKey = 'jwonProducts';
         this.versionKey = 'jwonProducts_version';
-        this.dataVersion = 2;
+        this.dataVersion = 3;
         this.loadProducts();
     }
 
@@ -262,8 +262,15 @@ class ProductManager {
         return this.products.find((product) => product.id === productId);
     }
 
+    getCatalogProducts() {
+        return this.getDefaultProducts();
+    }
+
     findProductBySlug(slug) {
-        return this.products.find((product) => product.slug === slug);
+        if (!slug) return null;
+        const fromStorage = this.products.find((product) => product.slug === slug || product.id === slug);
+        if (fromStorage) return fromStorage;
+        return this.getDefaultProducts().find((product) => product.slug === slug || product.id === slug) || null;
     }
 
     getProductsByCategory(category) {

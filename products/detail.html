@@ -15,209 +15,468 @@
     <title>제품 상세 - 제이원로보틱스</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
-        .detail-hero {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
-            padding: 7rem 0 3rem;
-            margin-top: 80px;
-            color: #fff;
+        /* detail page – override global dark h1 on navy hero */
+        .pd-hero h1,
+        .pd-hero h2,
+        .pd-cta h2 {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
         }
 
-        .detail-hero .badge {
+        .pd-hero {
+            background: linear-gradient(135deg, #0b1220 0%, #0f2744 45%, #1e3a5f 100%);
+            padding: 6.5rem 0 4rem;
+            margin-top: 80px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pd-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 10% 80%, rgba(30, 58, 95, 0.5) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .pd-hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pd-badge {
             display: inline-block;
-            background: rgba(59, 130, 246, 0.2);
-            border: 1px solid rgba(96, 165, 250, 0.4);
-            color: #93c5fd;
-            padding: 0.35rem 0.85rem;
+            background: rgba(59, 130, 246, 0.18);
+            border: 1px solid rgba(96, 165, 250, 0.45);
+            color: #bfdbfe;
+            padding: 0.4rem 0.9rem;
             border-radius: 4px;
             font-size: 0.8rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
-        .detail-hero h1 {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
+        .pd-hero h1 {
+            font-size: clamp(1.85rem, 4vw, 2.65rem);
             font-weight: 800;
-            margin-bottom: 1rem;
+            line-height: 1.25;
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
         }
 
-        .detail-hero p {
-            color: rgba(255, 255, 255, 0.85);
-            max-width: 720px;
-            line-height: 1.7;
+        .pd-hero-desc {
+            color: rgba(255, 255, 255, 0.88);
             font-size: 1.05rem;
+            line-height: 1.75;
+            margin-bottom: 2rem;
+            max-width: 540px;
         }
 
-        .detail-categories {
+        .pd-hero-actions {
             display: flex;
+            gap: 0.75rem;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1.25rem;
         }
 
-        .detail-categories span {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 0.25rem 0.65rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            color: #cbd5e1;
+        .pd-hero-actions a {
+            padding: 0.85rem 1.6rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
 
-        .detail-body {
-            padding: 3rem 0 4rem;
+        .pd-btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: #fff;
+        }
+
+        .pd-btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .pd-btn-outline {
+            background: transparent;
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .pd-btn-outline:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.55);
+        }
+
+        .pd-hero-visual {
+            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .pd-hero-visual img {
+            width: 100%;
+            height: 100%;
+            min-height: 320px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .pd-hero-visual.is-placeholder {
+            background-image: url('../assets/images/products/placeholder.svg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .pd-hero-visual.is-placeholder img {
+            display: none;
+        }
+
+        .pd-hero-visual-hint {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 1rem 0.85rem;
+            background: linear-gradient(transparent, rgba(11, 18, 32, 0.95));
+            color: #94a3b8;
+            font-size: 0.78rem;
+            text-align: center;
+        }
+
+        .pd-section {
+            padding: 4rem 0;
+        }
+
+        .pd-section--alt {
             background: #f8fafc;
         }
 
-        .detail-grid {
+        .pd-section-title {
+            font-size: clamp(1.35rem, 3vw, 1.75rem);
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .pd-section-desc {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 680px;
+            margin-bottom: 2.5rem;
+        }
+
+        .pd-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+
+        .pd-summary-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .pd-summary-card:hover {
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        .pd-summary-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        .pd-summary-card p {
+            font-size: 0.84rem;
+            color: #64748b;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .pd-components-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .pd-component-item {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .pd-component-item::before {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 36px;
+            margin: 0 auto 0.75rem;
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            border-radius: 8px;
+            opacity: 0.85;
+        }
+
+        .pd-fields-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .pd-field-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.25rem;
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: #334155;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .pd-field-card::before {
+            content: '⚙';
+            display: block;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.6;
+        }
+
+        .pd-problems-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.85rem;
+            max-width: 900px;
+        }
+
+        .pd-problem-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem 1.15rem;
+            font-size: 0.88rem;
+            color: #334155;
+            line-height: 1.55;
+        }
+
+        .pd-problem-item::before {
+            content: '✓';
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            background: #0f172a;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-top: 1px;
+        }
+
+        .pd-related-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+
+        .pd-related-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            display: block;
+        }
+
+        .pd-related-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .pd-related-card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        .pd-related-card p {
+            font-size: 0.82rem;
+            color: #64748b;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .pd-spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .pd-spec-table tr:not(:last-child) {
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .pd-spec-table th,
+        .pd-spec-table td {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-size: 0.9rem;
+            vertical-align: top;
+        }
+
+        .pd-spec-table th {
+            width: 180px;
+            background: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .pd-spec-table td {
+            color: #1e293b;
+        }
+
+        .pd-process {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            counter-reset: step;
+        }
+
+        .pd-process-step {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .pd-process-step::before {
+            counter-increment: step;
+            content: counter(step);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #0f172a;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin: 0 auto 0.75rem;
+        }
+
+        .pd-process-step p {
+            font-size: 0.8rem;
+            color: #475569;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .pd-cta {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .pd-cta .container {
+            max-width: 720px;
+        }
+
+        .pd-cta h2 {
+            font-size: clamp(1.4rem, 3vw, 1.85rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .pd-cta p {
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 0.95rem;
+            line-height: 1.75;
+            margin-bottom: 2rem;
+        }
+
+        .pd-cta-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .pd-simple-hero {
+            padding: 3rem 0;
+        }
+
+        .pd-simple-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2.5rem;
             align-items: start;
         }
 
-        .detail-image {
-            background: #0f172a;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
-            position: relative;
-        }
-
-        .detail-image img {
-            width: 100%;
-            aspect-ratio: 16 / 10;
-            object-fit: cover;
-            display: block;
-        }
-
-        .detail-image-hint {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 0.75rem 1rem;
-            background: linear-gradient(transparent, rgba(15, 23, 42, 0.92));
-            color: #94a3b8;
-            font-size: 0.8rem;
-        }
-
-        .detail-panel {
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 2rem;
-        }
-
-        .detail-panel h2 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .detail-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .detail-features span {
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            color: #475569;
-            padding: 0.35rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .detail-quote {
-            background: #f8fafc;
-            border-left: 3px solid #3b82f6;
-            padding: 1rem 1.25rem;
-            margin-bottom: 1.5rem;
-            color: #334155;
-            font-size: 0.95rem;
-        }
-
-        .detail-quote strong {
-            color: #0f172a;
-        }
-
-        .spec-grid {
-            display: grid;
-            gap: 0.75rem;
-        }
-
-        .spec-item {
-            display: grid;
-            grid-template-columns: 140px 1fr;
-            gap: 1rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 0.9rem;
-        }
-
-        .spec-item dt {
-            font-weight: 600;
-            color: #64748b;
-        }
-
-        .spec-item dd {
-            color: #1e293b;
-            margin: 0;
-        }
-
-        .detail-actions {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .detail-actions a {
-            flex: 1;
-            min-width: 140px;
+        .pd-not-found {
             text-align: center;
-            padding: 0.85rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s ease;
+            padding: 5rem 2rem;
         }
 
-        .btn-quote {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: #fff;
+        @media (max-width: 1024px) {
+            .pd-summary-grid,
+            .pd-related-grid { grid-template-columns: repeat(2, 1fr); }
+            .pd-components-grid,
+            .pd-fields-grid { grid-template-columns: repeat(2, 1fr); }
+            .pd-process { grid-template-columns: repeat(3, 1fr); }
         }
 
-        .btn-quote:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
-        }
-
-        .btn-back {
-            background: #fff;
-            color: #475569;
-            border: 1px solid #e2e8f0;
-        }
-
-        .btn-back:hover {
-            background: #f8fafc;
-        }
-
-        .detail-not-found {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        @media (max-width: 900px) {
-            .detail-grid {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 768px) {
+            .pd-hero-grid,
+            .pd-simple-grid { grid-template-columns: 1fr; }
+            .pd-problems-list { grid-template-columns: 1fr; }
+            .pd-process { grid-template-columns: repeat(2, 1fr); }
+            .pd-summary-grid,
+            .pd-related-grid,
+            .pd-components-grid,
+            .pd-fields-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -254,10 +513,10 @@
     </nav>
 
     <div id="detailContent"></div>
-    <div id="detailNotFound" class="detail-not-found" style="display:none;">
+    <div id="detailNotFound" class="pd-not-found" style="display:none;">
         <h2>제품을 찾을 수 없습니다</h2>
         <p style="color:#64748b; margin: 1rem 0 2rem;">요청하신 제품군 정보가 없습니다.</p>
-        <a href="index.html" class="btn-back" style="display:inline-block; padding:0.75rem 1.5rem; border-radius:8px; text-decoration:none;">제품 목록으로</a>
+        <a href="index.html" class="pd-btn-primary" style="display:inline-block; padding:0.75rem 1.5rem; border-radius:6px; text-decoration:none;">제품 목록으로</a>
     </div>
 
     <footer class="footer" role="contentinfo">
@@ -270,69 +529,220 @@
 
     <script src="../script.js"></script>
     <script src="../product-manager.js"></script>
+    <script src="detail-content.js"></script>
     <script>
+        const PLACEHOLDER = '../assets/images/products/placeholder.svg';
+
+        function esc(text) {
+            const d = document.createElement('div');
+            d.textContent = text || '';
+            return d.innerHTML;
+        }
+
+        function heroImageHtml(product, hint) {
+            const realSrc = product.thumbnail || PLACEHOLDER;
+            return `
+                <div class="pd-hero-visual is-placeholder" id="heroVisual">
+                    <img src="${esc(realSrc)}" alt="${esc(product.name)}"
+                         onload="document.getElementById('heroVisual').classList.remove('is-placeholder')"
+                         onerror="this.remove()">
+                    ${hint ? `<div class="pd-hero-visual-hint">${esc(hint)}</div>` : ''}
+                </div>`;
+        }
+
+        function renderRichDetail(product, content) {
+            const quoteUrl = window.productManager.getQuoteUrl(product);
+            const specs = content.specifications || product.specifications || {};
+
+            return `
+                <section class="pd-hero">
+                    <div class="container">
+                        <div class="pd-hero-grid">
+                            <div>
+                                <span class="pd-badge">${esc(content.heroBadge || product.badge)}</span>
+                                <h1>${esc(content.heroTitle || product.name)}</h1>
+                                <p class="pd-hero-desc">${esc(content.heroDescription || product.description)}</p>
+                                <div class="pd-hero-actions">
+                                    <a href="${quoteUrl}" class="pd-btn-primary">견적 문의</a>
+                                    <a href="index.html" class="pd-btn-outline">제품 목록</a>
+                                </div>
+                            </div>
+                            ${heroImageHtml(product, content.imageHint || product.imageHint)}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="pd-section pd-section--alt">
+                    <div class="container">
+                        <div class="pd-summary-grid">
+                            ${content.summaryCards.map((c) => `
+                                <div class="pd-summary-card">
+                                    <h3>${esc(c.title)}</h3>
+                                    <p>${esc(c.desc)}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="pd-section">
+                    <div class="container">
+                        <h2 class="pd-section-title">${esc(content.systemSection.title)}</h2>
+                        <p class="pd-section-desc">${esc(content.systemSection.description)}</p>
+                        <div class="pd-components-grid">
+                            ${content.systemSection.components.map((c) => `
+                                <div class="pd-component-item">${esc(c)}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="pd-section pd-section--alt">
+                    <div class="container">
+                        <h2 class="pd-section-title">다양한 제조 현장의 아크 용접 자동화에 적용</h2>
+                        <div class="pd-fields-grid" style="margin-top:2rem;">
+                            ${content.applicationFields.map((f) => `
+                                <div class="pd-field-card">${esc(f)}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="pd-section">
+                    <div class="container">
+                        <h2 class="pd-section-title">이런 용접 문제를 해결하고 싶다면 검토해보세요</h2>
+                        <div class="pd-problems-list" style="margin-top:2rem;">
+                            ${content.problems.map((p) => `
+                                <div class="pd-problem-item">${esc(p)}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="pd-section pd-section--alt">
+                    <div class="container">
+                        <h2 class="pd-section-title">현장 문제에 맞춰 용접 공법까지 함께 제안합니다</h2>
+                        <div class="pd-related-grid" style="margin-top:2rem;">
+                            ${content.relatedSolutions.map((r) => `
+                                <a href="detail.html?p=${esc(r.slug)}" class="pd-related-card">
+                                    <h3>${esc(r.name)}</h3>
+                                    <p>${esc(r.desc)}</p>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="pd-section">
+                    <div class="container">
+                        <h2 class="pd-section-title">주요 사양</h2>
+                        <table class="pd-spec-table" style="margin-top:2rem;">
+                            <tbody>
+                                ${Object.entries(specs).map(([k, v]) => `
+                                    <tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="pd-section pd-section--alt">
+                    <div class="container">
+                        <h2 class="pd-section-title">상담부터 설치까지 이런 흐름으로 진행됩니다</h2>
+                        <div class="pd-process" style="margin-top:2rem;">
+                            ${content.process.map((step) => `
+                                <div class="pd-process-step"><p>${esc(step)}</p></div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="pd-cta">
+                    <div class="container">
+                        <h2>${esc(content.cta.title)}</h2>
+                        <p>${esc(content.cta.description)}</p>
+                        <div class="pd-cta-actions">
+                            <a href="${quoteUrl}" class="pd-btn-primary">견적 문의하기</a>
+                            <a href="index.html" class="pd-btn-outline">제품 목록으로 돌아가기</a>
+                        </div>
+                    </div>
+                </section>`;
+        }
+
+        function renderSimpleDetail(product) {
+            const quoteUrl = window.productManager.getQuoteUrl(product);
+            const specs = product.specifications || {};
+
+            return `
+                <section class="pd-hero">
+                    <div class="container">
+                        <div class="pd-hero-grid">
+                            <div>
+                                <span class="pd-badge">${esc(product.badge)}</span>
+                                <h1>${esc(product.name)}</h1>
+                                <p class="pd-hero-desc">${esc(product.description)}</p>
+                                <div class="pd-hero-actions">
+                                    <a href="${quoteUrl}" class="pd-btn-primary">견적 문의</a>
+                                    <a href="index.html" class="pd-btn-outline">제품 목록</a>
+                                </div>
+                            </div>
+                            ${heroImageHtml(product, product.imageHint)}
+                        </div>
+                    </div>
+                </section>
+                <section class="pd-section pd-section--alt">
+                    <div class="container pd-simple-grid">
+                        <div>
+                            <h2 class="pd-section-title">제품 개요</h2>
+                            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin:1rem 0 1.5rem;">
+                                ${(product.features || []).map((f) => `
+                                    <span style="background:#f1f5f9;border:1px solid #e2e8f0;padding:0.3rem 0.65rem;border-radius:4px;font-size:0.8rem;color:#475569;">${esc(f)}</span>
+                                `).join('')}
+                            </div>
+                            <p style="color:#64748b;font-size:0.9rem;border-left:3px solid #3b82f6;padding-left:1rem;">
+                                <strong style="color:#0f172a;">견적:</strong> ${esc(product.price || '현장 조건별 별도 산정')}
+                            </p>
+                        </div>
+                        <div>
+                            <h2 class="pd-section-title">주요 사양</h2>
+                            <table class="pd-spec-table" style="margin-top:1rem;">
+                                <tbody>
+                                    ${Object.entries(specs).map(([k, v]) => `
+                                        <tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                <section class="pd-cta">
+                    <div class="container">
+                        <h2>현장 조건에 맞는 솔루션을 제안드립니다</h2>
+                        <p>작업물, 소재, 용접 조건을 알려주시면 맞춤 견적을 안내해 드립니다.</p>
+                        <div class="pd-cta-actions">
+                            <a href="${quoteUrl}" class="pd-btn-primary">견적 문의하기</a>
+                            <a href="index.html" class="pd-btn-outline">제품 목록으로 돌아가기</a>
+                        </div>
+                    </div>
+                </section>`;
+        }
+
         function renderDetail() {
-            const params = new URLSearchParams(window.location.search);
-            const slug = params.get('p');
-            const product = window.productManager.findProductBySlug(slug);
+            const slug = new URLSearchParams(window.location.search).get('p');
+            const product = getCatalogProduct(slug);
 
             if (!product) {
                 document.getElementById('detailNotFound').style.display = 'block';
                 return;
             }
 
+            const content = getProductDetailContent(slug);
             document.title = `${product.name} - 제이원로보틱스`;
             document.getElementById('breadcrumbProduct').textContent = product.name;
 
-            const placeholder = window.productManager.placeholderPath();
-            const categories = product.categories || [product.category];
-            const specs = product.specifications || {};
-
-            document.getElementById('detailContent').innerHTML = `
-                <section class="detail-hero">
-                    <div class="container">
-                        <span class="badge">${product.badge || ''}</span>
-                        <h1>${product.name}</h1>
-                        <p>${product.description}</p>
-                        <div class="detail-categories">
-                            ${categories.map((c) => `<span>${c}</span>`).join('')}
-                        </div>
-                    </div>
-                </section>
-                <section class="detail-body">
-                    <div class="container">
-                        <div class="detail-grid">
-                            <div class="detail-image">
-                                <img src="${product.thumbnail}" alt="${product.name}"
-                                     onerror="this.onerror=null;this.src='${placeholder}'">
-                                ${product.imageHint ? `<div class="detail-image-hint">${product.imageHint}</div>` : ''}
-                            </div>
-                            <div class="detail-panel">
-                                <h2>제품 개요</h2>
-                                <div class="detail-features">
-                                    ${(product.features || []).map((f) => `<span>${f}</span>`).join('')}
-                                </div>
-                                <div class="detail-quote">
-                                    <strong>견적:</strong> ${product.price || '현장 조건별 별도 산정'}
-                                </div>
-                                <h2>주요 사양</h2>
-                                <dl class="spec-grid">
-                                    ${Object.entries(specs).map(([key, value]) => `
-                                        <div class="spec-item">
-                                            <dt>${key}</dt>
-                                            <dd>${value}</dd>
-                                        </div>
-                                    `).join('')}
-                                </dl>
-                                <div class="detail-actions">
-                                    <a href="${window.productManager.getQuoteUrl(product)}" class="btn-quote">견적문의</a>
-                                    <a href="index.html" class="btn-back">제품 목록</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `;
+            document.getElementById('detailContent').innerHTML = content
+                ? renderRichDetail(product, content)
+                : renderSimpleDetail(product);
         }
 
         document.addEventListener('DOMContentLoaded', renderDetail);
