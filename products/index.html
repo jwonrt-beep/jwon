@@ -104,6 +104,18 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .products-board .product-card:last-child:nth-child(3n+1) {
+            grid-column: auto;
+        }
+
+        @media (min-width: 1025px) {
+            .products-board .product-card:last-child:nth-child(3n+1) {
+                grid-column: 2;
+            }
         }
 
         .product-card {
@@ -142,7 +154,9 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
+            display: none;
+            position: relative;
+            z-index: 1;
         }
 
         .product-thumbnail-hint {
@@ -331,7 +345,7 @@
         <div class="container">
             <div class="hero-content">
                 <h1>제품군</h1>
-                <p>현장 문제에 맞는 용접 자동화 제품군을 제안합니다. 로봇, 용접, 지그, 스마트팩토리를 통합 제안하는 B2B 자동화 솔루션입니다.</p>
+                <p>현장 문제에 맞는 용접 자동화 솔루션을 제안합니다. TAWERS 통합 시스템, 로봇 라인업, 용접 공법, 주변 자동화까지 One-Stop으로 구성합니다.</p>
             </div>
         </div>
     </section>
@@ -351,14 +365,14 @@
     <!-- Products Section -->
     <section class="products-section">
         <div class="container">
-            <p class="products-intro">제이원로보틱스는 단순 제품 판매가 아닌, 현장 공정 분석을 기반으로 로봇·용접·지그·데이터 연동까지 맞춤 제안합니다. 관심 제품군을 선택해 상세 내용을 확인하세요.</p>
+            <p class="products-intro">제이원로보틱스는 로봇팔만 공급하지 않습니다. TAWERS 용접로봇 시스템을 중심으로 매니퓰레이터, 용접 공법, 지그, 턴키 셀, 데이터 연동까지 현장 조건에 맞춰 설계·제안합니다.</p>
             <div class="products-filters">
                 <button class="filter-btn active" data-filter="all">전체</button>
-                <button class="filter-btn" data-filter="로봇 자동화 시스템">로봇 자동화 시스템</button>
-                <button class="filter-btn" data-filter="스마트팩토리">스마트팩토리</button>
-                <button class="filter-btn" data-filter="산업용 로봇">산업용 로봇</button>
-                <button class="filter-btn" data-filter="용접 장비">용접 장비</button>
+                <button class="filter-btn" data-filter="용접로봇 시스템">용접로봇 시스템</button>
+                <button class="filter-btn" data-filter="로봇 라인업">로봇 라인업</button>
+                <button class="filter-btn" data-filter="용접 공법">용접 공법</button>
                 <button class="filter-btn" data-filter="지그/포지셔너">지그/포지셔너</button>
+                <button class="filter-btn" data-filter="스마트팩토리">스마트팩토리</button>
             </div>
 
             <!-- Products Board -->
@@ -443,18 +457,19 @@
             emptyState.style.display = 'none';
 
             productsBoard.innerHTML = products.map((product) => {
-                const categories = (product.categories || [product.category]).join(',');
+                const filterTags = (product.filterTags || product.categories || []).join(',');
                 const highlightClass = product.highlight ? ' product-card--highlight' : '';
                 const detailUrl = window.productManager.getDetailUrl(product);
                 const quoteUrl = window.productManager.getQuoteUrl(product);
 
                 return `
                 <article class="product-card${highlightClass}"
-                         data-categories="${escapeHtml(categories)}">
-                    <div class="product-thumbnail">
+                         data-filters="${escapeHtml(filterTags)}">
+                    <div class="product-thumbnail" style="background:#0f172a url('${placeholderImg}') center/cover no-repeat;">
                         ${product.badge ? `<span class="product-badge">${escapeHtml(product.badge)}</span>` : ''}
                         <img src="${product.thumbnail}" alt="${escapeHtml(product.name)}"
-                             onerror="this.onerror=null;this.src='${placeholderImg}'">
+                             onload="this.style.display='block'"
+                             onerror="this.style.display='none'">
                         ${product.imageHint ? `<div class="product-thumbnail-hint">${escapeHtml(product.imageHint)}</div>` : ''}
                     </div>
                     <div class="product-content">
@@ -483,8 +498,8 @@
                     this.classList.add('active');
 
                     document.querySelectorAll('.product-card').forEach((card) => {
-                        const categories = card.getAttribute('data-categories') || '';
-                        const match = filter === 'all' || categories.split(',').includes(filter);
+                        const filters = card.getAttribute('data-filters') || '';
+                        const match = filter === 'all' || filters.split(',').includes(filter);
                         card.style.display = match ? 'flex' : 'none';
                     });
                 });
