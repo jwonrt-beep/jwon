@@ -428,11 +428,12 @@
     </footer>
 
     <script src="../script.js"></script>
+    <script src="catalog.js"></script>
+    <script src="../product-manager.js"></script>
     <script src="../admin-key.js"></script>
     <script src="../logo-loader.js"></script>
     <script src="../content-manager.js"></script>
     <script src="../navigation-loader.js"></script>
-    <script src="../product-manager.js"></script>
     <script>
         const placeholderImg = '../assets/images/products/placeholder.svg';
 
@@ -445,7 +446,9 @@
         function loadProducts() {
             const productsBoard = document.getElementById('productsBoard');
             const emptyState = document.getElementById('emptyState');
-            const products = window.productManager.getProducts();
+            const products = (typeof PRODUCT_CATALOG !== 'undefined' ? PRODUCT_CATALOG : window.productManager.getProducts())
+                .slice()
+                .sort((a, b) => (a.order || 0) - (b.order || 0));
 
             if (products.length === 0) {
                 productsBoard.style.display = 'none';
@@ -459,17 +462,14 @@
             productsBoard.innerHTML = products.map((product) => {
                 const filterTags = (product.filterTags || product.categories || []).join(',');
                 const highlightClass = product.highlight ? ' product-card--highlight' : '';
-                const detailUrl = window.productManager.getDetailUrl(product);
-                const quoteUrl = window.productManager.getQuoteUrl(product);
+                const detailUrl = getCatalogDetailUrl(product.slug);
+                const quoteUrl = getCatalogQuoteUrl(product.name);
 
                 return `
                 <article class="product-card${highlightClass}"
                          data-filters="${escapeHtml(filterTags)}">
                     <div class="product-thumbnail" style="background:#0f172a url('${placeholderImg}') center/cover no-repeat;">
                         ${product.badge ? `<span class="product-badge">${escapeHtml(product.badge)}</span>` : ''}
-                        <img src="${product.thumbnail}" alt="${escapeHtml(product.name)}"
-                             onload="this.style.display='block'"
-                             onerror="this.style.display='none'">
                         ${product.imageHint ? `<div class="product-thumbnail-hint">${escapeHtml(product.imageHint)}</div>` : ''}
                     </div>
                     <div class="product-content">
@@ -511,11 +511,7 @@
             setupFilters();
         });
 
-        window.addEventListener('storage', function (e) {
-            if (e.key === 'jwonProducts' || e.key === 'jwonProducts_version') {
-                loadProducts();
-            }
-        });
+        // 카탈로그는 catalog.js 정적 데이터 사용 (storage 이벤트 무시)
     </script>
 </body>
 </html>

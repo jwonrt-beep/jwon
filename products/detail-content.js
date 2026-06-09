@@ -361,8 +361,12 @@ function getProductDetailContent(slug) {
 }
 
 function getCatalogProduct(slug) {
-    if (!window.productManager) return null;
-    return window.productManager.findProductBySlug(slug);
+    if (typeof getCatalogProductBySlug === 'function') {
+        const p = getCatalogProductBySlug(slug);
+        if (p) return { ...p, thumbnail: '../assets/images/products/placeholder.svg', category: p.categories[0] };
+    }
+    if (window.productManager) return window.productManager.findProductBySlug(slug);
+    return null;
 }
 
 function resolveSlugFromUrl() {

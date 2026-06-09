@@ -37,12 +37,8 @@
     }
 
     function heroVisual(product, hint) {
-        const src = product.thumbnail || PLACEHOLDER;
         return `
             <div class="pd-hero-visual" id="heroVisual" style="background-image:url('${PLACEHOLDER}');background-size:cover;background-position:center;">
-                <img src="${esc(src)}" alt="${esc(product.name)}"
-                     onload="document.getElementById('heroVisual').classList.add('has-image')"
-                     onerror="this.remove()">
                 ${hint ? `<div class="pd-hero-visual-hint">${esc(hint)}</div>` : ''}
             </div>`;
     }
