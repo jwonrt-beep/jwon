@@ -471,6 +471,9 @@ function getProductDetailContent(slug) {
     if (slug === 'jig-positioner-automation' && typeof buildJigLineupDetailContent === 'function') {
         return buildJigLineupDetailContent();
     }
+    if (slug === 'turnkey-robot-automation-cell' && typeof buildTurnkeyLineupDetailContent === 'function') {
+        return buildTurnkeyLineupDetailContent();
+    }
     const aliases = {
         tawers: 'tawers-welding-robot-system',
         'tm-series': 'welding-robot-manipulator-lineup',
@@ -481,6 +484,19 @@ function getProductDetailContent(slug) {
 }
 
 function getCatalogProduct(slug) {
+    if (typeof getTurnkeyConfig === 'function') {
+        const tk = getTurnkeyConfig(slug);
+        if (tk) {
+            return {
+                name: tk.name,
+                slug: slug,
+                badge: tk.parentLineup,
+                description: tk.tagline,
+                imageHint: tk.series + ' · ' + tk.name,
+                categories: ['턴키 자동화 셀']
+            };
+        }
+    }
     if (typeof getJigConfig === 'function') {
         const jig = getJigConfig(slug);
         if (jig) {
@@ -586,6 +602,9 @@ function resolveSlugFromUrl() {
         if (parts[idx + 1] === 'jig-positioner' && parts[idx + 2]) {
             return parts[idx + 2];
         }
+        if (parts[idx + 1] === 'turnkey' && parts[idx + 2]) {
+            return parts[idx + 2];
+        }
         if (parts[idx + 1] !== 'index.html' && parts[idx + 1] !== 'detail.html') {
             return parts[idx + 1];
         }
@@ -628,6 +647,13 @@ function getHighPowerConfigDetailContent(slug) {
 function getJigConfigDetailContent(slug) {
     if (typeof buildJigConfigDetailContent === 'function') {
         return buildJigConfigDetailContent(slug);
+    }
+    return null;
+}
+
+function getTurnkeyConfigDetailContent(slug) {
+    if (typeof buildTurnkeyConfigDetailContent === 'function') {
+        return buildTurnkeyConfigDetailContent(slug);
     }
     return null;
 }

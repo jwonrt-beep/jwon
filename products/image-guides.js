@@ -154,7 +154,13 @@ var PRODUCT_IMAGE_GUIDES = {
             { src: '/assets/images/products/turnkey/cell-layout.jpg', label: '셀 레이아웃', guide: ['셀 평면도 또는 조감도 스타일 현장 사진'] },
             { src: '/assets/images/products/turnkey/safety-fence.jpg', label: '안전펜스·인터록', guide: ['펜스, 안전 door, 인터록 장치'] },
             { src: '/assets/images/products/turnkey/commissioning.jpg', label: '시운전·교육', guide: ['엔지니어 시운전, 작업자 교육 장면'] }
-        ]
+        ],
+        seriesImages: {
+            '표준 용접 자동화 셀': { src: '/assets/images/products/turnkey/card-standard-cell.jpg', guide: ['TAWERS + 지그 + 펜스 표준 셀'] },
+            '기존 공정 개조 셀': { src: '/assets/images/products/turnkey/card-retrofit.jpg', guide: ['기존 공정 + 로봇 추가·안전 보완'] },
+            '대형·고출력 턴키 셀': { src: '/assets/images/products/turnkey/card-large-cell.jpg', guide: ['TL + WGH + 포지셔너 대형 셀'] },
+            '시운전·교육 포함 One-Stop': { src: '/assets/images/products/turnkey/card-full-service.jpg', guide: ['시운전·교육·인수 장면'] }
+        }
     },
     'smart-factory-integration': {
         hero: {
@@ -178,10 +184,31 @@ function getProductImageGuide(slug) {
         'wg-series': 'power', 'wgh-series': 'power', 'tawers-controller': 'power',
         's-awp': 'process', 'hbc': 'process', 'zi-tech': 'process', 'basic-arc-process': 'process',
         'heavy-plate-frame': 'highpower', 'large-structure': 'highpower', 'fillet-high-output': 'highpower', 'tl-wgh-integrated-cell': 'highpower',
-        'custom-jig': 'jig', 'rotary-positioner': 'jig', 'slide-unit': 'jig', 'integrated-setup': 'jig'
+        'custom-jig': 'jig', 'rotary-positioner': 'jig', 'slide-unit': 'jig', 'integrated-setup': 'jig',
+        'standard-welding-cell': 'turnkey', 'retrofit-cell': 'turnkey', 'large-turnkey-cell': 'turnkey', 'full-service-delivery': 'turnkey'
     };
-    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : aliases[slug] === 'process' ? slug : aliases[slug] === 'highpower' ? slug : aliases[slug] === 'jig' ? slug : (aliases[slug] || slug);
+    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : aliases[slug] === 'process' ? slug : aliases[slug] === 'highpower' ? slug : aliases[slug] === 'jig' ? slug : aliases[slug] === 'turnkey' ? slug : (aliases[slug] || slug);
     if (PRODUCT_IMAGE_GUIDES[key]) return PRODUCT_IMAGE_GUIDES[key];
+    if (typeof getTurnkeyConfig === 'function' && getTurnkeyConfig(slug)) {
+        var tk = getTurnkeyConfig(slug);
+        var tkGuide = PRODUCT_IMAGE_GUIDES['turnkey-robot-automation-cell'];
+        var tkImg = tkGuide && tkGuide.seriesImages ? tkGuide.seriesImages[tk.name] : null;
+        return {
+            hero: tkImg || {
+                src: '/assets/images/products/turnkey/' + slug + '.jpg',
+                label: tk.name + ' 현장 사진',
+                guide: [
+                    tk.name + ' 적용 현장 (안전펜스 + 로봇 + 지그 셀)',
+                    '셀 레이아웃·시운전 장면',
+                    'TAWERS 기반 턴키 자동화 셀 전경'
+                ]
+            },
+            gallery: [
+                { src: '/assets/images/products/turnkey/' + slug + '-field.jpg', label: '현장 적용', guide: [tk.name + ' 현장 셀'] },
+                { src: '/assets/images/products/turnkey/' + slug + '-layout.jpg', label: '셀 레이아웃', guide: ['셀 구성·layout'] }
+            ]
+        };
+    }
     if (typeof getJigConfig === 'function' && getJigConfig(slug)) {
         var jig = getJigConfig(slug);
         var jigGuide = PRODUCT_IMAGE_GUIDES['jig-positioner-automation'];
