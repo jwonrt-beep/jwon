@@ -199,6 +199,12 @@
         if (content.pageType === 'model' || content.pageType === 'power-series' || content.pageType === 'process-item' || content.pageType === 'highpower-config' || content.pageType === 'jig-config' || content.pageType === 'turnkey-config' || content.pageType === 'smartfactory-config') {
             return modelHeroVisual(content, slug);
         }
+        if (content.pageType === 'parent-system' && typeof getTawersHeroImagePriority === 'function') {
+            var tawersSlot = getTawersHeroImagePriority('parent-detail');
+            if (tawersSlot) {
+                return renderImageSlot(tawersSlot, 'hero');
+            }
+        }
         const guide = imgGuide(slug);
         const slot = (content && content.heroImage) || guide.hero || {
             src: '',

@@ -95,13 +95,14 @@ const PRODUCT_CATALOG = [
 ];
 
 function getCatalogProductBySlug(slug) {
-    const aliases = {
-        tawers: 'tawers-welding-robot-system',
-        'tm-series': 'welding-robot-manipulator-lineup',
-        'ts-series': 'welding-robot-manipulator-lineup',
-        'tl-series': 'welding-robot-manipulator-lineup'
-    };
-    const resolved = aliases[slug] || slug;
+    const resolved = typeof resolveProductSlug === 'function'
+        ? resolveProductSlug(slug)
+        : ({
+            tawers: 'tawers-welding-robot-system',
+            'tm-series': 'welding-robot-manipulator-lineup',
+            'ts-series': 'welding-robot-manipulator-lineup',
+            'tl-series': 'welding-robot-manipulator-lineup'
+        }[slug] || slug);
     return PRODUCT_CATALOG.find((p) => p.slug === resolved) || null;
 }
 

@@ -210,9 +210,9 @@ var PRODUCT_IMAGE_GUIDES = {
             guide: ['회전 포지셔너 + 작업물 + 로봇이 함께 보이는 장면', '맞춤 지그에 작업물이 고정된 모습']
         },
         gallery: [
-            { src: '/assets/images/products/jig/custom-jig.jpg', label: '맞춤 지그', imageType: '실제 적용 사례 이미지', guide: ['작업물 형상에 맞춘 지그 제작 사례'] },
-            { src: '/assets/images/products/jig/positioner.jpg', label: '회전 포지셔너', imageType: '실제 적용 사례 이미지', guide: ['포지셔너 회전 + 다면 용접 장면'] },
-            { src: '/assets/images/products/jig/robot-jig-cell.jpg', label: '로봇+지그 연동', imageType: '실제 적용 사례 이미지', guide: ['로봇과 지그가 연동된 셀 전경'] }
+            { src: '/assets/images/products/jig/custom-jig.jpg', label: '맞춤 지그', caseStudy: true, guide: ['작업물 형상에 맞춘 지그 제작 사례', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] },
+            { src: '/assets/images/products/jig/positioner.jpg', label: '회전 포지셔너', caseStudy: true, guide: ['포지셔너 회전 + 다면 용접 장면', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] },
+            { src: '/assets/images/products/jig/robot-jig-cell.jpg', label: '로봇+지그 연동', caseStudy: true, guide: ['로봇과 지그가 연동된 셀 전경', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] }
         ],
         seriesImages: {
             '맞춤 지그': { src: '/assets/images/products/jig/card-custom-jig.jpg', guide: ['맞춤 지그 + 작업물 고정 장면'] },
@@ -238,9 +238,9 @@ var PRODUCT_IMAGE_GUIDES = {
             ]
         },
         gallery: [
-            { src: '/assets/images/products/turnkey/cell-layout.jpg', label: '셀 레이아웃', imageType: '실제 적용 사례 이미지', guide: ['셀 평면도 또는 조감도 스타일 현장 사진'] },
-            { src: '/assets/images/products/turnkey/safety-fence.jpg', label: '안전펜스·인터록', imageType: '실제 적용 사례 이미지', guide: ['펜스, 안전 door, 인터록 장치'] },
-            { src: '/assets/images/products/turnkey/commissioning.jpg', label: '시운전·교육', imageType: '실제 적용 사례 이미지', guide: ['엔지니어 시운전, 작업자 교육 장면'] }
+            { src: '/assets/images/products/turnkey/cell-layout.jpg', label: '셀 레이아웃', caseStudy: true, guide: ['셀 평면도 또는 조감도 스타일 현장 사진', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] },
+            { src: '/assets/images/products/turnkey/safety-fence.jpg', label: '안전펜스·인터록', caseStudy: true, guide: ['펜스, 안전 door, 인터록 장치', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] },
+            { src: '/assets/images/products/turnkey/commissioning.jpg', label: '시운전·교육', caseStudy: true, guide: ['엔지니어 시운전, 작업자 교육 장면', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] }
         },
         seriesImages: {
             '표준 용접 자동화 셀': { src: '/assets/images/products/turnkey/card-standard-cell.jpg', guide: ['TAWERS + 지그 + 펜스 표준 셀'] },
@@ -288,7 +288,8 @@ var MODULE_ID_TO_IMAGE_KEY = {
     'welding-process-software': '용접 공법 소프트웨어',
     'high-power-welding-system': '고출력 용접 시스템',
     'jig-positioner-automation': '지그·포지셔너 자동화',
-    'turnkey-robot-automation-cell': '턴키 로봇 자동화 셀'
+    'turnkey-robot-automation-cell': '턴키 로봇 자동화 셀',
+    'smart-factory-integration': '스마트팩토리 연동 솔루션'
 };
 
 var IMAGE_PREP_PRIORITY = {
@@ -333,12 +334,49 @@ var IMAGE_PREP_PRIORITY = {
     ]
 };
 
+var LINEUP_SLUGS = [
+    'tawers-welding-robot-system',
+    'welding-power-controller',
+    'welding-robot-manipulator-lineup',
+    'welding-process-software',
+    'high-power-welding-system',
+    'jig-positioner-automation',
+    'turnkey-robot-automation-cell',
+    'smart-factory-integration'
+];
+
 var GUIDE_SLUG_ALIASES = {
     tawers: 'tawers-welding-robot-system',
+    'tawers-welding-robot-system': 'tawers-welding-robot-system',
+    'welding-robot': 'welding-robot-manipulator-lineup',
+    'welding-robot-manipulator-lineup': 'welding-robot-manipulator-lineup',
+    'tm-series': 'welding-robot-manipulator-lineup',
+    'ts-series': 'welding-robot-manipulator-lineup',
+    'tl-series': 'welding-robot-manipulator-lineup',
+    'welding-power': 'welding-power-controller',
+    'welding-power-controller': 'welding-power-controller',
+    'welding-process': 'welding-process-software',
+    'welding-process-software': 'welding-process-software',
     's-awp-awp4': 's-awp',
+    'awp4': 's-awp',
     'standard-process': 'basic-arc-process',
     'mts-co2-sp-mag-hd-pulse': 'basic-arc-process',
-    'wgh-system': 'wgh-series'
+    'wg-system': 'wg-series',
+    'wgh-system': 'wgh-series',
+    'high-power': 'high-power-welding-system',
+    'high-power-welding-system': 'high-power-welding-system',
+    'jig-positioner': 'jig-positioner-automation',
+    'jig-positioner-automation': 'jig-positioner-automation',
+    'turnkey': 'turnkey-robot-automation-cell',
+    'turnkey-robot-automation-cell': 'turnkey-robot-automation-cell',
+    'smart-factory': 'smart-factory-integration',
+    'smart-factory-integration': 'smart-factory-integration'
+};
+
+var TAWERS_HERO_PRIORITY_BY_CONTEXT = {
+    catalog: ['hero', 'systemMap', 'systemArchitecture'],
+    'parent-detail': ['hero', 'systemArchitecture', 'configurationFlow'],
+    compact: []
 };
 
 var MODEL_SLUGS = ['ts-800', 'ts-950', 'tm-1100', 'tm-1400', 'tm-1600', 'tm-1800', 'tm-2000', 'tl-1800', 'tl-2000'];
@@ -355,7 +393,20 @@ function escHtml(text) {
     return d.innerHTML;
 }
 
+function normalizeImageSlot(slot) {
+    if (!slot) return slot;
+    var normalized = Object.assign({}, slot);
+    if (normalized.fallback && !normalized.fallbackSrc) {
+        normalized.fallbackSrc = normalized.fallback;
+    }
+    if (normalized.caseStudy && !normalized.imageType) {
+        normalized.imageTypeOnLoad = '실제 적용 사례 이미지';
+    }
+    return normalized;
+}
+
 function renderImageSlotHtml(slot, sizeClass) {
+    slot = normalizeImageSlot(slot);
     if (!slot) return '';
     var cls = 'pd-img-slot' + (sizeClass ? ' pd-img-slot--' + sizeClass : '');
     var guideItems = (slot.guide || []).map(function (g) {
@@ -363,7 +414,9 @@ function renderImageSlotHtml(slot, sizeClass) {
     }).join('');
     var typeBadge = slot.imageType
         ? '<span class="pd-img-slot-type">' + escHtml(slot.imageType) + '</span>'
-        : '';
+        : (slot.caseStudy
+            ? '<span class="pd-img-slot-type pd-img-slot-type--pending">현장 사례 · 준비 중</span>'
+            : '');
     var roleBadge = slot.role
         ? '<span class="pd-img-slot-role">' + escHtml(slot.role) + '</span>'
         : '';
@@ -373,11 +426,20 @@ function renderImageSlotHtml(slot, sizeClass) {
             (slot.modelName ? '<strong>' + escHtml(slot.modelName) + '</strong>' : '') +
           '</div>'
         : '';
+    var fallbackAttr = slot.fallbackSrc
+        ? ' data-fallback-src="' + escHtml(slot.fallbackSrc) + '"'
+        : '';
+    var typeOnLoad = slot.imageTypeOnLoad
+        ? escHtml(slot.imageTypeOnLoad).replace(/'/g, '&#39;')
+        : '';
+    var onloadExtra = typeOnLoad
+        ? 'var b=this.closest(\'.pd-img-slot\').querySelector(\'.pd-img-slot-type--pending\');if(b){b.textContent=\'' + typeOnLoad + '\';b.classList.remove(\'pd-img-slot-type--pending\');}'
+        : '';
     return (
-        '<div class="' + cls + '" data-image-path="' + escHtml(slot.src) + '">' +
+        '<div class="' + cls + '" data-image-path="' + escHtml(slot.src) + '"' + fallbackAttr + '>' +
             '<img src="' + escHtml(slot.src) + '" alt="' + escHtml(slot.label || '') + '" loading="lazy"' +
-                ' onload="this.closest(\'.pd-img-slot\').classList.add(\'has-photo\')"' +
-                ' onerror="this.closest(\'.pd-img-slot\').classList.add(\'no-photo\');this.style.display=\'none\'">' +
+                ' onload="this.closest(\'.pd-img-slot\').classList.add(\'has-photo\');' + onloadExtra + '"' +
+                ' onerror="var s=this.closest(\'.pd-img-slot\');var fb=s.getAttribute(\'data-fallback-src\');if(fb&&!s.classList.contains(\'tried-fallback\')){s.classList.add(\'tried-fallback\');this.src=fb;return;}s.classList.add(\'no-photo\');this.style.display=\'none\'">' +
             '<div class="pd-img-slot-placeholder">' +
                 '<div class="pd-img-slot-icon" aria-hidden="true">' +
                     '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">' +
@@ -392,6 +454,7 @@ function renderImageSlotHtml(slot, sizeClass) {
                 meta +
                 '<strong class="pd-img-slot-label">' + escHtml(slot.label || '이미지') + '</strong>' +
                 (slot.src ? '<code class="pd-img-slot-path">' + escHtml(slot.src) + '</code>' : '') +
+                (slot.fallbackSrc ? '<code class="pd-img-slot-path pd-img-slot-path--fallback">대체: ' + escHtml(slot.fallbackSrc) + '</code>' : '') +
                 (guideItems ? '<ul class="pd-img-slot-guide">' + guideItems + '</ul>' : '') +
             '</div>' +
         '</div>'
@@ -401,6 +464,7 @@ function renderImageSlotHtml(slot, sizeClass) {
 function resolveGuideSlug(slug) {
     if (!slug) return slug;
     if (GUIDE_SLUG_ALIASES[slug]) return GUIDE_SLUG_ALIASES[slug];
+    if (LINEUP_SLUGS.indexOf(slug) >= 0) return slug;
     if (MODEL_SLUGS.indexOf(slug) >= 0) return slug;
     if (POWER_SLUGS.indexOf(slug) >= 0) return slug;
     if (PROCESS_SLUGS.indexOf(slug) >= 0) return slug;
@@ -409,6 +473,10 @@ function resolveGuideSlug(slug) {
     if (TURNKEY_SLUGS.indexOf(slug) >= 0) return slug;
     if (SMARTFACTORY_SLUGS.indexOf(slug) >= 0) return slug;
     return slug;
+}
+
+function resolveProductSlug(slug) {
+    return resolveGuideSlug(slug);
 }
 
 function buildRobotModelImageGuide(slug) {
@@ -451,24 +519,34 @@ function withSmartFactoryExampleMeta(slot) {
 }
 
 function getModuleCardImage(moduleId) {
+    var resolvedId = resolveProductSlug(moduleId);
     var tawers = PRODUCT_IMAGE_GUIDES['tawers-welding-robot-system'];
     if (!tawers || !tawers.moduleImages) return null;
-    var key = MODULE_ID_TO_IMAGE_KEY[moduleId];
+    var key = MODULE_ID_TO_IMAGE_KEY[resolvedId] || MODULE_ID_TO_IMAGE_KEY[moduleId];
     if (!key) return null;
     var img = tawers.moduleImages[key];
     if (!img) return null;
-    return {
+    return normalizeImageSlot({
         src: img.src,
-        fallback: img.fallback,
+        fallbackSrc: img.fallback,
         label: key,
         guide: img.guide || []
-    };
+    });
 }
 
-function getTawersHeroImagePriority() {
+function pickTawersImageSlot(pageContext) {
     var g = PRODUCT_IMAGE_GUIDES['tawers-welding-robot-system'];
     if (!g) return null;
-    return g.hero || g.systemMap || g.systemArchitecture || null;
+    var keys = TAWERS_HERO_PRIORITY_BY_CONTEXT[pageContext] || TAWERS_HERO_PRIORITY_BY_CONTEXT.catalog;
+    for (var i = 0; i < keys.length; i++) {
+        var slot = g[keys[i]];
+        if (slot && slot.src) return slot;
+    }
+    return null;
+}
+
+function getTawersHeroImagePriority(pageContext) {
+    return pickTawersImageSlot(pageContext || 'catalog');
 }
 
 function getProductImageGuide(slug) {
@@ -499,16 +577,18 @@ function getProductImageGuide(slug) {
         var tk = getTurnkeyConfig(slug);
         var tkGuide = PRODUCT_IMAGE_GUIDES['turnkey-robot-automation-cell'];
         var tkImg = tkGuide && tkGuide.seriesImages ? tkGuide.seriesImages[tk.name] : null;
+        var tkHeroFallback = tkGuide && tkGuide.hero ? tkGuide.hero.src : null;
         return {
-            hero: tkImg || {
+            hero: normalizeImageSlot(tkImg || {
                 src: '/assets/images/products/turnkey/' + slug + '.jpg',
+                fallbackSrc: tkHeroFallback,
                 label: tk.name + ' 현장 사진',
-                imageType: '실제 적용 사례 이미지',
-                guide: [tk.name + ' 적용 현장 (안전펜스 + 로봇 + 지그 셀)', '셀 레이아웃·시운전 장면']
-            },
+                caseStudy: true,
+                guide: [tk.name + ' 적용 현장 (안전펜스 + 로봇 + 지그 셀)', '셀 레이아웃·시운전 장면', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다']
+            }),
             gallery: [
-                { src: '/assets/images/products/turnkey/' + slug + '-field.jpg', label: '현장 적용', imageType: '실제 적용 사례 이미지', guide: [tk.name + ' 현장 셀'] },
-                { src: '/assets/images/products/turnkey/' + slug + '-layout.jpg', label: '셀 레이아웃', imageType: '실제 적용 사례 이미지', guide: ['셀 구성·layout'] }
+                { src: '/assets/images/products/turnkey/' + slug + '-field.jpg', label: '현장 적용', caseStudy: true, guide: [tk.name + ' 현장 셀'] },
+                { src: '/assets/images/products/turnkey/' + slug + '-layout.jpg', label: '셀 레이아웃', caseStudy: true, guide: ['셀 구성·layout'] }
             ],
             processFlow: tkGuide ? tkGuide.processFlow : null
         };
@@ -517,16 +597,18 @@ function getProductImageGuide(slug) {
         var jig = getJigConfig(slug);
         var jigGuide = PRODUCT_IMAGE_GUIDES['jig-positioner-automation'];
         var jigImg = jigGuide && jigGuide.seriesImages ? jigGuide.seriesImages[jig.name] : null;
+        var jigHeroFallback = jigGuide && jigGuide.hero ? jigGuide.hero.src : null;
         return {
-            hero: jigImg || {
+            hero: normalizeImageSlot(jigImg || {
                 src: '/assets/images/products/jig/' + slug + '.jpg',
+                fallbackSrc: jigHeroFallback,
                 label: jig.name + ' 현장 사진',
-                imageType: '실제 적용 사례 이미지',
-                guide: [jig.name + ' 적용 현장 (지그·포지셔너 + 로봇)', '작업물 고정·회전·슬라이드 장면']
-            },
+                caseStudy: true,
+                guide: [jig.name + ' 적용 현장 (지그·포지셔너 + 로봇)', '작업물 고정·회전·슬라이드 장면', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다']
+            }),
             gallery: [
-                { src: '/assets/images/products/jig/' + slug + '-field.jpg', label: '현장 적용', imageType: '실제 적용 사례 이미지', guide: [jig.name + ' 현장 용접'] },
-                { src: '/assets/images/products/jig/' + slug + '-setup.jpg', label: '셋업·지그', imageType: '실제 적용 사례 이미지', guide: ['작업물 셋업·지그 디테일'] }
+                { src: '/assets/images/products/jig/' + slug + '-field.jpg', label: '현장 적용', caseStudy: true, guide: [jig.name + ' 현장 용접'] },
+                { src: '/assets/images/products/jig/' + slug + '-setup.jpg', label: '셋업·지그', caseStudy: true, guide: ['작업물 셋업·지그 디테일'] }
             ]
         };
     }
@@ -610,3 +692,5 @@ function getGuideLookup(slug) {
 window.renderImageSlotHtml = renderImageSlotHtml;
 window.getModuleCardImage = getModuleCardImage;
 window.getTawersHeroImagePriority = getTawersHeroImagePriority;
+window.resolveProductSlug = resolveProductSlug;
+window.resolveGuideSlug = resolveGuideSlug;

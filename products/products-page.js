@@ -16,7 +16,7 @@
 
     function pickTawersHeroSlot() {
         if (typeof getTawersHeroImagePriority === 'function') {
-            return getTawersHeroImagePriority();
+            return getTawersHeroImagePriority('catalog');
         }
         var g = typeof getProductImageGuide === 'function'
             ? getProductImageGuide('tawers-welding-robot-system')
@@ -58,11 +58,7 @@
         var imgData = typeof getModuleCardImage === 'function' ? getModuleCardImage(m.id) : null;
         var imgHtml = '';
         if (imgData) {
-            imgHtml = '<div class="pg-module-thumb">' + renderSlot({
-                src: imgData.src,
-                label: imgData.label,
-                guide: imgData.guide
-            }, 'module') + '</div>';
+            imgHtml = '<div class="pg-module-thumb">' + renderSlot(imgData, 'module') + '</div>';
         }
         return '<article class="pg-module-card' + hidden + '" data-filter="' + esc(m.filterTag) + '" data-module="' + esc(m.id) + '">' +
             imgHtml +

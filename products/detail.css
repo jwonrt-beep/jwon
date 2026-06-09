@@ -220,6 +220,14 @@
     border-radius: 4px;
     margin-bottom: 0.35rem;
 }
+.pd-img-slot-type--pending {
+    background: rgba(148,163,184,0.12);
+    color: #94a3b8;
+}
+.pd-img-slot-path--fallback {
+    opacity: 0.75;
+    font-size: 0.68rem;
+}
 .pd-img-slot-role {
     display: inline-block;
     background: rgba(148,163,184,0.15);

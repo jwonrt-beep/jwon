@@ -477,13 +477,18 @@ function getProductDetailContent(slug) {
     if (slug === 'smart-factory-integration' && typeof buildSmartFactoryLineupDetailContent === 'function') {
         return buildSmartFactoryLineupDetailContent();
     }
-    const aliases = {
-        tawers: 'tawers-welding-robot-system',
-        'tm-series': 'welding-robot-manipulator-lineup',
-        'ts-series': 'welding-robot-manipulator-lineup',
-        'tl-series': 'welding-robot-manipulator-lineup'
-    };
-    return PRODUCT_DETAIL_CONTENT[aliases[slug] || slug] || null;
+    const aliases = typeof resolveProductSlug === 'function'
+        ? null
+        : {
+            tawers: 'tawers-welding-robot-system',
+            'tm-series': 'welding-robot-manipulator-lineup',
+            'ts-series': 'welding-robot-manipulator-lineup',
+            'tl-series': 'welding-robot-manipulator-lineup'
+        };
+    const resolvedSlug = typeof resolveProductSlug === 'function'
+        ? resolveProductSlug(slug)
+        : (aliases[slug] || slug);
+    return PRODUCT_DETAIL_CONTENT[resolvedSlug] || null;
 }
 
 function getCatalogProduct(slug) {
