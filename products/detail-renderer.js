@@ -124,7 +124,7 @@
     }
 
     function heroVisual(content, slug) {
-        if (content.pageType === 'model' || content.pageType === 'power-series' || content.pageType === 'process-item' || content.pageType === 'highpower-config' || content.pageType === 'jig-config' || content.pageType === 'turnkey-config') {
+        if (content.pageType === 'model' || content.pageType === 'power-series' || content.pageType === 'process-item' || content.pageType === 'highpower-config' || content.pageType === 'jig-config' || content.pageType === 'turnkey-config' || content.pageType === 'smartfactory-config') {
             return modelHeroVisual(content, slug);
         }
         const guide = imgGuide(slug);
@@ -147,7 +147,7 @@
         const secondary = c.heroSecondaryBtn
             ? `<a href="${c.heroSecondaryBtn.target || '#'}" class="pd-btn-outline">${esc(c.heroSecondaryBtn.label)}</a>`
             : '';
-        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model' && c.pageType !== 'power-series' && c.pageType !== 'process-item' && c.pageType !== 'highpower-config' && c.pageType !== 'jig-config' && c.pageType !== 'turnkey-config'
+        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model' && c.pageType !== 'power-series' && c.pageType !== 'process-item' && c.pageType !== 'highpower-config' && c.pageType !== 'jig-config' && c.pageType !== 'turnkey-config' && c.pageType !== 'smartfactory-config'
             ? `<a href="${c.parentSystem.link}" class="pd-btn-outline">${esc(c.parentSystem.linkText || 'TAWERS 시스템 보기')}</a>`
             : '';
         const listBtn = c.backLink
@@ -164,12 +164,14 @@
             ? `<a href="/products/jig-positioner-automation/" class="pd-btn-outline">지그·포지셔너 자동화 보기</a>`
             : c.pageType === 'turnkey-config'
             ? `<a href="/products/turnkey-robot-automation-cell/" class="pd-btn-outline">턴키 로봇 자동화 셀 보기</a>`
+            : c.pageType === 'smartfactory-config'
+            ? `<a href="/products/smart-factory-integration/" class="pd-btn-outline">스마트팩토리 연동 솔루션 보기</a>`
             : `<a href="${listUrl()}" class="pd-btn-outline">제품군 목록</a>`;
 
         return `
             ${parentSystemBanner(c.parentSystem)}
             ${hierarchyBanner(c.hierarchy)}
-            <section class="pd-hero${c.pageType === 'model' || c.pageType === 'power-series' || c.pageType === 'process-item' || c.pageType === 'highpower-config' || c.pageType === 'jig-config' || c.pageType === 'turnkey-config' ? ' pd-hero--model' : ''}">
+            <section class="pd-hero${c.pageType === 'model' || c.pageType === 'power-series' || c.pageType === 'process-item' || c.pageType === 'highpower-config' || c.pageType === 'jig-config' || c.pageType === 'turnkey-config' || c.pageType === 'smartfactory-config' ? ' pd-hero--model' : ''}">
                 <div class="container">
                     <div class="pd-hero-grid">
                         <div class="pd-hero-text">
@@ -614,6 +616,10 @@
             back.url = '/products/turnkey-robot-automation-cell/';
             back.label = '턴키 로봇 자동화 셀 보기';
         }
+        if (content.pageType === 'smartfactory-config') {
+            back.url = '/products/smart-factory-integration/';
+            back.label = '스마트팩토리 연동 솔루션 보기';
+        }
         return `
             <section class="pd-cta">
                 <div class="container">
@@ -648,7 +654,7 @@
         const guide = imgGuide(slug);
         let html = heroSection(product, content, qUrl, slug);
 
-        if (type === 'model' || type === 'power-series' || type === 'process-item' || type === 'highpower-config' || type === 'jig-config' || type === 'turnkey-config') {
+        if (type === 'model' || type === 'power-series' || type === 'process-item' || type === 'highpower-config' || type === 'jig-config' || type === 'turnkey-config' || type === 'smartfactory-config') {
             const specNote = type === 'power-series'
                 ? '출력·전류·토치·와이어 송급 구성은 작업물 조건에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
                 : type === 'process-item'
@@ -659,6 +665,8 @@
                 ? '지그·포지셔너 치수, 회전·슬라이드 스트로크, 클램핑·센서 구성은 작업물 조건에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
                 : type === 'turnkey-config'
                 ? '셀 치수, 펜스·인터록, 설치·시운전 범위는 현장 조건에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
+                : type === 'smartfactory-config'
+                ? '수집 데이터 항목, 연동 범위, MES·IT 환경은 현장 조건에 따라 상담 시 확인합니다. 임의 수치·기능은 표기하지 않습니다.'
                 : undefined;
             html += summarySection(content.summaryCards, '핵심 요약');
             html += cautionNoteSection(content.cautionNote);
@@ -704,6 +712,8 @@
                 lineupCards = buildJigLineupCardsFromData();
             } else if (slug === 'turnkey-robot-automation-cell' && typeof buildTurnkeyLineupCardsFromData === 'function') {
                 lineupCards = buildTurnkeyLineupCardsFromData();
+            } else if (slug === 'smart-factory-integration' && typeof buildSmartFactoryLineupCardsFromData === 'function') {
+                lineupCards = buildSmartFactoryLineupCardsFromData();
             } else if (typeof buildLineupCardsFromData === 'function') {
                 lineupCards = buildLineupCardsFromData();
             } else {
@@ -745,6 +755,9 @@
         }
 
         let content = getProductDetailContent(slug);
+        if (!content && typeof getSmartFactoryConfigDetailContent === 'function') {
+            content = getSmartFactoryConfigDetailContent(slug);
+        }
         if (!content && typeof getTurnkeyConfigDetailContent === 'function') {
             content = getTurnkeyConfigDetailContent(slug);
         }

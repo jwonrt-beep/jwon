@@ -172,7 +172,13 @@ var PRODUCT_IMAGE_GUIDES = {
             { src: '/assets/images/products/smartfactory/dashboard.jpg', label: '모니터링 대시보드', guide: ['공정 상태, 용접 이력 화면 캡처 또는 연출'] },
             { src: '/assets/images/products/smartfactory/data-flow.jpg', label: '데이터 연동', guide: ['설비 → 데이터 → MES 흐름을 보여주는 이미지'] },
             { src: '/assets/images/products/smartfactory/quality-log.jpg', label: '품질 이력', guide: ['용접 품질 데이터, 작업 이력 관리 화면'] }
-        ]
+        ],
+        seriesImages: {
+            '용접 품질 데이터 수집': { src: '/assets/images/products/smartfactory/card-quality-log.jpg', guide: ['용접 품질·이력 데이터 화면'] },
+            '공정 모니터링 대시보드': { src: '/assets/images/products/smartfactory/card-monitoring.jpg', guide: ['실시간 공정·설비 모니터링'] },
+            'MES·작업 이력·추적성': { src: '/assets/images/products/smartfactory/card-mes.jpg', guide: ['MES·작업 이력·추적 화면'] },
+            '단계적 스마트공장 확장': { src: '/assets/images/products/smartfactory/card-phased.jpg', guide: ['PoC → 확장 로드맵·과제'] }
+        }
     }
 };
 
@@ -185,10 +191,31 @@ function getProductImageGuide(slug) {
         's-awp': 'process', 'hbc': 'process', 'zi-tech': 'process', 'basic-arc-process': 'process',
         'heavy-plate-frame': 'highpower', 'large-structure': 'highpower', 'fillet-high-output': 'highpower', 'tl-wgh-integrated-cell': 'highpower',
         'custom-jig': 'jig', 'rotary-positioner': 'jig', 'slide-unit': 'jig', 'integrated-setup': 'jig',
-        'standard-welding-cell': 'turnkey', 'retrofit-cell': 'turnkey', 'large-turnkey-cell': 'turnkey', 'full-service-delivery': 'turnkey'
+        'standard-welding-cell': 'turnkey', 'retrofit-cell': 'turnkey', 'large-turnkey-cell': 'turnkey', 'full-service-delivery': 'turnkey',
+        'quality-data-log': 'smartfactory', 'process-monitoring': 'smartfactory', 'mes-traceability': 'smartfactory', 'phased-expansion': 'smartfactory'
     };
-    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : aliases[slug] === 'process' ? slug : aliases[slug] === 'highpower' ? slug : aliases[slug] === 'jig' ? slug : aliases[slug] === 'turnkey' ? slug : (aliases[slug] || slug);
+    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : aliases[slug] === 'process' ? slug : aliases[slug] === 'highpower' ? slug : aliases[slug] === 'jig' ? slug : aliases[slug] === 'turnkey' ? slug : aliases[slug] === 'smartfactory' ? slug : (aliases[slug] || slug);
     if (PRODUCT_IMAGE_GUIDES[key]) return PRODUCT_IMAGE_GUIDES[key];
+    if (typeof getSmartFactoryConfig === 'function' && getSmartFactoryConfig(slug)) {
+        var sf = getSmartFactoryConfig(slug);
+        var sfGuide = PRODUCT_IMAGE_GUIDES['smart-factory-integration'];
+        var sfImg = sfGuide && sfGuide.seriesImages ? sfGuide.seriesImages[sf.name] : null;
+        return {
+            hero: sfImg || {
+                src: '/assets/images/products/smartfactory/' + slug + '.jpg',
+                label: sf.name + ' 연동 화면',
+                guide: [
+                    sf.name + ' 적용 (설비 + 대시보드)',
+                    '데이터·모니터링·이력 화면',
+                    'TAWERS 설비 기반 스마트팩토리 연동'
+                ]
+            },
+            gallery: [
+                { src: '/assets/images/products/smartfactory/' + slug + '-dashboard.jpg', label: '대시보드', guide: [sf.name + ' 모니터링·데이터 화면'] },
+                { src: '/assets/images/products/smartfactory/' + slug + '-flow.jpg', label: '데이터 흐름', guide: ['설비 → 데이터 연동'] }
+            ]
+        };
+    }
     if (typeof getTurnkeyConfig === 'function' && getTurnkeyConfig(slug)) {
         var tk = getTurnkeyConfig(slug);
         var tkGuide = PRODUCT_IMAGE_GUIDES['turnkey-robot-automation-cell'];

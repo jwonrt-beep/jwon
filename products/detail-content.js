@@ -474,6 +474,9 @@ function getProductDetailContent(slug) {
     if (slug === 'turnkey-robot-automation-cell' && typeof buildTurnkeyLineupDetailContent === 'function') {
         return buildTurnkeyLineupDetailContent();
     }
+    if (slug === 'smart-factory-integration' && typeof buildSmartFactoryLineupDetailContent === 'function') {
+        return buildSmartFactoryLineupDetailContent();
+    }
     const aliases = {
         tawers: 'tawers-welding-robot-system',
         'tm-series': 'welding-robot-manipulator-lineup',
@@ -484,6 +487,19 @@ function getProductDetailContent(slug) {
 }
 
 function getCatalogProduct(slug) {
+    if (typeof getSmartFactoryConfig === 'function') {
+        const sf = getSmartFactoryConfig(slug);
+        if (sf) {
+            return {
+                name: sf.name,
+                slug: slug,
+                badge: sf.parentLineup,
+                description: sf.tagline,
+                imageHint: sf.series + ' · ' + sf.name,
+                categories: ['스마트팩토리']
+            };
+        }
+    }
     if (typeof getTurnkeyConfig === 'function') {
         const tk = getTurnkeyConfig(slug);
         if (tk) {
@@ -605,6 +621,9 @@ function resolveSlugFromUrl() {
         if (parts[idx + 1] === 'turnkey' && parts[idx + 2]) {
             return parts[idx + 2];
         }
+        if (parts[idx + 1] === 'smart-factory' && parts[idx + 2]) {
+            return parts[idx + 2];
+        }
         if (parts[idx + 1] !== 'index.html' && parts[idx + 1] !== 'detail.html') {
             return parts[idx + 1];
         }
@@ -654,6 +673,13 @@ function getJigConfigDetailContent(slug) {
 function getTurnkeyConfigDetailContent(slug) {
     if (typeof buildTurnkeyConfigDetailContent === 'function') {
         return buildTurnkeyConfigDetailContent(slug);
+    }
+    return null;
+}
+
+function getSmartFactoryConfigDetailContent(slug) {
+    if (typeof buildSmartFactoryConfigDetailContent === 'function') {
+        return buildSmartFactoryConfigDetailContent(slug);
     }
     return null;
 }
