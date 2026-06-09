@@ -241,7 +241,7 @@ var PRODUCT_IMAGE_GUIDES = {
             { src: '/assets/images/products/turnkey/cell-layout.jpg', label: '셀 레이아웃', caseStudy: true, guide: ['셀 평면도 또는 조감도 스타일 현장 사진', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] },
             { src: '/assets/images/products/turnkey/safety-fence.jpg', label: '안전펜스·인터록', caseStudy: true, guide: ['펜스, 안전 door, 인터록 장치', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] },
             { src: '/assets/images/products/turnkey/commissioning.jpg', label: '시운전·교육', caseStudy: true, guide: ['엔지니어 시운전, 작업자 교육 장면', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] }
-        },
+        ],
         seriesImages: {
             '표준 용접 자동화 셀': { src: '/assets/images/products/turnkey/card-standard-cell.jpg', guide: ['TAWERS + 지그 + 펜스 표준 셀'] },
             '기존 공정 개조 셀': { src: '/assets/images/products/turnkey/card-retrofit.jpg', guide: ['기존 공정 + 로봇 추가·안전 보완'] },
