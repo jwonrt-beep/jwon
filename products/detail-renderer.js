@@ -124,7 +124,7 @@
     }
 
     function heroVisual(content, slug) {
-        if (content.pageType === 'model') {
+        if (content.pageType === 'model' || content.pageType === 'power-series') {
             return modelHeroVisual(content, slug);
         }
         const guide = imgGuide(slug);
@@ -147,17 +147,21 @@
         const secondary = c.heroSecondaryBtn
             ? `<a href="${c.heroSecondaryBtn.target || '#'}" class="pd-btn-outline">${esc(c.heroSecondaryBtn.label)}</a>`
             : '';
-        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model'
+        const parentLink = c.parentSystem && c.parentSystem.link && c.pageType !== 'model' && c.pageType !== 'power-series'
             ? `<a href="${c.parentSystem.link}" class="pd-btn-outline">${esc(c.parentSystem.linkText || 'TAWERS 시스템 보기')}</a>`
             : '';
-        const listBtn = c.pageType === 'model'
+        const listBtn = c.backLink
+            ? `<a href="${c.backLink.url}" class="pd-btn-outline">${esc(c.backLink.label)}</a>`
+            : c.pageType === 'model'
             ? `<a href="/products/welding-robot-manipulator-lineup/" class="pd-btn-outline">로봇 라인업 보기</a>`
+            : c.pageType === 'power-series'
+            ? `<a href="/products/welding-power-controller/" class="pd-btn-outline">용접전원·컨트롤러 구성 보기</a>`
             : `<a href="${listUrl()}" class="pd-btn-outline">제품군 목록</a>`;
 
         return `
             ${parentSystemBanner(c.parentSystem)}
             ${hierarchyBanner(c.hierarchy)}
-            <section class="pd-hero${c.pageType === 'model' ? ' pd-hero--model' : ''}">
+            <section class="pd-hero${c.pageType === 'model' || c.pageType === 'power-series' ? ' pd-hero--model' : ''}">
                 <div class="container">
                     <div class="pd-hero-grid">
                         <div class="pd-hero-text">
@@ -326,23 +330,26 @@
             </section>`;
     }
 
-    function lineupSection(cards, slug) {
+    function lineupSection(cards, slug, sectionMeta) {
         if (!cards) return '';
         const guides = imgGuide(slug).series || {};
+        const title = (sectionMeta && sectionMeta.title) || '라인업 비교 — 작업물 크기에 맞게 선택';
+        const desc = (sectionMeta && sectionMeta.desc) || '소형 TS, 표준 TM, 대형 TL — TAWERS 시스템 안에서 작업물과 설치 공간에 맞는 로봇팔을 선택합니다.';
         return `
             <section class="pd-section pd-lineup-section">
                 <div class="container">
-                    <h2 class="pd-section-title">라인업 비교 — 작업물 크기에 맞게 선택</h2>
-                    <p class="pd-section-desc">소형 TS, 표준 TM, 대형 TL — TAWERS 시스템 안에서 작업물과 설치 공간에 맞는 로봇팔을 선택합니다.</p>
+                    <h2 class="pd-section-title">${esc(title)}</h2>
+                    <p class="pd-section-desc">${esc(desc)}</p>
                     <div class="pd-lineup-grid">
                         ${cards.map((c) => {
                             const img = guides[c.name] || c.image || null;
+                            const detailLinks = c.modelLinks || c.seriesLinks || [];
                             return `
                             <div class="pd-lineup-card${c.highlight ? ' pd-lineup-card--highlight' : ''}">
                                 ${img ? renderImageSlot(img, 'lineup') : renderImageSlot({
-                                    src: '/assets/images/products/lineup/card-' + c.name.replace(/\s+/g, '-').toLowerCase().replace('시리즈', 'series') + '.jpg',
+                                    src: '/assets/images/products/lineup/card-' + c.name.replace(/\s+/g, '-').toLowerCase().replace('시리즈', 'series').replace('계열', 'series').replace('통합-컨트롤러', 'controller') + '.jpg',
                                     label: c.name + ' 사진',
-                                    guide: [c.name + ' 로봇 제품 또는 현장 사진']
+                                    guide: [c.name + ' 제품 또는 현장 사진']
                                 }, 'lineup')}
                                 <div class="pd-lineup-card-head">
                                     <span>${esc(c.badge)}</span>
@@ -353,10 +360,10 @@
                                     <div class="pd-lineup-tags">
                                         ${(c.tags || []).map((t) => `<span>${esc(t)}</span>`).join('')}
                                     </div>
-                                    <div class="pd-lineup-models">대표 모델: ${esc(c.models)}</div>
-                                    ${c.modelLinks && c.modelLinks.length ? `
+                                    ${c.models ? `<div class="pd-lineup-models">${c.modelLinks ? '대표 모델' : '구성'}: ${esc(c.models)}</div>` : ''}
+                                    ${detailLinks.length ? `
                                         <div class="pd-model-links">
-                                            ${c.modelLinks.map((m) => `<a href="${m.url || modelUrl(m.name.toLowerCase())}">${esc(m.name)}</a>`).join('')}
+                                            ${detailLinks.map((m) => `<a href="${m.url || modelUrl(m.name.toLowerCase())}">${esc(m.name)}</a>`).join('')}
                                         </div>
                                     ` : ''}
                                 </div>
@@ -508,13 +515,14 @@
             </section>`;
     }
 
-    function modelSpecsTableSection(specs) {
+    function modelSpecsTableSection(specs, note) {
         if (!specs) return '';
+        const defaultNote = '아래 수치는 제공된 로봇 매니퓰레이터 사양 기준입니다. 토치·케이블·주변 장치 구성은 현장 조건에 따라 확인이 필요합니다.';
         return `
             <section class="pd-section pd-model-specs">
                 <div class="container">
                     <h2 class="pd-section-title">주요 스펙</h2>
-                    <p class="pd-section-desc">아래 수치는 제공된 로봇 매니퓰레이터 사양 기준입니다. 토치·케이블·주변 장치 구성은 현장 조건에 따라 확인이 필요합니다.</p>
+                    <p class="pd-section-desc">${esc(note || defaultNote)}</p>
                     <table class="pd-spec-table pd-spec-table--model">
                         <tbody>
                             ${Object.entries(specs).map(([k, v]) => `
@@ -576,6 +584,11 @@
 
     function modelCtaSection(content, qUrl) {
         const c = content.cta || {};
+        const back = content.backLink || { url: '/products/welding-robot-manipulator-lineup/', label: '로봇 라인업 보기' };
+        if (content.pageType === 'power-series') {
+            back.url = '/products/welding-power-controller/';
+            back.label = '용접전원·컨트롤러 구성 보기';
+        }
         return `
             <section class="pd-cta">
                 <div class="container">
@@ -583,7 +596,7 @@
                     <p>${esc(c.description || '')}</p>
                     <div class="pd-cta-actions">
                         <a href="${qUrl}" class="pd-btn-primary">견적 문의하기</a>
-                        <a href="/products/welding-robot-manipulator-lineup/" class="pd-btn-outline">로봇 라인업 보기</a>
+                        <a href="${back.url}" class="pd-btn-outline">${esc(back.label)}</a>
                     </div>
                 </div>
             </section>`;
@@ -610,10 +623,13 @@
         const guide = imgGuide(slug);
         let html = heroSection(product, content, qUrl, slug);
 
-        if (type === 'model') {
+        if (type === 'model' || type === 'power-series') {
+            const specNote = type === 'power-series'
+                ? '출력·전류·토치·와이어 송급 구성은 작업물 조건에 따라 상담 시 확인합니다. 임의 수치는 표기하지 않습니다.'
+                : undefined;
             html += summarySection(content.summaryCards, '핵심 요약');
             html += cautionNoteSection(content.cautionNote);
-            html += modelSpecsTableSection(content.specifications);
+            html += modelSpecsTableSection(content.specifications, specNote);
             html += fieldsSection(content.applicationFields, '적용 현장');
             html += combinationsSection(content.recommendedCombinations);
             html += similarComparisonSection(content.similarComparison);
@@ -644,10 +660,18 @@
             html += systemSection(content.systemSection);
             html += recommendationsSection(content.recommendations, '추천 구성 예시', slug);
         } else if (type === 'lineup') {
-            var lineupCards = (typeof buildLineupCardsFromData === 'function')
-                ? buildLineupCardsFromData()
-                : content.lineupCards;
-            html += lineupSection(lineupCards, slug);
+            var lineupCards;
+            if (slug === 'welding-power-controller' && typeof buildPowerLineupCardsFromData === 'function') {
+                lineupCards = buildPowerLineupCardsFromData();
+            } else if (typeof buildLineupCardsFromData === 'function') {
+                lineupCards = buildLineupCardsFromData();
+            } else {
+                lineupCards = content.lineupCards;
+            }
+            html += lineupSection(lineupCards, slug, {
+                title: content.lineupSectionTitle,
+                desc: content.lineupSectionDesc
+            });
             html += selectionGuideSection(content.selectionGuide);
         } else if (type === 'process') {
             html += processCardsSection(content.processCards, slug);
@@ -680,6 +704,9 @@
         }
 
         let content = getProductDetailContent(slug);
+        if (!content && typeof getPowerSeriesDetailContent === 'function') {
+            content = getPowerSeriesDetailContent(slug);
+        }
         if (!content && typeof getModelDetailContent === 'function') {
             content = getModelDetailContent(slug);
         }

@@ -15,7 +15,7 @@ const PRODUCT_DETAIL_CONTENT = {
             center: { title: 'TAWERS 용접로봇 시스템', subtitle: '통합 제어 플랫폼' },
             nodes: [
                 { title: '로봇 매니퓰레이터', desc: 'TS / TM / TL 시리즈', link: 'welding-robot-manipulator-lineup' },
-                { title: '용접전원·컨트롤러', desc: 'WG / WGH 계열', link: 'high-power-welding-system' },
+                { title: '용접전원·컨트롤러', desc: 'WG / WGH 계열', link: 'welding-power-controller' },
                 { title: '용접 공법 소프트웨어', desc: 'S-AWP / HBC / Zi-Tech', link: 'welding-process-software' },
                 { title: '토치·와이어 송급', desc: '토치, 와이어 송급, 티칭 펜던트', link: 'tawers-welding-robot-system' },
                 { title: '지그·포지셔너', desc: '작업물 고정, 회전, 위치 제어', link: 'jig-positioner-automation' },
@@ -48,7 +48,7 @@ const PRODUCT_DETAIL_CONTENT = {
             title: '현장 조건에 따라 로봇 라인업과 용접 공법을 함께 선택합니다',
             items: [
                 { title: '로봇 매니퓰레이터', desc: 'TS, TM, TL 시리즈 중 작업반경과 설치 공간에 맞춰 선택', link: 'welding-robot-manipulator-lineup' },
-                { title: '용접전원·컨트롤러', desc: 'WG, WGH 계열 등 용접 조건과 출력에 맞춰 구성', link: 'high-power-welding-system' },
+                { title: '용접전원·컨트롤러', desc: 'WG, WGH 계열 등 용접 조건과 출력에 맞춰 구성', link: 'welding-power-controller' },
                 { title: '용접 공법 소프트웨어', desc: 'S-AWP, HBC, Zi-Tech 등 현장 문제에 맞춰 적용', link: 'welding-process-software' },
                 { title: '지그·포지셔너', desc: '작업물 고정, 회전, 위치 제어를 위한 주변 설비 구성', link: 'jig-positioner-automation' }
             ]
@@ -65,6 +65,7 @@ const PRODUCT_DETAIL_CONTENT = {
             title: 'TAWERS 시스템의 세부 구성을 확인하세요',
             items: [
                 { name: '용접 로봇 매니퓰레이터 라인업', desc: 'TS, TM, TL 시리즈별 작업반경과 적용 현장을 비교합니다.', btn: '로봇 라인업 보기', link: 'welding-robot-manipulator-lineup' },
+                { name: '용접전원·컨트롤러 구성', desc: 'WG, WGH 계열과 TAWERS 통합 컨트롤러 구성을 확인합니다.', btn: '전원·컨트롤러 보기', link: 'welding-power-controller' },
                 { name: '용접 공법 소프트웨어', desc: 'S-AWP, HBC, Zi-Tech 등 현장 문제별 용접 공법을 확인합니다.', btn: '공법 보기', link: 'welding-process-software' },
                 { name: '고출력 용접 시스템', desc: '중후판, 대형 구조물, 고전류 용접 조건에 적합한 구성을 확인합니다.', btn: '고출력 구성 보기', link: 'high-power-welding-system' },
                 { name: '지그·포지셔너 자동화', desc: '작업물 고정, 회전, 위치 제어 설비 구성을 확인합니다.', btn: '지그·포지셔너 보기', link: 'jig-positioner-automation' },
@@ -458,6 +459,9 @@ const PRODUCT_DETAIL_CONTENT = {
 };
 
 function getProductDetailContent(slug) {
+    if (slug === 'welding-power-controller' && typeof buildPowerLineupDetailContent === 'function') {
+        return buildPowerLineupDetailContent();
+    }
     const aliases = {
         tawers: 'tawers-welding-robot-system',
         'tm-series': 'welding-robot-manipulator-lineup',
@@ -468,6 +472,30 @@ function getProductDetailContent(slug) {
 }
 
 function getCatalogProduct(slug) {
+    if (typeof getPowerSeries === 'function') {
+        const ps = getPowerSeries(slug);
+        if (ps) {
+            return {
+                name: ps.name,
+                slug: slug,
+                badge: ps.series,
+                description: ps.tagline,
+                imageHint: ps.series + ' · ' + ps.name,
+                categories: ['용접전원·컨트롤러']
+            };
+        }
+    }
+    if (slug === 'welding-power-controller' && typeof getPowerLineupCatalog === 'function') {
+        const lineup = getPowerLineupCatalog();
+        return {
+            name: lineup.name,
+            slug: slug,
+            badge: lineup.badge,
+            description: lineup.description,
+            imageHint: '용접전원 · 컨트롤러 · TAWERS 통합 시스템',
+            categories: lineup.categories
+        };
+    }
     if (typeof getRobotModel === 'function') {
         const model = getRobotModel(slug);
         if (model) {
@@ -498,6 +526,9 @@ function resolveSlugFromUrl() {
         if (parts[idx + 1] === 'welding-robot' && parts[idx + 2]) {
             return parts[idx + 2];
         }
+        if (parts[idx + 1] === 'welding-power' && parts[idx + 2]) {
+            return parts[idx + 2];
+        }
         if (parts[idx + 1] !== 'index.html' && parts[idx + 1] !== 'detail.html') {
             return parts[idx + 1];
         }
@@ -512,6 +543,13 @@ function isRobotModelSlug(slug) {
 function getModelDetailContent(slug) {
     if (typeof buildModelDetailContent === 'function') {
         return buildModelDetailContent(slug);
+    }
+    return null;
+}
+
+function getPowerSeriesDetailContent(slug) {
+    if (typeof buildPowerSeriesDetailContent === 'function') {
+        return buildPowerSeriesDetailContent(slug);
     }
     return null;
 }

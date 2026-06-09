@@ -38,11 +38,33 @@ var PRODUCT_IMAGE_GUIDES = {
         },
         moduleImages: {
             '용접 로봇 매니퓰레이터 라인업': { src: '/assets/images/products/tawers/mod-robot.jpg', guide: ['TS/TM/TL 로봇 3대 비교 또는 대표 로봇'] },
+            '용접전원·컨트롤러 구성': { src: '/assets/images/products/tawers/mod-power.jpg', guide: ['용접전원 · 컨트롤러 · TAWERS 통합 시스템'] },
             '용접 공법 소프트웨어': { src: '/assets/images/products/tawers/mod-process.jpg', guide: ['용접 비드 품질, 스패터 비교 사진'] },
             '고출력 용접 시스템': { src: '/assets/images/products/tawers/mod-highpower.jpg', guide: ['중후판 용접, WGH 전원 장비'] },
             '지그·포지셔너 자동화': { src: '/assets/images/products/tawers/mod-jig.jpg', guide: ['맞춤 지그 + 포지셔너 + 작업물'] },
             '턴키 로봇 자동화 셀': { src: '/assets/images/products/tawers/mod-turnkey.jpg', guide: ['펜스 포함 완성된 자동화 셀 전경'] },
             '스마트팩토리 연동 솔루션': { src: '/assets/images/products/tawers/mod-smart.jpg', guide: ['모니터링 화면 + 설비 연동 장면'] }
+        }
+    },
+    'welding-power-controller': {
+        hero: {
+            src: '/assets/images/products/power/hero.jpg',
+            label: '용접전원·컨트롤러 메인',
+            guide: [
+                '용접전원 · 컨트롤러 · TAWERS 통합 시스템 전경',
+                '로봇과 용접전원이 함께 보이는 셀 사진',
+                '권장: 가로형, 장비 구성이 잘 보이는 각도'
+            ]
+        },
+        gallery: [
+            { src: '/assets/images/products/power/wg-unit.jpg', label: 'WG 용접전원', guide: ['WG 계열 표준 용접전원 장비'] },
+            { src: '/assets/images/products/power/wgh-unit.jpg', label: 'WGH 용접전원', guide: ['WGH 계열 고출력 전원 장비'] },
+            { src: '/assets/images/products/power/controller.jpg', label: '통합 컨트롤러', guide: ['TAWERS 통합 컨트롤러 · 티칭 펜던트'] }
+        ],
+        seriesImages: {
+            'WG 계열': { src: '/assets/images/products/power/card-wg-series.jpg', guide: ['WG 용접전원 + 표준 용접 현장'] },
+            'WGH 계열': { src: '/assets/images/products/power/card-wgh-series.jpg', guide: ['WGH 고출력 전원 + 중후판 용접'] },
+            'TAWERS 통합 컨트롤러': { src: '/assets/images/products/power/card-tawers-controller.jpg', guide: ['통합 컨트롤러 · 티칭 펜던트 · 로봇 연동'] }
         }
     },
     'welding-robot-manipulator-lineup': {
@@ -134,10 +156,31 @@ function getProductImageGuide(slug) {
     var aliases = {
         tawers: 'tawers-welding-robot-system',
         'ts-800': 'model', 'ts-950': 'model', 'tm-1100': 'model', 'tm-1400': 'model',
-        'tm-1600': 'model', 'tm-1800': 'model', 'tm-2000': 'model', 'tl-1800': 'model', 'tl-2000': 'model'
+        'tm-1600': 'model', 'tm-1800': 'model', 'tm-2000': 'model', 'tl-1800': 'model', 'tl-2000': 'model',
+        'wg-series': 'power', 'wgh-series': 'power', 'tawers-controller': 'power'
     };
-    var key = aliases[slug] === 'model' ? slug : (aliases[slug] || slug);
+    var key = aliases[slug] === 'model' ? slug : aliases[slug] === 'power' ? slug : (aliases[slug] || slug);
     if (PRODUCT_IMAGE_GUIDES[key]) return PRODUCT_IMAGE_GUIDES[key];
+    if (typeof getPowerSeries === 'function' && getPowerSeries(slug)) {
+        var ps = getPowerSeries(slug);
+        var lineupGuide = PRODUCT_IMAGE_GUIDES['welding-power-controller'];
+        var seriesImg = lineupGuide && lineupGuide.seriesImages ? lineupGuide.seriesImages[ps.name] : null;
+        return {
+            hero: seriesImg || {
+                src: '/assets/images/products/power/' + slug + '.jpg',
+                label: ps.name + ' 제품/현장 사진',
+                guide: [
+                    ps.name + ' 용접전원·컨트롤러 장비 사진',
+                    'TAWERS 시스템 내 ' + ps.name + ' 연동 구성',
+                    '현장 설치 후 용접 작업 장면'
+                ]
+            },
+            gallery: [
+                { src: '/assets/images/products/power/' + slug + '-field.jpg', label: '현장 적용', guide: [ps.name + ' 현장 용접 장면'] },
+                { src: '/assets/images/products/power/' + slug + '-detail.jpg', label: '장비 디테일', guide: ['전원·컨트롤러·연동 장치 클로즈업'] }
+            ]
+        };
+    }
     if (typeof getRobotModel === 'function' && getRobotModel(slug)) {
         return {
             hero: {

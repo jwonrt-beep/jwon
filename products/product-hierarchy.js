@@ -39,7 +39,7 @@ var PRODUCT_HIERARCHY = {
             description: '용접 조건과 출력에 맞춰 WG, WGH 계열 등 용접전원과 컨트롤러 구성을 검토합니다.',
             tags: ['WG', 'WGH', '통합제어'],
             btn: '시스템 구성 보기',
-            url: '/products/tawers-welding-robot-system/#architecture',
+            url: '/products/welding-power-controller/',
             filterTag: 'power',
             type: 'module',
             parent: 'tawers-welding-robot-system'
@@ -113,6 +113,7 @@ var PRODUCT_HIERARCHY = {
         { id: 'all', label: '전체' },
         { id: 'tawers', label: 'TAWERS 통합 시스템' },
         { id: 'lineup', label: '로봇 라인업' },
+        { id: 'power', label: '용접전원' },
         { id: 'process', label: '용접 공법' },
         { id: 'highpower', label: '고출력 구성' },
         { id: 'jig', label: '지그·포지셔너' },
