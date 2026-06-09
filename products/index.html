@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../js/force-https.js"></script>
     <title>제품소개 - 제이원로보틱스</title>
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../styles.css">
     <style>
         .products-hero {
@@ -419,7 +420,6 @@
     </footer>
 
     <script src="../script.js"></script>
-    <script src="catalog.js"></script>
     <script src="../product-manager.js"></script>
     <script src="../admin-key.js"></script>
     <script src="../logo-loader.js"></script>
@@ -437,13 +437,13 @@
         function loadProducts() {
             const productsBoard = document.getElementById('productsBoard');
             const emptyState = document.getElementById('emptyState');
-            const products = (typeof PRODUCT_CATALOG !== 'undefined' ? PRODUCT_CATALOG : window.productManager.getProducts())
-                .slice()
-                .sort((a, b) => (a.order || 0) - (b.order || 0));
+            const products = window.productManager.getProducts();
 
-            if (products.length === 0) {
+            if (!products || products.length === 0) {
                 productsBoard.style.display = 'none';
                 emptyState.style.display = 'block';
+                emptyState.querySelector('h3').textContent = '제품을 불러올 수 없습니다';
+                emptyState.querySelector('p').textContent = '페이지를 새로고침해 주세요.';
                 return;
             }
 
@@ -453,8 +453,8 @@
             productsBoard.innerHTML = products.map((product) => {
                 const filterTags = (product.filterTags || product.categories || []).join(',');
                 const highlightClass = product.highlight ? ' product-card--highlight' : '';
-                const detailUrl = getCatalogDetailUrl(product.slug);
-                const quoteUrl = getCatalogQuoteUrl(product.name);
+                const detailUrl = product.slug + '/index.html';
+                const quoteUrl = '../contact/index.html?type=quote&product=' + encodeURIComponent(product.name);
 
                 return `
                 <article class="product-card${highlightClass}"
@@ -481,6 +481,8 @@
 
         function setupFilters() {
             const filterBtns = document.querySelectorAll('.filter-btn');
+            const emptyState = document.getElementById('emptyState');
+            const productsBoard = document.getElementById('productsBoard');
 
             filterBtns.forEach((btn) => {
                 btn.addEventListener('click', function () {
@@ -488,11 +490,23 @@
                     filterBtns.forEach((b) => b.classList.remove('active'));
                     this.classList.add('active');
 
+                    let visible = 0;
                     document.querySelectorAll('.product-card').forEach((card) => {
                         const filters = card.getAttribute('data-filters') || '';
                         const match = filter === 'all' || filters.split(',').includes(filter);
                         card.style.display = match ? 'flex' : 'none';
+                        if (match) visible++;
                     });
+
+                    if (visible === 0) {
+                        emptyState.style.display = 'block';
+                        emptyState.querySelector('h3').textContent = '해당 카테고리 제품군이 없습니다';
+                        emptyState.querySelector('p').textContent = '다른 필터를 선택해 주세요.';
+                        productsBoard.style.display = 'none';
+                    } else {
+                        emptyState.style.display = 'none';
+                        productsBoard.style.display = 'grid';
+                    }
                 });
             });
         }
@@ -502,7 +516,7 @@
             setupFilters();
         });
 
-        // 카탈로그는 catalog.js 정적 데이터 사용 (storage 이벤트 무시)
+        // 카탈로그는 product-manager.js 내장 데이터 사용
     </script>
 </body>
 </html>
