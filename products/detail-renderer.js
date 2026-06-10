@@ -440,9 +440,101 @@
             </section>`;
     }
 
+    function applyPlaceholderHint(slots, hint) {
+        if (!slots || !hint) return slots || [];
+        return slots.map(function (g) {
+            return Object.assign({}, g, { placeholderHint: g.placeholderHint || hint });
+        });
+    }
+
+    function slotWithHint(slot, hint) {
+        if (!slot) return slot;
+        return Object.assign({}, slot, { placeholderHint: slot.placeholderHint || hint });
+    }
+
+    var LINEUP_CUSTOM_VISUAL_SLUGS = {
+        'welding-power-controller': true,
+        'high-power-welding-system': true,
+        'jig-positioner-automation': true,
+        'turnkey-robot-automation-cell': true
+    };
+
+    function renderLineupVisualSections(slug, guide) {
+        var html = '';
+        var hint = guide.placeholderHint;
+        if (slug === 'welding-power-controller' && guide.gallery && guide.gallery.length) {
+            html += visualGallerySection(
+                applyPlaceholderHint(guide.gallery, hint),
+                '주요 구성 요소',
+                '용접전원 본체, 와이어 송급장치, 토치, 티칭 펜던트 — 로봇과 연동되는 장비 세트 구성입니다.'
+            );
+        }
+        if (slug === 'high-power-welding-system') {
+            if (guide.wghSystemMap) {
+                html += featuredImageSection(
+                    slotWithHint(guide.wghSystemMap, hint),
+                    'WGH 고출력 구성 맵',
+                    'TAWERS 시스템 안에서 TL 로봇, WGH 전원, 포지셔너, 중후판 작업물이 연결된 고출력 확장 구성입니다.',
+                    'map'
+                );
+            }
+            if (guide.gallery && guide.gallery.length) {
+                html += visualGallerySection(
+                    applyPlaceholderHint(guide.gallery, hint),
+                    '대표 적용 장면',
+                    '중후판, 대형 구조물 — 긴 팔 로봇, 큰 작업물, 강한 용접 출력이 드러나는 현장 적용 사례입니다.'
+                );
+            }
+        }
+        if (slug === 'jig-positioner-automation' && guide.gallery && guide.gallery.length) {
+            html += visualGallerySection(
+                applyPlaceholderHint(guide.gallery, hint),
+                '지그·포지셔너 적용 사례',
+                '맞춤 지그, 회전 포지셔너, 로봇 연동 셀 — 작업물 고정·회전·자세 제어가 중심인 주변설비입니다.'
+            );
+        }
+        if (slug === 'turnkey-robot-automation-cell') {
+            if (guide.processFlow) {
+                html += featuredImageSection(
+                    slotWithHint(guide.processFlow, hint),
+                    '턴키 도입 프로세스',
+                    '상담 → 설계 → 제작 → 설치 → 시운전 — 자동화 프로젝트 제안 흐름입니다.',
+                    'flow'
+                );
+            }
+            if (guide.cellLayout) {
+                html += featuredImageSection(
+                    slotWithHint(guide.cellLayout, hint),
+                    '셀 레이아웃·조감도',
+                    '로봇·지그·펜스 배치가 보이는 셀 구성 또는 조감도입니다.',
+                    'featured'
+                );
+            }
+            if (guide.safetyFence) {
+                html += featuredImageSection(
+                    slotWithHint(guide.safetyFence, hint),
+                    '안전펜스·인터록',
+                    '펜스, 안전 door, 인터록 등 안전설비가 포함된 셀 구성입니다.',
+                    'featured'
+                );
+            }
+            if (guide.commissioning) {
+                html += featuredImageSection(
+                    slotWithHint(guide.commissioning, hint),
+                    '시운전·현장 점검',
+                    '설치 후 시운전, 티칭, 작업자 교육·가동 점검 장면입니다.',
+                    'featured'
+                );
+            }
+        }
+        return html;
+    }
+
     function lineupSection(cards, slug, sectionMeta) {
         if (!cards) return '';
-        const guides = imgGuide(slug).series || {};
+        const guideLookup = imgGuide(slug);
+        const guides = guideLookup.series || {};
+        const placeholderHint = guideLookup.placeholderHint;
         const title = (sectionMeta && sectionMeta.title) || '라인업 비교 — 작업물 크기에 맞게 선택';
         const desc = (sectionMeta && sectionMeta.desc) || '소형 TS, 표준 TM, 대형 TL — TAWERS 시스템 안에서 작업물과 설치 공간에 맞는 로봇팔을 선택합니다.';
         return `
@@ -452,14 +544,18 @@
                     <p class="pd-section-desc">${esc(desc)}</p>
                     <div class="pd-lineup-grid">
                         ${cards.map((c) => {
-                            const img = guides[c.name] || c.image || null;
+                            const rawImg = guides[c.name] || c.image || null;
+                            const img = rawImg && placeholderHint
+                                ? Object.assign({}, rawImg, { placeholderHint: rawImg.placeholderHint || placeholderHint })
+                                : rawImg;
                             const detailLinks = c.modelLinks || c.seriesLinks || c.detailLinks || [];
                             return `
                             <div class="pd-lineup-card${c.highlight ? ' pd-lineup-card--highlight' : ''}">
                                 ${img ? renderImageSlot(img, 'lineup') : renderImageSlot({
                                     src: '/assets/images/products/lineup/card-' + c.name.replace(/\s+/g, '-').toLowerCase().replace('시리즈', 'series').replace('계열', 'series').replace('통합-컨트롤러', 'controller') + '.jpg',
                                     label: c.name + ' 사진',
-                                    guide: [c.name + ' 제품 또는 현장 사진']
+                                    guide: [c.name + ' 제품 또는 현장 사진'],
+                                    placeholderHint: placeholderHint
                                 }, 'lineup')}
                                 <div class="pd-lineup-card-head">
                                     <span>${esc(c.badge)}</span>
@@ -794,7 +890,9 @@
         }
 
         if (type !== 'parent-system') {
-            html += visualGallerySection(guide.gallery);
+            if (!(type === 'lineup' && LINEUP_CUSTOM_VISUAL_SLUGS[slug])) {
+                html += visualGallerySection(guide.gallery);
+            }
         }
 
         if (type === 'parent-system') {
@@ -804,12 +902,15 @@
             html += summarySection(content.summaryCards);
             html += childModulesSection(content.childModulesSection, slug);
             html += recommendationsSection(content.recommendations, '현장 조건별 TAWERS 구성 예시', slug);
-            html += visualGallerySection(guide.gallery, '시스템 전체·현장 사진');
+            html += visualGallerySection(
+                applyPlaceholderHint(guide.gallery, '통합 셀 사례 준비 중'),
+                'TAWERS 통합 셀·품질·현장 사진',
+                'system-overview는 통합 셀 전경, welding-quality는 품질 예시, field-installation은 현장 설치·시운전 사례입니다. 용접전원 장비 세트는 전원·컨트롤러 페이지에서 확인하세요.'
+            );
             html += fieldsSection(content.applicationFields);
             html += problemsSection(content.problems);
             html += specsSection(content.specifications);
             html += processStepsSection(content.process);
-            html += imagePrioritySection(guide.imagePriority);
             html += ctaSection(content, qUrl);
             return html;
         }
@@ -820,6 +921,7 @@
             html += systemSection(content.systemSection);
             html += recommendationsSection(content.recommendations, '추천 구성 예시', slug);
         } else if (type === 'lineup') {
+            html += renderLineupVisualSections(slug, guide);
             var lineupCards;
             if (slug === 'welding-power-controller' && typeof buildPowerLineupCardsFromData === 'function') {
                 lineupCards = buildPowerLineupCardsFromData();
@@ -849,14 +951,6 @@
                     'map'
                 );
             }
-            if (slug === 'high-power-welding-system' && guide.wghSystemMap) {
-                html += featuredImageSection(
-                    guide.wghSystemMap,
-                    'WGH 고출력 구성 맵',
-                    'WGH는 TAWERS와 별개 브랜드가 아니라, TL 로봇과 함께 검토하는 고출력·중후판 확장 구성입니다.',
-                    'map'
-                );
-            }
             html += lineupSection(lineupCards, slug, {
                 title: content.lineupSectionTitle,
                 desc: content.lineupSectionDesc
@@ -875,14 +969,6 @@
         html += problemsSection(content.problems);
         if (content.relatedLinks) html += relatedSection(content.relatedLinks);
         html += specsSection(content.specifications);
-        if (slug === 'turnkey-robot-automation-cell' && guide.processFlow) {
-            html += featuredImageSection(
-                guide.processFlow,
-                '턴키 도입 프로세스',
-                '상담부터 시운전·교육까지 One-Stop으로 진행하는 턴키 자동화 셀 도입 흐름입니다.',
-                'flow'
-            );
-        }
         html += processStepsSection(content.process);
         html += ctaSection(content, qUrl);
         return html;

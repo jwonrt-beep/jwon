@@ -180,7 +180,7 @@ function getTurnkeyHierarchy() {
 
 function buildTurnkeyLineupCardsFromData() {
     var h = TURNKEY_HIERARCHY;
-    var order = ['standard-welding-cell', 'retrofit-cell', 'large-turnkey-cell', 'full-service-delivery'];
+    var order = ['standard-welding-cell', 'retrofit-cell', 'large-turnkey-cell'];
     return order.map(function (key) {
         var c = h.configs[key];
         var cat = TURNKEY_CONFIG_CATALOG[key];
@@ -265,9 +265,9 @@ function buildTurnkeyLineupDetailContent() {
         heroDescription: h.lineup.description,
         imageHint: '안전펜스 · 로봇 · 지그 · 통합 셀',
         lineupSectionTitle: '구성 비교 — 현장·공정에 맞게 선택',
-        lineupSectionDesc: '표준 셀, 공정 개조, 대형·고출력, One-Stop 납품 — TAWERS 시스템 안에서 현장 조건과 납기·가동 목표에 맞는 턴키 셀을 선택합니다.',
+        lineupSectionDesc: '표준 셀, 공정 개조, 대형·고출력 — TAWERS 시스템 안에서 현장 조건과 납기·가동 목표에 맞는 턴키 셀을 선택합니다. 시운전·교육은 프로젝트 범위에 포함됩니다.',
         summaryCards: [
-            { title: 'One-Stop', desc: '설계부터 시운전까지 일괄' },
+            { title: '프로젝트 제안', desc: '상담→설계→제작→설치→시운전' },
             { title: '현장 맞춤', desc: '공정·작업물 기준 셀 설계' },
             { title: '안전·인터록', desc: '펜스·안전설비 포함' },
             { title: '빠른 가동', desc: '시운전·교육까지 지원' }
@@ -276,8 +276,8 @@ function buildTurnkeyLineupDetailContent() {
             { condition: '신규 용접 자동화 라인 구축', recommendation: '표준 용접 자동화 셀' },
             { condition: '기존 공정에 로봇만 추가', recommendation: '기존 공정 개조 셀' },
             { condition: '대형·중후판 워크 일괄 구축', recommendation: '대형·고출력 턴키 셀' },
-            { condition: '벤더 분리 발주로 일정 지연', recommendation: '시운전·교육 포함 One-Stop' },
-            { condition: '시운전·교육까지 필요', recommendation: 'One-Stop + 현장 교육 패키지' }
+            { condition: '벤더 분리 발주로 일정 지연', recommendation: '턴키 프로젝트 일괄 제안 검토' },
+            { condition: '시운전·교육까지 필요', recommendation: '프로젝트 범위에 시운전·교육 포함' }
         ],
         applicationFields: ['신규 자동화 라인', '기존 공정 개조', '소형·중형 셀', '대형 워크 셀', '다품종 셋업', 'PoC·파일럿 라인'],
         problems: [

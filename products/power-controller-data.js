@@ -9,7 +9,7 @@ var POWER_CONTROLLER_HIERARCHY = {
         name: '용접전원·컨트롤러 구성',
         slug: 'welding-power-controller',
         url: '/products/welding-power-controller/',
-        description: 'TAWERS 시스템에서 용접 조건, 소재 두께, 생산 공정에 따라 선택하는 용접전원과 컨트롤러 구성입니다. 일반 MIG/MAG 조건에는 WG 계열, 중후판·고전류 조건에는 WGH 계열을 검토하며, 로봇과 용접전원을 하나로 제어하는 TAWERS 통합 컨트롤러 구조를 기준으로 제안합니다.'
+        description: 'TAWERS 시스템에서 용접전원 본체, 와이어 송급장치, 토치, 티칭 펜던트를 포함하는 용접전원·컨트롤러 통합 구성입니다. 일반 MIG/MAG 조건에는 WG 계열, 중후판·고전류 조건에는 WGH 계열을 검토하며, 로봇과 용접전원을 하나로 제어하는 TAWERS 통합 컨트롤러 구조를 기준으로 제안합니다.'
     },
     series: {
         'wg-series': {
@@ -242,11 +242,11 @@ function buildPowerLineupDetailContent() {
         heroBadge: 'WG · WGH · 통합 컨트롤러',
         heroTitle: h.lineup.name,
         heroDescription: h.lineup.description,
-        imageHint: '용접전원 · 컨트롤러 · TAWERS 통합 시스템',
-        lineupSectionTitle: '구성 비교 — 용접 조건에 맞게 선택',
-        lineupSectionDesc: '표준 WG, 고출력 WGH, TAWERS 통합 컨트롤러 — TAWERS 시스템 안에서 소재·두께·생산 조건에 맞는 전원·제어 구성을 선택합니다.',
+        imageHint: '용접전원 · 송급장치 · 티칭 펜던트 · 로봇 연동',
+        lineupSectionTitle: '구성 비교 — WG / WGH / 통합 컨트롤러',
+        lineupSectionDesc: '표준 WG, 고출력 WGH, TAWERS 통합 컨트롤러 — 용접전원·송급·제어가 하나의 장비 세트처럼 연결된 구성입니다. TAWERS 통합 셀 전경과 구분하여 장비 단위로 확인합니다.',
         summaryCards: [
-            { title: '용접 조건 기준', desc: '소재·두께·공정에 맞는 전원 선택' },
+            { title: '용접전원 세트', desc: '본체·송급·와이어 릴·토치' },
             { title: '통합 제어', desc: '로봇과 용접전원을 하나로 제어' },
             { title: 'TAWERS 연동', desc: '로봇·공법·지그와 함께 구성' },
             { title: '현장 맞춤', desc: '출력·토치·와이어 송급 상담 후 확정' }

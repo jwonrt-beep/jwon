@@ -267,9 +267,9 @@ function buildHighPowerLineupDetailContent() {
         heroBadge: 'TAWERS 고전류·중후판 구성',
         heroTitle: h.lineup.name,
         heroDescription: h.lineup.description,
-        imageHint: '중후판 · 필렛 용접 · WGH 고출력 구성',
-        lineupSectionTitle: '구성 비교 — 현장 조건별 고출력 패키지',
-        lineupSectionDesc: '중후판 프레임, 대형 구조물, 필렛 고속, TL+WGH 통합 셀 — TAWERS 시스템 안에서 작업물·두께·생산 조건에 맞는 고출력 구성을 선택합니다.',
+        imageHint: '중후판 · 대형 구조물 · 필렛 · 고출력 셀',
+        lineupSectionTitle: '구성 비교 — 중후판 / 대형 구조물 / 필렛 / 통합 셀',
+        lineupSectionDesc: '중후판 프레임, 대형 구조물, 필렛 고속, TL+WGH 통합 셀 — 장비 단독이 아닌 현장 적용성 중심으로 고출력 구성을 선택합니다. WGH 전원 세트는 용접전원·컨트롤러 페이지에서 확인합니다.',
         summaryCards: [
             { title: '중후판 대응', desc: '두꺼운 소재·고전류 조건 검토' },
             { title: 'TL + WGH', desc: '롱암 로봇과 고출력 전원 연동' },

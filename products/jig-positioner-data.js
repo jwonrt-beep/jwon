@@ -179,7 +179,7 @@ function getJigPositionerHierarchy() {
 
 function buildJigLineupCardsFromData() {
     var h = JIG_POSITIONER_HIERARCHY;
-    var order = ['custom-jig', 'rotary-positioner', 'slide-unit', 'integrated-setup'];
+    var order = ['custom-jig', 'rotary-positioner', 'integrated-setup'];
     return order.map(function (key) {
         var c = h.configs[key];
         var cat = JIG_CONFIG_CATALOG[key];
@@ -264,18 +264,18 @@ function buildJigLineupDetailContent() {
         heroDescription: h.lineup.description,
         imageHint: '회전 포지셔너 · 작업물 고정 지그',
         lineupSectionTitle: '구성 비교 — 작업물·공정에 맞게 선택',
-        lineupSectionDesc: '맞춤 지그, 회전 포지셔너, 슬라이드 유닛, 통합 연동 — TAWERS 시스템 안에서 작업물 형상과 용접 접근성에 맞는 지그·포지셔너를 선택합니다.',
+        lineupSectionDesc: '맞춤 지그, 회전 포지셔너, 로봇 연동 통합 — TAWERS 시스템 안에서 작업물 형상과 용접 접근성에 맞는 지그·포지셔너를 선택합니다.',
         summaryCards: [
             { title: '작업물 고정', desc: '용접 품질을 위한 정밀 지그' },
-            { title: '회전·위치 제어', desc: '포지셔너·슬라이드로 접근성 향상' },
+            { title: '회전·자세 제어', desc: '포지셔너로 다면 용접 접근성 향상' },
             { title: '현장 맞춤 설계', desc: '도면 기반 설계·제작' },
             { title: '로봇 연동', desc: 'TAWERS·턴키 셀과 통합' }
         ],
         selectionGuide: [
             { condition: '작업물 고정·셋업 편차 문제', recommendation: '맞춤 지그' },
             { condition: '다면 용접, 접근성 부족', recommendation: '회전 포지셔너 + 맞춤 지그' },
-            { condition: '대형 구조물, 긴 워크', recommendation: '슬라이드 유닛 + 포지셔너' },
             { condition: '센서·인터록·로봇 연동 필요', recommendation: '클램핑·센서·로봇 연동 통합' },
+            { condition: '대형 워크·긴 프레임', recommendation: '회전 포지셔너 + 통합 연동 구성 검토' },
             { condition: '셀 전체 일괄 구축', recommendation: '턴키 자동화 셀과 함께 검토' }
         ],
         applicationFields: ['프레임 용접', '원형·곡면 작업물', '다면 용접', '대형 구조물', '반복 생산 라인'],

@@ -47,18 +47,31 @@ var PRODUCT_IMAGE_GUIDES = {
         gallery: [
             {
                 src: '/assets/images/products/tawers/system-overview.jpg',
-                label: '시스템 전체 구성',
-                guide: ['로봇+전원+지그+펜스가 한 화면에 보이는 셀 전경', '고객이 "전체 시스템"을 한눈에 이해할 수 있는 각도']
+                label: 'TAWERS 통합 셀 전경',
+                guide: [
+                    '로봇+전원+지그+펜스가 한 화면에 보이는 완성 셀 전경',
+                    '용접전원 장비 세트 단독이 아닌 전체 시스템 관점의 이미지',
+                    'power hero와 구분: TAWERS는 통합 셀·현장 전체를 보여줍니다'
+                ]
             },
             {
                 src: '/assets/images/products/tawers/welding-quality.jpg',
-                label: '용접 품질·비드',
-                guide: ['깨끗한 용접 비드 클로즈업', '스패터가 적은 S-AWP 적용 전후 비교도 가능']
+                label: '용접 품질·비드 예시',
+                imageType: '품질 예시 이미지',
+                guide: [
+                    '깨끗한 용접 비드 클로즈업 또는 S-AWP 적용 결과',
+                    '품질 개선 예시 이미지 — 실제 현장 테스트 사진 또는 개념 비교'
+                ]
             },
             {
                 src: '/assets/images/products/tawers/field-installation.jpg',
                 label: '현장 설치·시운전',
-                guide: ['제이원로보틱스 현장 설치·시운전 장면', '작업자·엔지니어가 로봇을 가동하는 모습']
+                caseStudy: true,
+                guide: [
+                    '제이원로보틱스 현장 설치·시운전 장면',
+                    '작업자·엔지니어가 로봇을 가동하는 모습',
+                    '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'
+                ]
             }
         ],
         recImages: {
@@ -80,24 +93,25 @@ var PRODUCT_IMAGE_GUIDES = {
         }
     },
     'welding-power-controller': {
+        placeholderHint: '장비 이미지 준비 중',
         hero: {
             src: '/assets/images/products/power/hero.jpg',
             label: '용접전원·컨트롤러 메인',
             guide: [
-                '용접전원 · 컨트롤러 · TAWERS 통합 시스템 전경',
-                '로봇과 용접전원이 함께 보이는 셀 사진',
-                '권장: 가로형, 장비 구성이 잘 보이는 각도'
+                '용접전원 본체, 와이어 송급장치, 와이어 릴, 토치가 보이는 용접기 세트 전경',
+                '대형 전기 캐비닛이 아닌, 로봇과 연결된 용접 장비 세트 느낌',
+                '티칭 펜던트·로봇 연동이 함께 보이면 더 좋음'
             ]
         },
         gallery: [
-            { src: '/assets/images/products/power/wg-unit.jpg', label: 'WG 용접전원', guide: ['WG 계열 표준 용접전원 장비'] },
-            { src: '/assets/images/products/power/wgh-unit.jpg', label: 'WGH 용접전원', guide: ['WGH 계열 고출력 전원 장비'] },
-            { src: '/assets/images/products/power/controller.jpg', label: '통합 컨트롤러', guide: ['TAWERS 통합 컨트롤러 · 티칭 펜던트'] }
+            { src: '/assets/images/products/power/wg-unit.jpg', label: 'WG 용접전원 세트', role: 'power', guide: ['WG 계열 본체·송급·와이어 릴 포함 세트', '표준 MIG/MAG 용접 조건'] },
+            { src: '/assets/images/products/power/wgh-unit.jpg', label: 'WGH 용접전원 세트', role: 'power', guide: ['WGH 계열 고출력 전원 세트', '중후판·고전류 조건'] },
+            { src: '/assets/images/products/power/controller.jpg', label: '통합 컨트롤러·티칭 펜던트', role: 'controller', guide: ['TAWERS 통합 컨트롤러 · 티칭 펜던트', '로봇·용접전원 일체 제어'] }
         ],
         seriesImages: {
-            'WG 계열': { src: '/assets/images/products/power/card-wg-series.jpg', guide: ['WG 용접전원 + 표준 용접 현장'] },
-            'WGH 계열': { src: '/assets/images/products/power/card-wgh-series.jpg', guide: ['WGH 고출력 전원 + 중후판 용접'] },
-            'TAWERS 통합 컨트롤러': { src: '/assets/images/products/power/card-tawers-controller.jpg', guide: ['통합 컨트롤러 · 티칭 펜던트 · 로봇 연동'] }
+            'WG 계열': { src: '/assets/images/products/power/card-wg-series.jpg', guide: ['WG 용접전원 + 표준 용접 현장', 'TS·TM과 함께 제안하는 범용 구성'] },
+            'WGH 계열': { src: '/assets/images/products/power/card-wgh-series.jpg', guide: ['WGH 고출력 전원 + 중후판 용접', 'TL·고출력 조건과 연동'] },
+            'TAWERS 통합 컨트롤러': { src: '/assets/images/products/power/card-tawers-controller.jpg', guide: ['통합 컨트롤러 · 티칭 펜던트 · 로봇 연동', '로봇+전원+송급 일체 제어'] }
         }
     },
     'welding-robot-manipulator-lineup': {
@@ -175,10 +189,15 @@ var PRODUCT_IMAGE_GUIDES = {
         }
     },
     'high-power-welding-system': {
+        placeholderHint: '고출력 적용 사례 준비 중',
         hero: {
             src: '/assets/images/products/highpower/hero.jpg',
             label: '고출력 용접 메인',
-            guide: ['중후판 필렛 용접 장면', 'TL 로봇 + WGH 전원 구성', '두꺼운 소재 용접 스파크/비드']
+            guide: [
+                '중후판 필렛 용접 장면, 긴 팔 로봇 + 대형 작업물',
+                'TL 로봇 + WGH 고출력 구성, 강한 용접 출력·스파크',
+                '장비 단독보다 현장 적용성이 드러나는 각도'
+            ]
         },
         wghSystemMap: {
             src: '/assets/images/products/highpower/wgh-system-map.jpg',
@@ -192,9 +211,8 @@ var PRODUCT_IMAGE_GUIDES = {
             ]
         },
         gallery: [
-            { src: '/assets/images/products/highpower/wgh-unit.jpg', label: 'WGH 용접전원', guide: ['WGH 계열 고출력 전원 장비'] },
-            { src: '/assets/images/products/highpower/heavy-plate.jpg', label: '중후판 용접', guide: ['두꺼운 판재 필렛/对接 용접'] },
-            { src: '/assets/images/products/highpower/large-frame.jpg', label: '대형 구조물', guide: ['건설장비·산업기계 대형 프레임 용접'] }
+            { src: '/assets/images/products/highpower/heavy-plate.jpg', label: '중후판 용접', caseStudy: true, guide: ['두꺼운 판재 필렛·对接 용접', '고전류·중후판 현장 적용'] },
+            { src: '/assets/images/products/highpower/large-frame.jpg', label: '대형 구조물', caseStudy: true, guide: ['건설장비·산업기계 대형 프레임 용접', '긴 팔 로봇 + 대형 워크'] }
         ],
         seriesImages: {
             '중후판 프레임 용접 구성': { src: '/assets/images/products/highpower/card-heavy-plate.jpg', guide: ['중후판 프레임 + TL + WGH'] },
@@ -204,28 +222,37 @@ var PRODUCT_IMAGE_GUIDES = {
         }
     },
     'jig-positioner-automation': {
+        placeholderHint: '지그/포지셔너 사례 준비 중',
         hero: {
             src: '/assets/images/products/jig/hero.jpg',
             label: '지그·포지셔너 메인',
-            guide: ['회전 포지셔너 + 작업물 + 로봇이 함께 보이는 장면', '맞춤 지그에 작업물이 고정된 모습']
+            guide: [
+                '회전 포지셔너 + 작업물 + 로봇이 함께 보이는 장면',
+                '로봇보다 작업물 고정·회전·자세 제어 장치가 주인공',
+                '맞춤 지그에 작업물이 고정된 모습'
+            ]
         },
         gallery: [
             { src: '/assets/images/products/jig/custom-jig.jpg', label: '맞춤 지그', caseStudy: true, guide: ['작업물 형상에 맞춘 지그 제작 사례', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] },
             { src: '/assets/images/products/jig/positioner.jpg', label: '회전 포지셔너', caseStudy: true, guide: ['포지셔너 회전 + 다면 용접 장면', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] },
-            { src: '/assets/images/products/jig/robot-jig-cell.jpg', label: '로봇+지그 연동', caseStudy: true, guide: ['로봇과 지그가 연동된 셀 전경', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] }
+            { src: '/assets/images/products/jig/robot-jig-cell.jpg', label: '로봇+지그 연동 셀', caseStudy: true, guide: ['로봇과 지그가 연동된 셀 전경', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] }
         ],
         seriesImages: {
             '맞춤 지그': { src: '/assets/images/products/jig/card-custom-jig.jpg', guide: ['맞춤 지그 + 작업물 고정 장면'] },
             '회전 포지셔너': { src: '/assets/images/products/jig/card-rotary.jpg', guide: ['회전 포지셔너 + 다면 용접'] },
-            '슬라이드 유닛': { src: '/assets/images/products/jig/card-slide.jpg', guide: ['슬라이드 + 대형 워크 이동'] },
             '클램핑·센서·로봇 연동 통합': { src: '/assets/images/products/jig/card-integrated.jpg', guide: ['센서·클램핑·로봇 연동 셀'] }
         }
     },
     'turnkey-robot-automation-cell': {
+        placeholderHint: '자동화 셀 사례 준비 중',
         hero: {
             src: '/assets/images/products/turnkey/hero.jpg',
             label: '턴키 자동화 셀 메인',
-            guide: ['안전펜스 + 로봇 + 지그 + 컨트롤러가 포함된 완성 셀 전경', '현장 납품·가동 중인 셀 사진']
+            guide: [
+                '안전펜스 + 로봇 + 지그 + 컨트롤러가 포함된 완성 셀 전경',
+                '제품 소개가 아닌 자동화 프로젝트 제안 느낌',
+                '현장 납품·가동 중인 셀 사진'
+            ]
         },
         processFlow: {
             src: '/assets/images/products/turnkey/process-flow.jpg',
@@ -233,20 +260,34 @@ var PRODUCT_IMAGE_GUIDES = {
             role: 'flow',
             imageType: '개념 비교 이미지',
             guide: [
-                '상담 → 작업물 검토 → 로봇·지그 설계 → 제작/설치 → 시운전 → 교육/유지보수 흐름',
+                '상담 → 설계 → 제작 → 설치 → 시운전 흐름',
+                '작업물 검토·로봇·지그 설계·교육까지 포함 가능',
                 '사진이 없으면 인포그래픽 형태로 구성 가능'
             ]
         },
-        gallery: [
-            { src: '/assets/images/products/turnkey/cell-layout.jpg', label: '셀 레이아웃', caseStudy: true, guide: ['셀 평면도 또는 조감도 스타일 현장 사진', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] },
-            { src: '/assets/images/products/turnkey/safety-fence.jpg', label: '안전펜스·인터록', caseStudy: true, guide: ['펜스, 안전 door, 인터록 장치', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] },
-            { src: '/assets/images/products/turnkey/commissioning.jpg', label: '시운전·교육', caseStudy: true, guide: ['엔지니어 시운전, 작업자 교육 장면', '실제 현장 사진 준비 시 「실제 적용 사례」로 표시됩니다'] }
-        ],
+        cellLayout: {
+            src: '/assets/images/products/turnkey/cell-layout.jpg',
+            label: '셀 레이아웃·조감도',
+            caseStudy: true,
+            guide: ['셀 평면도 또는 조감도 스타일 현장 사진', '로봇·지그·펜스 배치가 보이는 구성']
+        },
+        safetyFence: {
+            src: '/assets/images/products/turnkey/safety-fence.jpg',
+            label: '안전펜스·인터록',
+            caseStudy: true,
+            guide: ['펜스, 안전 door, 인터록 장치', '안전설비가 포함된 셀 구성']
+        },
+        commissioning: {
+            src: '/assets/images/products/turnkey/commissioning.jpg',
+            label: '시운전·현장 점검',
+            caseStudy: true,
+            guide: ['엔지니어 시운전, 작업자 교육 장면', '설치 후 가동 점검·티칭']
+        },
+        gallery: [],
         seriesImages: {
             '표준 용접 자동화 셀': { src: '/assets/images/products/turnkey/card-standard-cell.jpg', guide: ['TAWERS + 지그 + 펜스 표준 셀'] },
             '기존 공정 개조 셀': { src: '/assets/images/products/turnkey/card-retrofit.jpg', guide: ['기존 공정 + 로봇 추가·안전 보완'] },
-            '대형·고출력 턴키 셀': { src: '/assets/images/products/turnkey/card-large-cell.jpg', guide: ['TL + WGH + 포지셔너 대형 셀'] },
-            '시운전·교육 포함 One-Stop': { src: '/assets/images/products/turnkey/card-full-service.jpg', guide: ['시운전·교육·인수 장면'] }
+            '대형·고출력 턴키 셀': { src: '/assets/images/products/turnkey/card-large-cell.jpg', guide: ['TL + WGH + 포지셔너 대형 셀'] }
         }
     },
     'smart-factory-integration': {
@@ -450,7 +491,7 @@ function renderImageSlotHtml(slot, sizeClass) {
                 '</div>' +
                 typeBadge +
                 roleBadge +
-                '<span class="pd-img-slot-badge">📷 사진 준비</span>' +
+                '<span class="pd-img-slot-badge">' + escHtml(slot.placeholderHint || '📷 사진 준비') + '</span>' +
                 meta +
                 '<strong class="pd-img-slot-label">' + escHtml(slot.label || '이미지') + '</strong>' +
                 (slot.src ? '<code class="pd-img-slot-path">' + escHtml(slot.src) + '</code>' : '') +
@@ -685,6 +726,10 @@ function getGuideLookup(slug) {
         processSelectionMap: g.processSelectionMap || null,
         wghSystemMap: g.wghSystemMap || null,
         processFlow: g.processFlow || null,
+        cellLayout: g.cellLayout || null,
+        safetyFence: g.safetyFence || null,
+        commissioning: g.commissioning || null,
+        placeholderHint: g.placeholderHint || null,
         imagePriority: IMAGE_PREP_PRIORITY
     };
 }

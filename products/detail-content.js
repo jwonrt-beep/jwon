@@ -65,11 +65,11 @@ const PRODUCT_DETAIL_CONTENT = {
             title: 'TAWERS 시스템의 세부 구성을 확인하세요',
             items: [
                 { name: '용접 로봇 매니퓰레이터 라인업', desc: 'TS, TM, TL 시리즈별 작업반경과 적용 현장을 비교합니다.', btn: '로봇 라인업 보기', link: 'welding-robot-manipulator-lineup' },
-                { name: '용접전원·컨트롤러 구성', desc: 'WG, WGH 계열과 TAWERS 통합 컨트롤러 구성을 확인합니다.', btn: '전원·컨트롤러 보기', link: 'welding-power-controller' },
+                { name: '용접전원·컨트롤러 구성', desc: '용접전원·송급·티칭 펜던트 장비 세트 — TAWERS 통합 셀 전경과 구분하여 WG/WGH·통합 컨트롤러를 확인합니다.', btn: '전원·컨트롤러 보기', link: 'welding-power-controller' },
                 { name: '용접 공법 소프트웨어', desc: 'S-AWP, HBC, Zi-Tech 등 현장 문제별 용접 공법을 확인합니다.', btn: '공법 보기', link: 'welding-process-software' },
-                { name: '고출력 용접 시스템', desc: '중후판, 대형 구조물, 고전류 용접 조건에 적합한 구성을 확인합니다.', btn: '고출력 구성 보기', link: 'high-power-welding-system' },
-                { name: '지그·포지셔너 자동화', desc: '작업물 고정, 회전, 위치 제어 설비 구성을 확인합니다.', btn: '지그·포지셔너 보기', link: 'jig-positioner-automation' },
-                { name: '턴키 로봇 자동화 셀', desc: '설계, 설치, 안전설비, 시운전까지 통합 구성하는 자동화 셀을 확인합니다.', btn: '턴키셀 보기', link: 'turnkey-robot-automation-cell' },
+                { name: '고출력 용접 시스템', desc: '중후판, 대형 구조물, 필렛, TL+WGH 통합 고출력 셀 — TAWERS 확장 구성을 확인합니다.', btn: '고출력 구성 보기', link: 'high-power-welding-system' },
+                { name: '지그·포지셔너 자동화', desc: '맞춤 지그, 회전 포지셔너, 로봇 연동 주변설비 구성을 확인합니다.', btn: '지그·포지셔너 보기', link: 'jig-positioner-automation' },
+                { name: '턴키 로봇 자동화 셀', desc: '상담→설계→제작→설치→시운전 프로젝트 흐름으로 통합 자동화 셀을 확인합니다.', btn: '턴키셀 보기', link: 'turnkey-robot-automation-cell' },
                 { name: '스마트팩토리 연동 솔루션', desc: '공정 모니터링, 작업 이력, 품질 데이터 관리를 위한 연동 구성을 확인합니다.', btn: '스마트팩토리 보기', link: 'smart-factory-integration' }
             ]
         },
