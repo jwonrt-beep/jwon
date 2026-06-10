@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/force-https.js"></script>
+    <title>자료 다운로드 - 제이원로보틱스</title>
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .dl-page-hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: #fff;
+            padding: 7rem 0 3rem;
+            margin-top: 80px;
+            text-align: center;
+        }
+        .dl-page-hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); margin-bottom: 0.75rem; }
+        .dl-page-hero p { color: rgba(255,255,255,0.8); max-width: 560px; margin: 0 auto; line-height: 1.7; }
+        .dl-section { padding: 3rem 0 4rem; background: #f8fafc; }
+        .dl-admin-note {
+            max-width: 720px; margin: 0 auto 2rem; padding: 1rem 1.25rem;
+            background: #fff; border: 1px dashed #cbd5e1; border-radius: 10px;
+            font-size: 0.875rem; color: #64748b; line-height: 1.65;
+        }
+        .dl-admin-note code { font-size: 0.82rem; background: #f1f5f9; padding: 0.1rem 0.35rem; border-radius: 4px; }
+        .dl-primary {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem;
+            max-width: 900px; margin: 0 auto 2.5rem; padding: 1.75rem 2rem;
+            background: #fff; border-radius: 12px; border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(15,23,42,0.06);
+        }
+        .dl-primary-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #3b82f6; }
+        .dl-primary h2 { margin: 0.35rem 0 0.5rem; font-size: 1.35rem; color: #0f172a; }
+        .dl-primary p { margin: 0; color: #64748b; line-height: 1.6; }
+        .dl-primary-note { margin: 0; font-size: 0.9rem; color: #64748b; line-height: 1.65; max-width: 320px; }
+        .dl-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1.75rem; }
+        .dl-filter-btn {
+            padding: 0.5rem 1rem; border: 1px solid #cbd5e1; background: #fff;
+            border-radius: 999px; font-size: 0.85rem; font-weight: 600; color: #475569; cursor: pointer;
+        }
+        .dl-filter-btn.active, .dl-filter-btn:hover { background: #0f172a; color: #fff; border-color: #0f172a; }
+        .dl-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; max-width: 1000px; margin: 0 auto; }
+        .dl-card {
+            display: flex; flex-direction: column; background: #fff; border: 1px solid #e2e8f0;
+            border-radius: 10px; padding: 1.25rem; min-height: 100%;
+        }
+        .dl-card-icon {
+            width: 44px; height: 44px; border-radius: 8px; background: #fee2e2; color: #dc2626;
+            font-size: 0.7rem; font-weight: 800; display: grid; place-items: center; margin-bottom: 0.75rem;
+        }
+        .dl-card-category { font-size: 0.72rem; font-weight: 600; color: #3b82f6; text-transform: uppercase; letter-spacing: 0.04em; }
+        .dl-card-status { float: right; font-size: 0.68rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 999px; }
+        .dl-card-status--ready { background: #dcfce7; color: #166534; }
+        .dl-card-status--pending { background: #f1f5f9; color: #64748b; }
+        .dl-card-title { font-size: 1.05rem; margin: 0.5rem 0 0.35rem; color: #0f172a; clear: both; }
+        .dl-card-desc { font-size: 0.875rem; color: #64748b; line-height: 1.55; margin: 0 0 0.75rem; flex: 1; }
+        .dl-card-file { display: block; font-size: 0.72rem; color: #94a3b8; margin-bottom: 0.75rem; word-break: break-all; }
+        .dl-card-action { margin-top: auto; }
+        .dl-card-btn { width: 100%; }
+        .dl-empty { text-align: center; padding: 2rem; color: #64748b; }
+        .dl-loading, .dl-error { text-align: center; color: #64748b; padding: 2rem; }
+        .dl-back { text-align: center; margin-top: 2rem; }
+    </style>
+</head>
+<body>
+    <header class="header" role="banner">
+        <div class="header-content">
+            <a href="/index.html" class="logo" aria-label="제이원로보틱스 홈으로 이동">
+                <div class="logo-text">
+                    <span class="logo-ko">(주)제이원 로보틱스</span>
+                    <span class="logo-en">J-WON Robotics Co., Ltd.</span>
+                </div>
+            </a>
+            <nav class="nav" role="navigation">
+                <ul class="nav-list">
+                    <li><a href="/index.html">홈</a></li>
+                    <li><a href="/products/index.html">제품소개</a></li>
+                    <li><a href="/media/index.html">홍보센터</a></li>
+                    <li><a href="/about/index.html">회사소개</a></li>
+                    <li><a href="/contact/index.html">문의</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="메뉴 열기">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="dl-page-hero">
+            <div class="container">
+                <h1>자료 다운로드</h1>
+                <p>제품 카탈로그 · 회사소개서 · 기술 요약 자료를 PDF로 바로 받을 수 있습니다.</p>
+            </div>
+        </section>
+
+        <section class="dl-section">
+            <div class="container">
+                <div class="dl-admin-note" hidden aria-hidden="true">
+                    관리자: PDF를 <code>assets/documents/</code> 폴더에 넣고
+                    <code>assets/documents/downloads.json</code>의 filename과 동일하게 맞추세요.
+                </div>
+
+                <div id="downloadsPrimary"></div>
+
+                <div class="dl-filters" id="downloadsFilters">
+                    <button type="button" class="dl-filter-btn active" data-filter="all">전체</button>
+                    <button type="button" class="dl-filter-btn" data-filter="카탈로그">카탈로그</button>
+                    <button type="button" class="dl-filter-btn" data-filter="백서">백서</button>
+                </div>
+
+                <div class="dl-board" id="downloadsBoard"></div>
+
+                <div class="dl-empty" id="downloadsEmpty" style="display:none;">
+                    <h3>등록된 자료가 없습니다</h3>
+                    <p class="dl-empty-hint">PDF 파일을 assets/documents/ 폴더에 추가해 주세요.</p>
+                </div>
+
+                <div class="dl-back">
+                    <a href="/" class="btn btn-outline">메인으로</a>
+                    <a href="/products/" class="btn btn-outline">제품소개</a>
+                    <a href="/contact/" class="btn btn-primary">상담 문의</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 제이원로보틱스. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/script.js"></script>
+    <script src="/navigation-loader.js"></script>
+    <script src="/js/downloads.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.JwonDownloads) {
+                JwonDownloads.renderPage();
+            }
+            var params = new URLSearchParams(location.search);
+            var direct = params.get('file');
+            if (direct && window.JwonDownloads) {
+                JwonDownloads.downloadById(direct);
+            }
+        });
+    </script>
+</body>
+</html>

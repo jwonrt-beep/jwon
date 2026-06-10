@@ -62,7 +62,7 @@ function updateFooterNavigation(navItems) {
                     { text: '동영상', url: 'videos/index.html' },
                     { text: '솔루션', url: 'solutions/index.html' },
                     { text: '사례', url: 'cases/index.html' },
-                    { text: '자료실', url: 'resources/index.html' }
+                    { text: '자료 다운로드', url: 'downloads/index.html' }
                 ];
                 
                 subMenus.forEach(subMenu => {

@@ -1,0 +1,27 @@
+{
+  "folder": "assets/documents",
+  "items": [
+    {
+      "id": "tawers-catalog",
+      "title": "TAWERS 제품 카탈로그",
+      "description": "용접로봇 시스템 · TAWERS 통합 구성 제품 카탈로그",
+      "category": "카탈로그",
+      "filename": "tawers-product-catalog.pdf",
+      "primary": true
+    },
+    {
+      "id": "company-profile",
+      "title": "회사소개서",
+      "description": "제이원로보틱스 사업 영역 및 서비스 소개",
+      "category": "카탈로그",
+      "filename": "company-profile.pdf"
+    },
+    {
+      "id": "technical-summary",
+      "title": "기술 요약 자료",
+      "description": "용접 자동화 핵심 기술 1페이지 요약",
+      "category": "백서",
+      "filename": "technical-summary.pdf"
+    }
+  ]
+}
