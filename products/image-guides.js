@@ -421,6 +421,11 @@ var TAWERS_HERO_PRIORITY_BY_CONTEXT = {
 };
 
 var MODEL_SLUGS = ['ts-800', 'ts-950', 'tm-1100', 'tm-1400', 'tm-1600', 'tm-1800', 'tm-2000', 'tl-1800', 'tl-2000'];
+var ROBOT_MODELS_WITH_PHOTOS = ['ts-950', 'tm-1400', 'tl-1800'];
+
+function robotModelHasPhotos(slug) {
+    return ROBOT_MODELS_WITH_PHOTOS.indexOf(slug) >= 0;
+}
 var POWER_SLUGS = ['wg-series', 'wgh-series', 'tawers-controller'];
 var PROCESS_SLUGS = ['s-awp', 'hbc', 'zi-tech', 'basic-arc-process'];
 var HIGHPOWER_SLUGS = ['heavy-plate-frame', 'large-structure', 'fillet-high-output', 'tl-wgh-integrated-cell'];
@@ -739,3 +744,5 @@ window.getModuleCardImage = getModuleCardImage;
 window.getTawersHeroImagePriority = getTawersHeroImagePriority;
 window.resolveProductSlug = resolveProductSlug;
 window.resolveGuideSlug = resolveGuideSlug;
+window.robotModelHasPhotos = robotModelHasPhotos;
+window.ROBOT_MODELS_WITH_PHOTOS = ROBOT_MODELS_WITH_PHOTOS;

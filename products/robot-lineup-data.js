@@ -315,27 +315,6 @@ var ROBOT_MODEL_CATALOG = {
     }
 };
 
-var ROBOT_MODELS_WITH_PHOTOS = ['ts-950', 'tm-1400', 'tl-1800'];
-
-var ROBOT_SERIES_PHOTO_REFERENCE = {
-    'ts-series': 'ts-950',
-    'tm-series': 'tm-1400',
-    'tl-series': 'tl-1800'
-};
-
-function robotModelHasPhotos(slug) {
-    return ROBOT_MODELS_WITH_PHOTOS.indexOf(slug) >= 0;
-}
-
-function getRobotPhotoReference(slug) {
-    var model = ROBOT_MODEL_CATALOG[slug];
-    if (!model || robotModelHasPhotos(slug)) return null;
-    var refSlug = ROBOT_SERIES_PHOTO_REFERENCE[model.seriesSlug];
-    if (!refSlug) return null;
-    var ref = ROBOT_MODEL_CATALOG[refSlug];
-    return ref ? { slug: refSlug, name: ref.name, url: ref.detailUrl, series: ref.series } : null;
-}
-
 function getRobotModel(slug) {
     return ROBOT_MODEL_CATALOG[slug] || null;
 }
@@ -375,11 +354,8 @@ function buildModelDetailContent(slug) {
     if (!m) return null;
     var h = ROBOT_LINEUP_HIERARCHY;
     var sitesSummary = m.recommendedSites.slice(0, 3).join(' · ');
-    var photoRef = getRobotPhotoReference(slug);
     return {
         pageType: 'model',
-        layoutMode: robotModelHasPhotos(slug) ? 'photo' : 'spec-only',
-        photoReference: photoRef,
         parentSystem: {
             label: '상위 시스템',
             text: m.parentSystem,

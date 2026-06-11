@@ -86,7 +86,60 @@
             </section>`;
     }
 
+    function robotHasPhotos(slug) {
+        return typeof window.robotModelHasPhotos === 'function' && window.robotModelHasPhotos(slug);
+    }
+
+    function modelSpecHeroPanel(content) {
+        const specs = content.specifications || {};
+        const items = [
+            { label: '가반중량', value: specs['가반중량'] },
+            { label: '최대 도달거리', value: specs['최대 도달거리'] },
+            { label: '반복정밀도', value: specs['반복정밀도'] },
+            { label: '축 구조', value: specs['축 구조'] },
+            { label: '본체 중량', value: specs['본체 중량'] },
+            { label: '설치 방식', value: specs['설치 방식'] }
+        ].filter(function (item) { return item.value; });
+        return `
+            <div class="pd-model-spec-hero" aria-label="모델 주요 스펙">
+                <p class="pd-model-spec-hero-note">사진 대신 스펙 기준으로 안내합니다</p>
+                <div class="pd-model-spec-hero-grid">
+                    ${items.map(function (item) {
+                        return (
+                            '<div class="pd-model-spec-hero-item">' +
+                                '<span class="pd-model-spec-hero-key">' + esc(item.label) + '</span>' +
+                                '<strong class="pd-model-spec-hero-val">' + esc(item.value) + '</strong>' +
+                            '</div>'
+                        );
+                    }).join('')}
+                </div>
+            </div>`;
+    }
+
+    function modelSpecOverviewSection(content) {
+        const specs = content.specifications;
+        if (!specs) return '';
+        return `
+            <section class="pd-section pd-model-spec-overview">
+                <div class="container">
+                    <h2 class="pd-section-title">모델 스펙 상세</h2>
+                    <p class="pd-section-desc">작업물·설치 공간 검토에 필요한 로봇 매니퓰레이터 사양입니다. 토치·케이블·주변 장치는 현장 조건에 따라 상담 시 확인합니다.</p>
+                    <div class="pd-model-spec-cards">
+                        ${Object.entries(specs).map(function (entry) {
+                            return (
+                                '<div class="pd-model-spec-card">' +
+                                    '<span class="pd-model-spec-card-key">' + esc(entry[0]) + '</span>' +
+                                    '<span class="pd-model-spec-card-val">' + esc(entry[1]) + '</span>' +
+                                '</div>'
+                            );
+                        }).join('')}
+                    </div>
+                </div>
+            </section>`;
+    }
+
     function modelGallerySection(slug, content) {
+        if (content.pageType === 'model' && !robotHasPhotos(slug)) return '';
         const guide = imgGuide(slug);
         const gallery = guide.gallery || [];
         if (!gallery.length) return '';
@@ -172,60 +225,8 @@
             </div>`;
     }
 
-    function isRobotSpecOnlyModel(content, slug) {
-        if (!content || content.pageType !== 'model') return false;
-        if (content.layoutMode === 'spec-only') return true;
-        if (typeof robotModelHasPhotos === 'function') return !robotModelHasPhotos(slug);
-        return false;
-    }
-
-    function modelSpecHeroPanel(content) {
-        const specs = content.specifications || {};
-        const items = [
-            { key: '가반중량', val: specs['가반중량'] },
-            { key: '최대 도달거리', val: specs['최대 도달거리'] },
-            { key: '반복정밀도', val: specs['반복정밀도'] },
-            { key: '설치 방식', val: specs['설치 방식'] },
-            { key: '본체 중량', val: specs['본체 중량'] },
-            { key: '축 구조', val: specs['축 구조'] }
-        ].filter(function (item) { return item.val; });
-
-        return `
-            <div class="pd-model-spec-hero-panel" aria-label="${esc(content.heroTitle || '')} 주요 스펙">
-                <p class="pd-model-spec-hero-label">모델 스펙</p>
-                <div class="pd-model-spec-hero-grid">
-                    ${items.map(function (item) {
-                        return (
-                            '<div class="pd-model-spec-hero-item">' +
-                                '<span class="pd-model-spec-hero-key">' + esc(item.key) + '</span>' +
-                                '<strong class="pd-model-spec-hero-val">' + esc(item.val) + '</strong>' +
-                            '</div>'
-                        );
-                    }).join('')}
-                </div>
-            </div>`;
-    }
-
-    function modelPhotoReferenceSection(content) {
-        const ref = content.photoReference;
-        if (!ref) return '';
-        return `
-            <section class="pd-section pd-photo-ref-section">
-                <div class="container">
-                    <div class="pd-photo-ref-card">
-                        <div class="pd-photo-ref-text">
-                            <span class="pd-photo-ref-badge">같은 시리즈 대표 모델</span>
-                            <h2>${esc(ref.series)} 제품·현장 사진</h2>
-                            <p>${esc(ref.name)} 페이지에서 제품 단독, 현장 적용, 작업반경 사진을 확인할 수 있습니다. 이 페이지는 스펙 중심으로 정리되어 있습니다.</p>
-                        </div>
-                        <a href="${esc(ref.url)}" class="pd-btn-primary">${esc(ref.name)} 사진 보기</a>
-                    </div>
-                </div>
-            </section>`;
-    }
-
     function modelHeroVisual(content, slug) {
-        if (isRobotSpecOnlyModel(content, slug)) {
+        if (content.pageType === 'model' && !robotHasPhotos(slug)) {
             return modelSpecHeroPanel(content);
         }
         const guide = imgGuide(slug);
@@ -301,14 +302,10 @@
             ? `<a href="/products/smart-factory-integration/" class="pd-btn-outline">스마트팩토리 연동 솔루션 보기</a>`
             : `<a href="${listUrl()}" class="pd-btn-outline">제품군 목록</a>`;
 
-        const heroModelClass = c.pageType === 'model' || c.pageType === 'power-series' || c.pageType === 'process-item' || c.pageType === 'highpower-config' || c.pageType === 'jig-config' || c.pageType === 'turnkey-config' || c.pageType === 'smartfactory-config'
-            ? ' pd-hero--model' + (isRobotSpecOnlyModel(c, slug) ? ' pd-hero--spec-only' : '')
-            : '';
-
         return `
             ${parentSystemBanner(c.parentSystem)}
             ${hierarchyBanner(c.hierarchy)}
-            <section class="pd-hero${heroModelClass}">
+            <section class="pd-hero${c.pageType === 'model' || c.pageType === 'power-series' || c.pageType === 'process-item' || c.pageType === 'highpower-config' || c.pageType === 'jig-config' || c.pageType === 'turnkey-config' || c.pageType === 'smartfactory-config' ? ' pd-hero--model' : ''}${c.pageType === 'model' && !robotHasPhotos(slug) ? ' pd-hero--spec-only' : ''}">
                 <div class="container">
                     <div class="pd-hero-grid">
                         <div class="pd-hero-text">
@@ -784,11 +781,10 @@
     function modelSpecsTableSection(specs, note) {
         if (!specs) return '';
         const defaultNote = '아래 수치는 제공된 로봇 매니퓰레이터 사양 기준입니다. 토치·케이블·주변 장치 구성은 현장 조건에 따라 확인이 필요합니다.';
-        const isSpecFocused = note && note.indexOf('토치·케이블·주변 장치 구성은 현장 조건에 따라 상담') >= 0;
         return `
-            <section class="pd-section pd-model-specs${isSpecFocused ? ' pd-model-specs--focused' : ''}">
+            <section class="pd-section pd-model-specs">
                 <div class="container">
-                    <h2 class="pd-section-title">${isSpecFocused ? '모델 상세 스펙' : '주요 스펙'}</h2>
+                    <h2 class="pd-section-title">주요 스펙</h2>
                     <p class="pd-section-desc">${esc(note || defaultNote)}</p>
                     <table class="pd-spec-table pd-spec-table--model">
                         <tbody>
@@ -924,12 +920,8 @@
                 : type === 'smartfactory-config'
                 ? '수집 데이터 항목, 연동 범위, MES·IT 환경은 현장 조건에 따라 상담 시 확인합니다. 임의 수치·기능은 표기하지 않습니다.'
                 : undefined;
-            const specOnlyModel = type === 'model' && isRobotSpecOnlyModel(content, slug);
-            html += summarySection(content.summaryCards, specOnlyModel ? '모델 핵심 스펙 요약' : '핵심 요약');
+            html += summarySection(content.summaryCards, '핵심 요약');
             html += cautionNoteSection(content.cautionNote);
-            if (specOnlyModel) {
-                html += modelPhotoReferenceSection(content);
-            }
             if (type === 'process-item' && guide.processSelectionMap) {
                 html += featuredImageSection(guide.processSelectionMap, '문제별 용접 공법 선택표', '현장 문제 기준으로 공법 적용 가능 여부를 함께 검토합니다.', 'map');
             }
@@ -941,15 +933,14 @@
             }
             if (type === 'smartfactory-config') {
                 html += visualGallerySection(guide.gallery, '연동 화면 예시', '아래는 대시보드·데이터 연동 예시 이미지입니다. 실제 납품 사례와 구분하여 표시합니다.');
-            } else if (!(type === 'model' && isRobotSpecOnlyModel(content, slug))) {
+            } else if (type === 'model' && !robotHasPhotos(slug)) {
+                html += modelSpecOverviewSection(content);
+            } else {
                 html += modelGallerySection(slug, content);
             }
-            html += modelSpecsTableSection(
-                content.specifications,
-                specOnlyModel
-                    ? '아래 수치는 제공된 로봇 매니퓰레이터 사양 기준입니다. 토치·케이블·주변 장치 구성은 현장 조건에 따라 상담 시 확인합니다.'
-                    : specNote
-            );
+            if (!(type === 'model' && !robotHasPhotos(slug))) {
+                html += modelSpecsTableSection(content.specifications, specNote);
+            }
             html += fieldsSection(content.applicationFields, '적용 현장');
             html += combinationsSection(content.recommendedCombinations);
             html += similarComparisonSection(content.similarComparison);
