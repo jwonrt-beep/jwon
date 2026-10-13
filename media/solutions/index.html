@@ -461,6 +461,10 @@
         // 솔루션 상세 보기
         function viewSolution(solutionId) {
             const solution = window.postManager.getPosts('solutions').find(s => s.id === solutionId);
+            if (solution && solution.videoUrl) {
+                window.open(solution.videoUrl, '_blank');
+                return;
+            }
             if (solution) {
                 showSolutionModal(solution);
             }

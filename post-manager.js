@@ -2,15 +2,23 @@
 class PostManager {
     constructor() {
         this.storageKey = 'jwonPosts';
+        this.versionKey = 'jwonPosts_version';
+        this.dataVersion = 2;
         this.loadPosts();
     }
 
     // 게시물 로드
     loadPosts() {
+        const savedVersion = localStorage.getItem(this.versionKey);
         const savedPosts = localStorage.getItem(this.storageKey);
-        if (savedPosts) {
+        if (!savedPosts || savedVersion !== String(this.dataVersion)) {
+            this.posts = this.getDefaultPosts();
+            this.savePosts();
+            return;
+        }
+        try {
             this.posts = JSON.parse(savedPosts);
-        } else {
+        } catch (e) {
             this.posts = this.getDefaultPosts();
             this.savePosts();
         }
@@ -26,10 +34,10 @@ class PostManager {
                     category: '용접기',
                     date: '2024.12.15',
                     description: '공냉 레이저 용접기의 실제 현장 시연 영상입니다. 고객사 현장에서 직접 진행된 시연으로 실제 작업 환경에서의 성능을 확인할 수 있습니다.',
-                    thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjM0I4MkY2Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5WaWRlbzwvdGV4dD4KPC9zdmc+',
+                    thumbnail: 'https://i.ytimg.com/vi/QPprKJE8UMg/hqdefault.jpg',
                     tags: ['용접기', '시연', '필터'],
                     featured: true,
-                    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                    videoUrl: 'https://www.youtube.com/watch?v=QPprKJE8UMg'
                 },
                 {
                     id: 'video_2',
@@ -37,10 +45,10 @@ class PostManager {
                     category: '로봇·자동화',
                     date: '2024.12.10',
                     description: 'AI 기반 레이저 용접 자동화 시스템 소개. 최신 인공지능 기술을 활용한 스마트 용접 솔루션을 확인하세요.',
-                    thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjU5RTBCIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5Sb2JvdDwvdGV4dD4KPC9zdmc+',
+                    thumbnail: 'https://i.ytimg.com/vi/nNJgpmbNi5c/hqdefault.jpg',
                     tags: ['AI', '자동화', '스마트'],
                     featured: false,
-                    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                    videoUrl: 'https://www.youtube.com/watch?v=nNJgpmbNi5c'
                 },
                 {
                     id: 'video_3',
@@ -48,10 +56,10 @@ class PostManager {
                     category: '기타',
                     date: '2024.12.05',
                     description: '2025년 인천에서 개최되는 국제용접 산업전 참가 소식과 전시 제품들을 소개합니다.',
-                    thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMTA5Qjk4MSIvPgo8dGV4dCB4PSIxNTAiIHk9IjEwMCIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RXhpYjwvdGV4dD4KPC9zdmc+',
+                    thumbnail: 'https://i.ytimg.com/vi/Jx-xI500GIk/hqdefault.jpg',
                     tags: ['전시회', '인천', '산업전'],
                     featured: false,
-                    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                    videoUrl: 'https://www.youtube.com/watch?v=Jx-xI500GIk'
                 },
                 {
                     id: 'video_4',
@@ -59,10 +67,10 @@ class PostManager {
                     category: '용접기',
                     date: '2024.11.28',
                     description: '고정밀 티그 용접을 위한 로봇 시스템 시연 영상입니다. 극세한 용접 작업이 가능합니다.',
-                    thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRUY0NDQ0Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5UaWdodDwvdGV4dD4KPC9zdmc+',
+                    thumbnail: 'https://i.ytimg.com/vi/Y-lGGFLFdUA/hqdefault.jpg',
                     tags: ['티그용접', '고정밀', '로봇'],
                     featured: false,
-                    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                    videoUrl: 'https://www.youtube.com/watch?v=Y-lGGFLFdUA'
                 }
             ],
             solutions: [
@@ -72,9 +80,10 @@ class PostManager {
                     category: '자동차',
                     date: '2024.12.01',
                     description: '고정밀 자동차 부품 용접을 위한 전문 솔루션으로 생산성과 품질을 동시에 향상시킵니다. 다양한 자동차 부품의 용접 공정을 자동화합니다.',
-                    thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMTA5Qjk4MSIvPgo8dGV4dCB4PSIxNTAiIHk9IjEwMCIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q2FyPC90ZXh0Pgo8L3N2Zz4=',
+                    thumbnail: 'https://i.ytimg.com/vi/Tvot1R_Roek/hqdefault.jpg',
                     features: ['고정밀', '자동화', '품질보증'],
-                    featured: true
+                    featured: true,
+                    videoUrl: 'https://www.youtube.com/watch?v=Tvot1R_Roek'
                 },
                 {
                     id: 'solution_2',
@@ -82,9 +91,10 @@ class PostManager {
                     category: '조선',
                     date: '2024.11.25',
                     description: '대형 선박 건조를 위한 대용량 용접 솔루션입니다. 해양 환경에 강한 내구성을 제공합니다.',
-                    thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjM0I4MkY2Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TaGlwPC90ZXh0Pgo8L3N2Zz4=',
+                    thumbnail: 'https://i.ytimg.com/vi/1gcd3X34_EA/hqdefault.jpg',
                     features: ['대용량', '내구성', '해양환경'],
-                    featured: false
+                    featured: false,
+                    videoUrl: 'https://www.youtube.com/watch?v=1gcd3X34_EA'
                 },
                 {
                     id: 'solution_3',
@@ -92,9 +102,10 @@ class PostManager {
                     category: '건설',
                     date: '2024.11.20',
                     description: '건설 현장의 다양한 금속 구조물 용접을 위한 솔루션입니다. 현장 환경에 최적화되어 있습니다.',
-                    thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjU5RTBCIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5CdWlsZDwvdGV4dD4KPC9zdmc+',
+                    thumbnail: 'https://i.ytimg.com/vi/i8de03x2ldo/hqdefault.jpg',
                     features: ['현장최적화', '이동성', '견고함'],
-                    featured: false
+                    featured: false,
+                    videoUrl: 'https://www.youtube.com/watch?v=i8de03x2ldo'
                 }
             ],
             cases: [
@@ -104,7 +115,8 @@ class PostManager {
                     category: '자동차',
                     date: '2024.11.28',
                     description: 'JW-3000 시리즈를 도입하여 생산성 40% 향상과 품질 불량률 90% 감소를 달성했습니다. 연간 50억원의 비용 절감 효과를 얻었습니다.',
-                    thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRUY0NDQ0Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TdWNjZXNzPC90ZXh0Pgo8L3N2Zz4=',
+                    thumbnail: 'https://i.ytimg.com/vi/twz4x8KDjQ0/hqdefault.jpg',
+                    videoUrl: 'https://www.youtube.com/watch?v=twz4x8KDjQ0',
                     stats: [
                         { label: '생산성 향상', value: '40%' },
                         { label: '불량률 감소', value: '90%' },
@@ -118,7 +130,8 @@ class PostManager {
                     category: '조선',
                     date: '2024.11.15',
                     description: '대형 선박 건조 프로젝트에서 JW-5000 시리즈를 활용하여 용접 품질을 크게 향상시켰습니다.',
-                    thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMTA5Qjk4MSIvPgo8dGV4dCB4PSIxNTAiIHk9IjEwMCIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+U2hpcDwvdGV4dD4KPC9zdmc+',
+                    thumbnail: 'https://i.ytimg.com/vi/u71cjjCf0ko/hqdefault.jpg',
+                    videoUrl: 'https://www.youtube.com/watch?v=u71cjjCf0ko',
                     stats: [
                         { label: '용접 품질 향상', value: '35%' },
                         { label: '작업 시간 단축', value: '25%' }
@@ -131,7 +144,8 @@ class PostManager {
                     category: '건설',
                     date: '2024.11.10',
                     description: '대형 건설 프로젝트에서 모바일 용접 솔루션을 도입하여 현장 효율성을 크게 높였습니다.',
-                    thumbnail: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjU5RTBCIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5CdWlsZDwvdGV4dD4KPC9zdmc+',
+                    thumbnail: 'https://i.ytimg.com/vi/G1t8RVBH7-w/hqdefault.jpg',
+                    videoUrl: 'https://www.youtube.com/watch?v=G1t8RVBH7-w',
                     stats: [
                         { label: '현장 효율성', value: '30%' },
                         { label: '안전사고 감소', value: '50%' }
@@ -180,6 +194,7 @@ class PostManager {
     // 게시물 저장
     savePosts() {
         localStorage.setItem(this.storageKey, JSON.stringify(this.posts));
+        localStorage.setItem(this.versionKey, String(this.dataVersion));
     }
 
     // 특정 카테고리의 게시물 가져오기

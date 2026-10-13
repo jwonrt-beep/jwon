@@ -472,6 +472,10 @@
         // 사례 상세 보기
         function viewCase(caseId) {
             const caseItem = window.postManager.getPosts('cases').find(c => c.id === caseId);
+            if (caseItem && caseItem.videoUrl) {
+                window.open(caseItem.videoUrl, '_blank');
+                return;
+            }
             if (caseItem) {
                 showCaseModal(caseItem);
             }

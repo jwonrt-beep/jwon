@@ -1674,7 +1674,9 @@
 
         // 게시물 필드 가시성 업데이트
         function updatePostFieldsVisibility() {
-            const category = document.getElementById('postCategoryInput').value;
+            const selected = document.getElementById('postCategoryInput').value;
+            const known = ['videos', 'solutions', 'cases', 'resources'];
+            const category = known.includes(selected) ? selected : (currentEditingCategory || selected);
             const videoUrlGroup = document.getElementById('videoUrlGroup');
             const fileSizeGroup = document.getElementById('fileSizeGroup');
             const downloadCountGroup = document.getElementById('downloadCountGroup');
@@ -1685,7 +1687,7 @@
             downloadCountGroup.style.display = 'none';
             
             // 카테고리별 필드 표시
-            if (category === 'videos') {
+            if (category === 'videos' || category === 'solutions' || category === 'cases') {
                 videoUrlGroup.style.display = 'block';
             } else if (category === 'resources') {
                 fileSizeGroup.style.display = 'block';
