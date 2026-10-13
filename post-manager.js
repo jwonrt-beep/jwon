@@ -3,7 +3,7 @@ class PostManager {
     constructor() {
         this.storageKey = 'jwonPosts';
         this.versionKey = 'jwonPosts_version';
-        this.dataVersion = 2;
+        this.dataVersion = 3;
         this.loadPosts();
     }
 
@@ -52,14 +52,14 @@ class PostManager {
                 },
                 {
                     id: 'video_3',
-                    title: '2025 인천국제용접 및 판금·레이저 설비 산업전',
+                    title: '회사 홍보영상',
                     category: '기타',
                     date: '2024.12.05',
-                    description: '2025년 인천에서 개최되는 국제용접 산업전 참가 소식과 전시 제품들을 소개합니다.',
-                    thumbnail: 'https://i.ytimg.com/vi/Jx-xI500GIk/hqdefault.jpg',
-                    tags: ['전시회', '인천', '산업전'],
+                    description: '세한메카트로닉스·제이원로보틱스 2023년도 정부지원사업 회사 홍보영상입니다.',
+                    thumbnail: 'https://i.ytimg.com/vi/iDlczVedzDk/hqdefault.jpg',
+                    tags: ['홍보영상', '회사소개'],
                     featured: false,
-                    videoUrl: 'https://www.youtube.com/watch?v=Jx-xI500GIk'
+                    videoUrl: 'https://www.youtube.com/watch?v=iDlczVedzDk'
                 },
                 {
                     id: 'video_4',
