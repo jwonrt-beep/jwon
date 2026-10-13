@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/force-https.js"></script>
+    <title>솔루션 - 제이원로보틱스</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .bridge-hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); color: #fff; padding: 7rem 0 3.5rem; margin-top: 80px; }
+        .bridge-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 0.75rem; }
+        .bridge-hero p { max-width: 720px; color: rgba(255,255,255,.82); line-height: 1.7; margin: 0; }
+        .bridge-section { padding: 3rem 0 4rem; background: #f8fafc; }
+        .bridge-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+        .bridge-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; }
+        .bridge-card h2 { font-size: 1.25rem; margin: 0 0 0.35rem; color: #0f172a; }
+        .bridge-card .was { font-size: 0.8rem; color: #64748b; margin-bottom: 0.75rem; }
+        .bridge-card p { color: #475569; line-height: 1.65; margin: 0 0 1rem; }
+        .bridge-card a.btn { margin-right: 0.5rem; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+    <header class="header" role="banner">
+        <div class="header-content">
+            <a href="../index.html" class="logo" aria-label="제이원로보틱스 홈으로 이동">
+                <div class="logo-text">
+                    <span class="logo-ko">(주)제이원 로보틱스</span>
+                    <span class="logo-en">J-WON Robotics Co., Ltd.</span>
+                </div>
+            </a>
+            <nav class="nav" role="navigation">
+                <ul class="nav-list">
+                    <li><a href="../index.html">홈</a></li>
+                    <li><a href="../products/index.html">제품소개</a></li>
+                    <li><a href="../media/index.html">홍보센터</a></li>
+                    <li><a href="../about/index.html">회사소개</a></li>
+                    <li><a href="../contact/index.html">문의</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+    <main>
+        <section class="bridge-hero">
+            <div class="container">
+                <h1>용접 자동화 솔루션</h1>
+                <p>2025년 소개에 쓰이던 Active GⅢ, High Power GⅢ, DTPSⅢ는 지금 제품 라인업 이름에 맞춰 아래 페이지로 연결됩니다.</p>
+            </div>
+        </section>
+        <section class="bridge-section">
+            <div class="container bridge-grid">
+                <article class="bridge-card" id="active-g3">
+                    <h2>용접 공법 · TAWERS</h2>
+                    <p class="was">이전 소개명: Active GⅢ</p>
+                    <p>스패터, 번스루, 도금강판 대응 공법과 로봇·용접전원이 하나로 묶인 TAWERS 시스템으로 안내합니다.</p>
+                    <a class="btn btn-primary" href="../products/welding-process-software/">용접 공법</a>
+                    <a class="btn btn-outline" href="../products/tawers-welding-robot-system/">TAWERS</a>
+                </article>
+                <article class="bridge-card" id="high-power-g3">
+                    <h2>고출력 용접 시스템</h2>
+                    <p class="was">이전 소개명: High Power GⅢ</p>
+                    <p>중후판, 대형 프레임, 필렛 고속 용접처럼 고전류·대형 워크가 필요한 현장에 맞춘 구성입니다.</p>
+                    <a class="btn btn-primary" href="../products/high-power-welding-system/">고출력 시스템 보기</a>
+                </article>
+                <article class="bridge-card" id="dtps3">
+                    <h2>DTPS</h2>
+                    <p class="was">이전 소개명: DTPSⅢ</p>
+                    <p>오프라인 티칭·시뮬레이션은 제이원로보틱스 유튜브의 DTPS 영상으로 확인할 수 있습니다.</p>
+                    <a class="btn btn-primary" href="https://www.youtube.com/watch?v=nNJgpmbNi5c" target="_blank" rel="noopener">DTPS 영상 24</a>
+                    <a class="btn btn-outline" href="../media/videos/index.html">동영상 목록</a>
+                </article>
+            </div>
+        </section>
+    </main>
+    <script src="../script.js"></script>
+</body>
+</html>

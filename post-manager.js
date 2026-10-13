@@ -3,7 +3,7 @@ class PostManager {
     constructor() {
         this.storageKey = 'jwonPosts';
         this.versionKey = 'jwonPosts_version';
-        this.dataVersion = 3;
+        this.dataVersion = 4;
         this.loadPosts();
     }
 
@@ -111,45 +111,32 @@ class PostManager {
             cases: [
                 {
                     id: 'case_1',
-                    title: '글로벌 자동차 제조사 A사',
-                    category: '자동차',
+                    title: '설치사례 파나소닉 S사 CO2용접 2-STATION',
+                    category: '기타',
                     date: '2024.11.28',
-                    description: 'JW-3000 시리즈를 도입하여 생산성 40% 향상과 품질 불량률 90% 감소를 달성했습니다. 연간 50억원의 비용 절감 효과를 얻었습니다.',
+                    description: '파나소닉 CO2 용접 로봇 2스테이션 설치 현장 영상입니다. DTPS 교육 영상이 아니라 실제 설치 시연입니다.',
                     thumbnail: 'https://i.ytimg.com/vi/twz4x8KDjQ0/hqdefault.jpg',
                     videoUrl: 'https://www.youtube.com/watch?v=twz4x8KDjQ0',
-                    stats: [
-                        { label: '생산성 향상', value: '40%' },
-                        { label: '불량률 감소', value: '90%' },
-                        { label: '비용 절감', value: '50억원' }
-                    ],
                     featured: true
                 },
                 {
                     id: 'case_2',
-                    title: '국내 조선업체 B사',
-                    category: '조선',
+                    title: '설치사례 파나소닉 용접로봇 CO2 H사',
+                    category: '기타',
                     date: '2024.11.15',
-                    description: '대형 선박 건조 프로젝트에서 JW-5000 시리즈를 활용하여 용접 품질을 크게 향상시켰습니다.',
+                    description: 'H사 현장에 설치한 파나소닉 CO2 용접 로봇 시연 영상입니다.',
                     thumbnail: 'https://i.ytimg.com/vi/u71cjjCf0ko/hqdefault.jpg',
                     videoUrl: 'https://www.youtube.com/watch?v=u71cjjCf0ko',
-                    stats: [
-                        { label: '용접 품질 향상', value: '35%' },
-                        { label: '작업 시간 단축', value: '25%' }
-                    ],
                     featured: false
                 },
                 {
                     id: 'case_3',
-                    title: '건설업체 C사',
-                    category: '건설',
+                    title: '설치사례 파나소닉 기본타입 CO2 용접',
+                    category: '기타',
                     date: '2024.11.10',
-                    description: '대형 건설 프로젝트에서 모바일 용접 솔루션을 도입하여 현장 효율성을 크게 높였습니다.',
+                    description: '파나소닉 기본타입 CO2 용접 로봇 설치 시연 영상입니다.',
                     thumbnail: 'https://i.ytimg.com/vi/G1t8RVBH7-w/hqdefault.jpg',
                     videoUrl: 'https://www.youtube.com/watch?v=G1t8RVBH7-w',
-                    stats: [
-                        { label: '현장 효율성', value: '30%' },
-                        { label: '안전사고 감소', value: '50%' }
-                    ],
                     featured: false
                 }
             ],

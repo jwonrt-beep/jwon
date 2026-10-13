@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/force-https.js"></script>
+    <title>적용 사례 - 제이원로보틱스</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .bridge-hero { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); color: #fff; padding: 7rem 0 3.5rem; margin-top: 80px; }
+        .bridge-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 0.75rem; }
+        .bridge-hero p { max-width: 720px; color: rgba(255,255,255,.82); line-height: 1.7; margin: 0; }
+        .bridge-section { padding: 3rem 0 4rem; background: #f8fafc; }
+        .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+        .case-card { display: block; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; color: inherit; text-decoration: none; }
+        .case-card img { width: 100%; height: 160px; object-fit: cover; background: #e2e8f0; }
+        .case-card div { padding: 1rem 1.15rem 1.25rem; }
+        .case-card h2 { font-size: 1.05rem; margin: 0 0 0.4rem; color: #0f172a; }
+        .case-card p { margin: 0; color: #64748b; line-height: 1.55; font-size: 0.92rem; }
+    </style>
+</head>
+<body>
+    <header class="header" role="banner">
+        <div class="header-content">
+            <a href="../index.html" class="logo" aria-label="제이원로보틱스 홈으로 이동">
+                <div class="logo-text">
+                    <span class="logo-ko">(주)제이원 로보틱스</span>
+                    <span class="logo-en">J-WON Robotics Co., Ltd.</span>
+                </div>
+            </a>
+            <nav class="nav" role="navigation">
+                <ul class="nav-list">
+                    <li><a href="../index.html">홈</a></li>
+                    <li><a href="../products/index.html">제품소개</a></li>
+                    <li><a href="../media/index.html">홍보센터</a></li>
+                    <li><a href="../about/index.html">회사소개</a></li>
+                    <li><a href="../contact/index.html">문의</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+    <main>
+        <section class="bridge-hero">
+            <div class="container">
+                <h1>적용 사례</h1>
+                <p>사례는 DTPS 교육 영상이 아니라, 채널에 올라온 설치·시연 영상으로 연결합니다. 고객사 실명과 성과 퍼센트는 확인된 숫자만 이후에 넣습니다.</p>
+            </div>
+        </section>
+        <section class="bridge-section">
+            <div class="container case-grid" id="caseGrid"></div>
+            <div class="container" style="margin-top: 1.5rem;">
+                <a class="btn btn-outline" href="../media/cases/index.html">홍보센터 사례 전체</a>
+                <a class="btn btn-outline" href="https://youtu.be/iDlczVedzDk" target="_blank" rel="noopener">회사 홍보영상</a>
+            </div>
+        </section>
+    </main>
+    <script src="../post-manager.js"></script>
+    <script src="../script.js"></script>
+    <script>
+        document.getElementById('caseGrid').innerHTML = window.postManager.getPosts('cases').map(function (item) {
+            return '<a class="case-card" href="' + item.videoUrl + '" target="_blank" rel="noopener">' +
+                '<img src="' + item.thumbnail + '" alt="">' +
+                '<div><h2>' + item.title + '</h2><p>' + item.description + '</p></div></a>';
+        }).join('');
+    </script>
+</body>
+</html>
