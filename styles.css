@@ -187,16 +187,16 @@ a:hover {
 
 /* 헤더 */
 .header {
-    background: transparent;
-    backdrop-filter: blur(0px);
-    border-bottom: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
     transition: var(--transition-normal);
-    box-shadow: none;
+    box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
 }
 
 .header.scrolled {
@@ -250,9 +250,22 @@ a:hover {
     letter-spacing: 0.2px;
 }
 
-/* Transparent header: white logo text over video */
-.header:not(.scrolled) .logo,
-.header:not(.scrolled) .logo * {
+/* Default header sits on a light page, so the logo stays dark */
+.header .logo,
+.header .logo * {
+    color: #0f172a;
+    text-shadow: none;
+}
+
+/* Homepage only: white logo over the dark hero video */
+.header.header-overlay:not(.scrolled) {
+    background: transparent;
+    border-bottom-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+.header.header-overlay:not(.scrolled) .logo,
+.header.header-overlay:not(.scrolled) .logo * {
     color: #ffffff;
     text-shadow: 0 2px 6px rgba(0,0,0,0.55);
 }
@@ -266,21 +279,21 @@ a:hover {
 /* Minimal header: hide nav list (we use overlay menu instead) */
 .nav-list { display: none !important; }
 
-/* Hamburger color on transparent header */
-.header:not(.scrolled) .mobile-menu-toggle {
+/* Hamburger: dark bars on the light header */
+.header .mobile-menu-toggle span {
+    background: #0f172a;
+}
+.header.header-overlay:not(.scrolled) .mobile-menu-toggle {
     background: rgba(0, 0, 0, 0.28);
     border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 10px;
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
 }
-.header:not(.scrolled) .mobile-menu-toggle:hover {
+.header.header-overlay:not(.scrolled) .mobile-menu-toggle:hover {
     background: rgba(0, 0, 0, 0.36);
 }
-.header:not(.scrolled) .mobile-menu-toggle span {
+.header.header-overlay:not(.scrolled) .mobile-menu-toggle span {
     background: #ffffff;
-}
-.header.scrolled .mobile-menu-toggle span {
-    background: var(--text-primary);
 }
 
 /* Skip link: hide until focus for accessibility without visual glitch */
@@ -3261,16 +3274,40 @@ a:hover {
 }
 
 .btn-outline {
-    background: transparent;
-    color: var(--text-white);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
+    background: #ffffff;
+    color: #0f172a;
+    border: 2px solid #64748b;
+    backdrop-filter: none;
 }
 
 .btn-outline:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
-    color: var(--text-white);
+    background: #f8fafc;
+    border-color: #0f172a;
+    color: #0f172a;
+}
+
+.hero .btn-outline,
+.section-dark .btn-outline,
+.cta-section .btn-outline,
+.media-hero .btn-outline,
+.bridge-hero .btn-outline,
+.products-hero .btn-outline,
+.dl-page-hero .btn-outline {
+    background: transparent;
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+.hero .btn-outline:hover,
+.section-dark .btn-outline:hover,
+.cta-section .btn-outline:hover,
+.media-hero .btn-outline:hover,
+.bridge-hero .btn-outline:hover,
+.products-hero .btn-outline:hover,
+.dl-page-hero .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: #ffffff;
+    color: #ffffff;
 }
 
 .btn-gold {
