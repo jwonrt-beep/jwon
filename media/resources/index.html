@@ -160,7 +160,7 @@
         }
 
         .resource-description {
-            color: #718096;
+            color: #475569;
             font-size: 0.875rem;
             line-height: 1.5;
             margin-bottom: 1rem;
@@ -187,7 +187,7 @@
         }
 
         .resource-date {
-            color: #a0aec0;
+            color: #475569;
             font-size: 0.75rem;
         }
 
@@ -205,7 +205,7 @@
         }
 
         .resource-downloads {
-            color: #718096;
+            color: #475569;
             font-size: 0.875rem;
         }
 
@@ -231,7 +231,7 @@
             top: 1rem;
             right: 1rem;
             background: #f59e0b;
-            color: white;
+            color: #1e293b;
             padding: 0.25rem 0.75rem;
             border-radius: 12px;
             font-size: 0.75rem;
@@ -241,7 +241,7 @@
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
-            color: #718096;
+            color: #475569;
         }
 
         .empty-state h3 {
@@ -513,11 +513,11 @@
                     <p style="color: #4a5568; line-height: 1.6; margin-bottom: 1rem;">${resource.description}</p>
                     <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
                         <span style="background: #e2e8f0; color: #4a5568; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem;">${resource.category}</span>
-                        <span style="color: #a0aec0; font-size: 0.75rem;">${resource.date}</span>
+                        <span style="color: #475569; font-size: 0.75rem;">${resource.date}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
                         <span style="color: #4a5568; font-weight: 500;">파일 크기: ${resource.fileSize || 'N/A'}</span>
-                        <span style="color: #718096;">다운로드: ${resource.downloadCount || 0}회</span>
+                        <span style="color: #475569;">다운로드: ${resource.downloadCount || 0}회</span>
                     </div>
                     <div style="text-align: center;">
                         <button onclick="window.open('${resource.thumbnail}', '_blank'); this.closest('.modal').remove();" style="background: #3b82f6; color: white; border: none; padding: 0.8rem 2rem; border-radius: 8px; cursor: pointer; font-weight: 600; margin-right: 1rem;">다운로드</button>

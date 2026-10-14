@@ -311,7 +311,7 @@
 .pd-summary-num {
     font-size: 2rem;
     font-weight: 800;
-    color: #dbeafe;
+    color: #1d4ed8;
     line-height: 1;
     margin-bottom: 0.75rem;
 }
@@ -397,7 +397,7 @@
     font-size: 0.72rem;
     color: #475569;
 }
-.pd-lineup-models { font-size: 0.78rem; color: #94a3b8; }
+.pd-lineup-models { font-size: 0.78rem; color: #475569; }
 
 .pd-guide-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; }
 .pd-guide-table th, .pd-guide-table td { padding: 1rem 1.25rem; text-align: left; font-size: 0.9rem; border-bottom: 1px solid #f1f5f9; }
@@ -622,7 +622,7 @@
     color: #475569;
 }
 .pd-hierarchy-item span {
-    color: #94a3b8;
+    color: #475569;
     font-weight: 600;
     font-size: 0.72rem;
 }

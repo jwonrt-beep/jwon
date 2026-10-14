@@ -685,6 +685,30 @@ a:hover {
     text-shadow: 0 3px 6px rgba(0,0,0,0.35);
 }
 
+/* Headings set color: --text-primary globally, so inherited white on dark bands is lost. */
+.bridge-hero h1,
+.bridge-hero h2,
+.bridge-hero h3,
+.dl-page-hero h1,
+.dl-page-hero h2,
+.products-hero h1,
+.cta-section h1,
+.cta-section h2,
+.cta-content h1,
+.cta-content h2 {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.bridge-hero p,
+.dl-page-hero p,
+.products-hero .hero-content > p,
+.cta-content > p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.9) !important;
+}
+
 .hero-cta {
     display: flex;
     gap: var(--spacing-lg);
@@ -859,6 +883,13 @@ a:hover {
     max-width: 360px;
     border: 1px solid rgba(255,255,255,0.2);
     box-shadow: var(--shadow-lg);
+}
+
+.hero-fallback-content h1,
+.hero-fallback-content h2,
+.hero-fallback-content h3,
+.hero-fallback-content p {
+    color: #ffffff;
 }
 
 .hero-background.fallback-active .hero-fallback {
@@ -3312,14 +3343,14 @@ a:hover {
 
 .btn-gold {
     background: var(--gradient-accent);
-    color: var(--text-white);
+    color: #0f172a;
     box-shadow: var(--shadow-md);
 }
 
 .btn-gold:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl);
-    color: var(--text-white);
+    color: #0f172a;
 }
 
 /* 섹션 스타일 */
@@ -3722,7 +3753,11 @@ a:hover {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: var(--spacing-lg);
     text-align: center;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.footer-bottom p {
+    color: rgba(255, 255, 255, 0.75);
 }
 
 /* 브레드크럼 */
@@ -4627,7 +4662,9 @@ a:hover {
 }
 
 .section-dark .section-title,
-.section-dark .section-subtitle {
+.section-dark .section-subtitle,
+.section-dark .section-brief,
+.section-dark .section-header p {
     color: var(--text-white);
 }
 
